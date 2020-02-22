@@ -1,0 +1,58 @@
+﻿@page "/Categorias"
+@using Service
+@using Model
+@inject ICategoryService objCatService
+
+<NavLink class="nav-link" href="AgregarCategoria">
+    <span class="oi oi-plus" aria-hidden="true"></span>Agregar Nueva Categoria
+</NavLink>
+
+<h1>Información de la Categoria</h1>
+
+@if (objCat == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Categoria Id</th>
+                <th>Nombre</th>
+                <th>Icono</th>
+                <th>Stated</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var categoria in objCat)
+            {
+                <tr>
+                    <td>@categoria.CategoryId</td>
+                    <td>@categoria.Name</td>
+                    <td>@categoria.Icono</td>
+                    <td>@categoria.Stated</td>
+                    <td>
+                        <a class="nav-link" href="EditarCategoria/@categoria.CategoryId">
+                            <span class="oi oi-pencil" aria-hidden="true"></span>
+                        </a>
+                        <a class="nav-link" href="EliminarCategoria/@categoria.CategoryId">
+                            <span class="oi oi-trash" aria-hidden="true"></span>
+                        </a>
+</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Category> objCat;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        objCat = await Task.Run(() => objCatService.GetAll());
+    }
+}

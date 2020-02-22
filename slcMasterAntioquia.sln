@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model.DTOs", "src\Model.DTO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionAntioquia", "src\GestionAntioquia\GestionAntioquia.csproj", "{3758C663-7F45-41FE-B80D-046DE5330DD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPA.Client", "src\SPA.Client\SPA.Client.csproj", "{F201EAAB-F6C1-4F4E-A042-7AB9D96C106D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPA.Client", "src\SPA.Client\SPA.Client.csproj", "{F201EAAB-F6C1-4F4E-A042-7AB9D96C106D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

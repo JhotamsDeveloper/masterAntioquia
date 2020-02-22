@@ -1,0 +1,55 @@
+﻿@page "/AgregarCategoria"
+@using Service
+@using Model
+@inject ICategoryService objICat
+@inject NavigationManager navigarionManager
+
+<h2>Agregar</h2>
+<hr />
+
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Name" class="control-label">Nombre</label>
+                <input form="Name" class="form-control" @bind="@objCat.Name" />
+                <div class="form-group">
+                    <label for="Icono" class="control-label">Icono</label>
+                    <input form="Icono" class="form-control" @bind="@objCat.Icono" />
+                </div>
+                <div class="form-group">
+                    <label for="Status" class="control-label">Estado</label>
+                    <select @bind="@objCat.Stated" class="form-control">
+                        <option value="">--Selecione Estado--</option>
+                        <option value="true">Activar</option>
+                        <option value="false">Desactivar</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CrearCategoria" value="Guardar" />
+                <input type="button" class="btn btn-warning" @onclick="@Cancel" value="Cancelar" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+
+    Category objCat = new Category();
+
+    protected void CrearCategoria()
+    {
+        objICat.CreateCategory(objCat);
+        navigarionManager.NavigateTo("Categorias");
+    }
+
+    void Cancel()
+    {
+        navigarionManager.NavigateTo("Categorias");
+    }
+}
