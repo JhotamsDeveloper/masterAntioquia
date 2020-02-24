@@ -8,10 +8,11 @@ namespace Model
     public class Category
     {
         public int CategoryId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El nombre es requerido")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El Icono es requerido")]
         public string Icono { get; set; }
+        [Required(ErrorMessage = "El Estado es requerido")]
         public bool Stated { get; set; }
         public List<Place> Places { get; set; }
     }
