@@ -16,6 +16,9 @@ namespace Service
         string CreateCategory(Category category);
         Task<CategoryDto> Create(CategoryCreateDto model);
         List<Category> GetAll();
+        Category GetById(int id);
+        string UpdateCategory(Category category);
+        string DeleteCategory(Category category);
     }
     public class CategoryService:ICategoryService
     {
@@ -51,11 +54,29 @@ namespace Service
             return _mapper.Map<CategoryDto>(category);
         }
 
-
-
         public List<Category> GetAll() {
             var catList = _context.Categorys.ToList();
             return catList;
+        }
+
+        public Category GetById(int id)
+        {
+            Category category = _context.Categorys.FirstOrDefault(x => x.CategoryId == id);
+            return category;
+        }
+
+        public string UpdateCategory(Category category)
+        {
+            _context.Categorys.Update(category);
+            _context.SaveChanges();
+            return "Se actualizo Satisfatoriamente";
+        }
+
+        public string DeleteCategory(Category category)
+        {
+            _context.Categorys.Remove(category);
+            _context.SaveChanges();
+            return "Se elimino Satisfatoriamente";
         }
     }
 }

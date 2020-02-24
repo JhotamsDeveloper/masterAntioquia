@@ -1,0 +1,54 @@
+﻿@page "/EliminarCategorias/{CurrentID}"
+@using Service
+@using Model
+@inject ICategoryService objICat
+@inject NavigationManager navigarionManager
+
+<h2>Eliminar Categorias</h2>
+<h1>Esta seguro de eliminar la categoria?</h1>
+<div class="col-md-8">
+    <div class="form-group">
+        <label>Categoria ID:</label>
+        <label>@objCat.CategoryId</label>
+    </div>
+    <div class="form-group">
+        <label>Nombre:</label>
+        <label>@objCat.Name</label>
+    </div>
+    <div class="form-group">
+        <label>Icono</label>
+        <label>@objCat.Icono</label>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-danger" @onclick="@EliminarCategorias" value="Eliminar" />
+                <input type="button" class="btn btn-warning" @onclick="@Cancel" value="Cancelar" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+        [Parameter]
+    public string CurrentID { get; set; }
+
+    Category objCat = new Category();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        objCat = await Task.Run(() => objICat.GetById(Convert.ToInt32(CurrentID)));
+    }
+
+    protected void EliminarCategorias()
+    {
+        objICat.DeleteCategory(objCat);
+        navigarionManager.NavigateTo("Categorias");
+    }
+
+    void Cancel()
+    {
+        navigarionManager.NavigateTo("Categorias");
+    }
+}

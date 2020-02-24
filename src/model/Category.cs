@@ -12,7 +12,7 @@ namespace Model
         public string Name { get; set; }
         [Required]
         public string Icono { get; set; }
-        public bool Stated { get; set; } = false;
+        public bool Stated { get; set; }
         public List<Place> Places { get; set; }
     }
 }
