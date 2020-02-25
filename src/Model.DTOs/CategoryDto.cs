@@ -24,4 +24,13 @@ namespace Model.DTOs
         public bool Stated { get; set; }
     }
 
+    public class CategoryEditDto
+    {
+        public int CategoryId { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Icono { get; set; }
+        public bool Stated { get; set; }
+    }
 }

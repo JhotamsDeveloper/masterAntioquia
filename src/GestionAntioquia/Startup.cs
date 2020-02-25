@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persisten.Database;
+using Service;
 
 namespace GestionAntioquia
 {
@@ -27,7 +28,9 @@ namespace GestionAntioquia
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<ICategoryService, CategoryService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

@@ -23,6 +23,7 @@
     <ProjectReference Include="..\Model.DTOs\Model.DTOs.csproj" />
     <ProjectReference Include="..\model\Model.csproj" />
     <ProjectReference Include="..\PersistenDatabase\Persisten.Database.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
 </Project>

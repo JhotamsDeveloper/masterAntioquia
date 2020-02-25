@@ -9,16 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Service
 {
     public interface ICategoryService
     {
-        string CreateCategory(Category category);
+        Task<IEnumerable<Category>> GetAll();
+        Task<CategoryDto> Details(int? id);
         Task<CategoryDto> Create(CategoryCreateDto model);
-        List<Category> GetAll();
-        Category GetById(int id);
-        string UpdateCategory(Category category);
-        string DeleteCategory(Category category);
+        Task Edit(int id, CategoryEditDto model);
+        Task<CategoryDto> Edit(int? id);
+        Task<Category> GetById(int? id);
     }
     public class CategoryService:ICategoryService
     {
@@ -33,50 +34,57 @@ namespace Service
             _mapper = mapper;
         }
 
-        public string CreateCategory(Category category)
+        public async Task<IEnumerable<Category>> GetAll()
         {
-            _context.Categorys.Add(category);
-            _context.SaveChanges();
-            return "Categoria Guardada";
+            return (await _context.Categorys.ToListAsync());
         }
+
+        public async Task<CategoryDto> Details(int? id)
+        {
+            var category = _mapper.Map<CategoryDto>(
+                    await _context.Categorys
+                    .FirstOrDefaultAsync(m => m.CategoryId == id)
+                );
+
+            return (category);
+        }
+
         public async Task<CategoryDto> Create(CategoryCreateDto model)
         {
-            var category = new Category
+            var cate = new Category
             {
                 Name = model.Name,
                 Icono = model.Icono,
                 Stated = model.Stated
             };
 
-            await _context.AddAsync(category);
+            await _context.AddAsync(cate);
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<CategoryDto>(category);
+            return _mapper.Map<CategoryDto>(cate);
         }
 
-        public List<Category> GetAll() {
-            var catList = _context.Categorys.ToList();
-            return catList;
-        }
-
-        public Category GetById(int id)
+        public async Task Edit(int id, CategoryEditDto model)
         {
-            Category category = _context.Categorys.FirstOrDefault(x => x.CategoryId == id);
-            return category;
+            var cate = await _context.Categorys.SingleAsync(x => x.CategoryId == id);
+            
+            cate.Name = model.Name;
+            cate.Icono = model.Icono;
+            cate.Stated = model.Stated;
+
+            await _context.SaveChangesAsync();
         }
 
-        public string UpdateCategory(Category category)
+        public async Task<CategoryDto> Edit(int? id)
         {
-            _context.Categorys.Update(category);
-            _context.SaveChanges();
-            return "Se actualizo Satisfatoriamente";
+            return _mapper.Map<CategoryDto>(
+                await _context.Categorys.FindAsync(id));
         }
 
-        public string DeleteCategory(Category category)
+        public async Task<Category> GetById(int? id)
         {
-            _context.Categorys.Remove(category);
-            _context.SaveChanges();
-            return "Se elimino Satisfatoriamente";
+            return await _context.Categorys.FindAsync(id);
         }
+
     }
 }
