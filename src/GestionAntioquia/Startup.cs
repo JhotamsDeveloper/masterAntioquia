@@ -30,7 +30,10 @@ namespace GestionAntioquia
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAutoMapper(typeof(Startup));
+
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IPlaceService, PlaceService>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

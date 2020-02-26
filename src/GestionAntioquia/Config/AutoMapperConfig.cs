@@ -13,6 +13,7 @@ namespace GestionAntioquia.Config
         public AutoMapperConfig()
         {
             CreateMap<Category, CategoryDto>();
+            CreateMap<Place, PlaceDto>();
         }
     }
 }

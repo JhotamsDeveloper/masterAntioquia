@@ -16,6 +16,7 @@ namespace Persisten.Database
         {
         }
 
+        public DbSet<Place> Places { get; set; }
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -28,6 +29,7 @@ namespace Persisten.Database
             base.OnModelCreating(builder);
 
             new CategoryConfig(builder.Entity<Category>());
+            new PlaceConfig(builder.Entity<Place>());
         }
     }
 }
