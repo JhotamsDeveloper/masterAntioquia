@@ -17,9 +17,11 @@ namespace Service
         Task<IEnumerable<Category>> GetAll();
         Task<CategoryDto> Details(int? id);
         Task<CategoryDto> Create(CategoryCreateDto model);
-        Task Edit(int id, CategoryEditDto model);
         Task<CategoryDto> Edit(int? id);
+        Task Edit(int id, CategoryEditDto model);
         Task<Category> GetById(int? id);
+        Task DeleteConfirmed(int id);
+        bool CategoryExists(int id);
     }
     public class CategoryService:ICategoryService
     {
@@ -46,7 +48,8 @@ namespace Service
                     .FirstOrDefaultAsync(m => m.CategoryId == id)
                 );
 
-            return (category);
+            //return (category);
+            return _mapper.Map<CategoryDto>(category);
         }
 
         public async Task<CategoryDto> Create(CategoryCreateDto model)
@@ -64,6 +67,12 @@ namespace Service
             return _mapper.Map<CategoryDto>(cate);
         }
 
+        public async Task<CategoryDto> Edit(int? id)
+        {
+            return _mapper.Map<CategoryDto>(
+                await _context.Categorys.FindAsync(id));
+        }
+
         public async Task Edit(int id, CategoryEditDto model)
         {
             var cate = await _context.Categorys.SingleAsync(x => x.CategoryId == id);
@@ -75,16 +84,30 @@ namespace Service
             await _context.SaveChangesAsync();
         }
 
-        public async Task<CategoryDto> Edit(int? id)
-        {
-            return _mapper.Map<CategoryDto>(
-                await _context.Categorys.FindAsync(id));
-        }
-
+        
         public async Task<Category> GetById(int? id)
         {
-            return await _context.Categorys.FindAsync(id);
+            return await _context.Categorys.FirstOrDefaultAsync(x => x.CategoryId == id);
+
+                //return _mapper.Map<CategoryDto>(
+                    //await _context.Categorys.FindAsync(id)
+                //);
         }
 
+        public async Task DeleteConfirmed(int id)
+        {
+            _context.Remove(new Category
+            {
+                CategoryId = id
+            });
+
+            await _context.SaveChangesAsync();
+
+        }
+
+        public bool CategoryExists(int id)
+        {
+            return _context.Categorys.Any(e => e.CategoryId == id);
+        }
     }
 }

@@ -109,49 +109,26 @@ namespace GestionAntioquia.Controllers
             {
                 try
                 {
-                   await _categoryService.Edit(id, model);
-                    return NoContent();
+                    await _categoryService.Edit(id, model);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
 
-                    throw;
+                    if (!CategoryExists(model.CategoryId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+
+            return View(model);
         }
-        //public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Name,Icono,Stated")] Category category)
-        //{
-        //    if (id != category.CategoryId)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(category);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!CategoryExists(category.CategoryId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(category);
-        //}
-
-        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,8 +136,8 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categorys
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = await _categoryService.GetById(id);
+
             if (category == null)
             {
                 return NotFound();
@@ -174,15 +151,13 @@ namespace GestionAntioquia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categorys.FindAsync(id);
-            _context.Categorys.Remove(category);
-            await _context.SaveChangesAsync();
+            await _categoryService.DeleteConfirmed(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)
         {
-            return _context.Categorys.Any(e => e.CategoryId == id);
+            return _categoryService.CategoryExists(id);
         }
     }
 }
