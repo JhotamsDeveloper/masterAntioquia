@@ -36,11 +36,11 @@ namespace Service.Config
             entityBuilder.Property(x => x.Description)
             .IsRequired();
 
-            entityBuilder.Property(x => x.CoverPage)
-            .IsRequired();
+            //entityBuilder.Property(x => x.CoverPage)
+            //.IsRequired();
             
-            entityBuilder.Property(x => x.Logo)
-            .IsRequired();
+            //entityBuilder.Property(x => x.Logo)
+            //.IsRequired();
 
             entityBuilder.Property(x => x.Contract)
             .IsRequired()
