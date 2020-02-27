@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persisten.Database.Migrations
 {
-    public partial class Version002AgregandoPlace : Migration
+    public partial class version002Places : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,10 +19,6 @@ namespace Persisten.Database.Migrations
                 name: "PK_Place",
                 table: "Place");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Place_CategoryId",
-                table: "Place");
-
             migrationBuilder.DropColumn(
                 name: "Location",
                 table: "Place");
@@ -35,6 +31,11 @@ namespace Persisten.Database.Migrations
                 name: "admin",
                 table: "Places",
                 newName: "Admin");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Place_CategoryId",
+                table: "Places",
+                newName: "IX_Places_CategoryId");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Name",
@@ -70,34 +71,12 @@ namespace Persisten.Database.Migrations
                 oldType: "nvarchar(max)",
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "CategoryId",
-                table: "Places",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .Annotation("SqlServer:Identity", "1, 1");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "PlaceId",
-                table: "Places",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .OldAnnotation("SqlServer:Identity", "1, 1");
-
             migrationBuilder.AddColumn<string>(
                 name: "Address",
                 table: "Places",
                 maxLength: 20,
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.AddColumn<int>(
-                name: "CategoryId1",
-                table: "Places",
-                nullable: false,
-                defaultValue: 0);
 
             migrationBuilder.AddColumn<string>(
                 name: "Contract",
@@ -153,17 +132,12 @@ namespace Persisten.Database.Migrations
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Places",
                 table: "Places",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Places_CategoryId1",
-                table: "Places",
-                column: "CategoryId1");
+                column: "PlaceId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Places_Categorys_CategoryId1",
+                name: "FK_Places_Categorys_CategoryId",
                 table: "Places",
-                column: "CategoryId1",
+                column: "CategoryId",
                 principalTable: "Categorys",
                 principalColumn: "CategoryId",
                 onDelete: ReferentialAction.Cascade);
@@ -173,14 +147,14 @@ namespace Persisten.Database.Migrations
                 table: "Products",
                 column: "PlaceId",
                 principalTable: "Places",
-                principalColumn: "CategoryId",
+                principalColumn: "PlaceId",
                 onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Places_Categorys_CategoryId1",
+                name: "FK_Places_Categorys_CategoryId",
                 table: "Places");
 
             migrationBuilder.DropForeignKey(
@@ -191,16 +165,8 @@ namespace Persisten.Database.Migrations
                 name: "PK_Places",
                 table: "Places");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Places_CategoryId1",
-                table: "Places");
-
             migrationBuilder.DropColumn(
                 name: "Address",
-                table: "Places");
-
-            migrationBuilder.DropColumn(
-                name: "CategoryId1",
                 table: "Places");
 
             migrationBuilder.DropColumn(
@@ -244,6 +210,11 @@ namespace Persisten.Database.Migrations
                 table: "Place",
                 newName: "admin");
 
+            migrationBuilder.RenameIndex(
+                name: "IX_Places_CategoryId",
+                table: "Place",
+                newName: "IX_Place_CategoryId");
+
             migrationBuilder.AlterColumn<string>(
                 name: "Name",
                 table: "Categorys",
@@ -251,14 +222,6 @@ namespace Persisten.Database.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldMaxLength: 10);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "PlaceId",
-                table: "Place",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("SqlServer:Identity", "1, 1");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Name",
@@ -283,14 +246,6 @@ namespace Persisten.Database.Migrations
                 oldClrType: typeof(string),
                 oldMaxLength: 20);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "CategoryId",
-                table: "Place",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("SqlServer:Identity", "1, 1");
-
             migrationBuilder.AddColumn<string>(
                 name: "Location",
                 table: "Place",
@@ -301,11 +256,6 @@ namespace Persisten.Database.Migrations
                 name: "PK_Place",
                 table: "Place",
                 column: "PlaceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Place_CategoryId",
-                table: "Place",
-                column: "CategoryId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Place_Categorys_CategoryId",

@@ -11,11 +11,14 @@ namespace Service.Config
         public CategoryConfig(EntityTypeBuilder<Category> entityBuilder) 
         {
             entityBuilder.HasKey(x => x.CategoryId);
+
             entityBuilder.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(10);
+            
             entityBuilder.Property(x => x.Stated)
                 .IsRequired();
+
         }
     }
 }

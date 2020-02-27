@@ -323,7 +323,7 @@ namespace Persisten.Database.Migrations
 
             modelBuilder.Entity("Model.Place", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("PlaceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -338,7 +338,7 @@ namespace Persisten.Database.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
-                    b.Property<int>("CategoryId1")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Contract")
@@ -374,18 +374,15 @@ namespace Persisten.Database.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
-                    b.Property<int>("PlaceId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("State")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("PlaceId");
 
-                    b.HasIndex("CategoryId1");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Places");
                 });
@@ -495,7 +492,7 @@ namespace Persisten.Database.Migrations
                 {
                     b.HasOne("Model.Category", "Category")
                         .WithMany("Places")
-                        .HasForeignKey("CategoryId1")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

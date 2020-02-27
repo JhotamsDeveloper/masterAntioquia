@@ -10,7 +10,7 @@ namespace Service.Config
     {
         public PlaceConfig(EntityTypeBuilder<Place> entityBuilder) 
         {
-            entityBuilder.HasKey(x => x.CategoryId);
+            entityBuilder.HasKey(x => x.PlaceId);
 
             entityBuilder.Property(x => x.Nit)
                 .IsRequired()
@@ -52,8 +52,11 @@ namespace Service.Config
             entityBuilder.Property(x => x.CreationDate)
             .IsRequired();
 
-            entityBuilder.Property(x => x.CategoryId)
-            .IsRequired();
+            entityBuilder.HasOne(x => x.Category)
+                .WithMany(x => x.Places)
+                .HasForeignKey(x => x.CategoryId);
+
+
         }
     }
 }

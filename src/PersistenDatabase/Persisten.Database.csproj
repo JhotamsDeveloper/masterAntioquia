@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200226184736_Version002-Agregando-Place.cs" />
+    <Compile Remove="Migrations\20200226184736_Version002-Agregando-Place.Designer.cs" />
+    <Compile Remove="Migrations\20200227021724_version002-Arreglando-version-anterior.cs" />
+    <Compile Remove="Migrations\20200227021724_version002-Arreglando-version-anterior.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
