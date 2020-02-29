@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persisten.Database;
 
 namespace Persisten.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200229050351_Version002CorrigiendoPlace")]
+    partial class Version002CorrigiendoPlace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -338,7 +340,7 @@ namespace Persisten.Database.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Contract")
@@ -349,8 +351,9 @@ namespace Persisten.Database.Migrations
                     b.Property<string>("CoverPage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreationDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("CreationDate")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -377,8 +380,8 @@ namespace Persisten.Database.Migrations
                     b.Property<bool>("State")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UpdateDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PlaceId");
 
@@ -492,7 +495,9 @@ namespace Persisten.Database.Migrations
                 {
                     b.HasOne("Model.Category", "Category")
                         .WithMany("Places")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Model.Product", b =>

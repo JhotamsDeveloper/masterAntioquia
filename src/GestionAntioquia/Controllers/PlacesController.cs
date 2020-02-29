@@ -6,24 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.DTOs;
 using Persisten.Database;
+using Service;
 
 namespace GestionAntioquia.Controllers
 {
     public class PlacesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPlaceService _placeService;
 
-        public PlacesController(ApplicationDbContext context)
+        public PlacesController(ApplicationDbContext context,
+            IPlaceService placeService)
         {
             _context = context;
+            _placeService = placeService;
         }
 
         // GET: Places
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Places.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _placeService.GetAll());
         }
 
         // GET: Places/Details/5
@@ -34,9 +38,7 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var place = await _context.Places
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.PlaceId == id);
+            var place = await _placeService.Details(id);
             if (place == null)
             {
                 return NotFound();
@@ -57,18 +59,27 @@ namespace GestionAntioquia.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PlaceId,Nit,Name,Phone,Admin,Address,Description,CoverPage,Logo,Contract,State,CreationDate,UpdateDate,CategoryId")] Place place)
+        public async Task<IActionResult> Create(PlaceCreateDto model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(place);
-                await _context.SaveChangesAsync();
+                await _placeService.Create(model);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", place.CategoryId);
-            return View(place);
+            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", model.CategoryId);
+            return View(model);
         }
-
+        //public async Task<IActionResult> Create([Bind("PlaceId,Nit,Name,Phone,Admin,Address,Description,CoverPage,Logo,Contract,State,CreationDate,UpdateDate,CategoryId")] Place place)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(place);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", place.CategoryId);
+        //    return View(place);
+        //}
         // GET: Places/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
