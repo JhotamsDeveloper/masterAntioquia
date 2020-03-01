@@ -69,17 +69,7 @@ namespace GestionAntioquia.Controllers
             ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", model.CategoryId);
             return View(model);
         }
-        //public async Task<IActionResult> Create([Bind("PlaceId,Nit,Name,Phone,Admin,Address,Description,CoverPage,Logo,Contract,State,CreationDate,UpdateDate,CategoryId")] Place place)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(place);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", place.CategoryId);
-        //    return View(place);
-        //}
+
         // GET: Places/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -88,11 +78,12 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var place = await _context.Places.FindAsync(id);
+            var place = await _placeService.Edit(id);
             if (place == null)
             {
                 return NotFound();
             }
+
             ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", place.CategoryId);
             return View(place);
         }
@@ -102,9 +93,9 @@ namespace GestionAntioquia.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PlaceId,Nit,Name,Phone,Admin,Address,Description,CoverPage,Logo,Contract,State,CreationDate,UpdateDate,CategoryId")] Place place)
+        public async Task<IActionResult> Edit(int id, PlaceEditDto model)
         {
-            if (id != place.PlaceId)
+            if (id != model.PlaceId)
             {
                 return NotFound();
             }
@@ -113,12 +104,11 @@ namespace GestionAntioquia.Controllers
             {
                 try
                 {
-                    _context.Update(place);
-                    await _context.SaveChangesAsync();
+                    await _placeService.Edit(id, model);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PlaceExists(place.PlaceId))
+                    if (!PlaceExists(model.PlaceId))
                     {
                         return NotFound();
                     }
@@ -129,8 +119,8 @@ namespace GestionAntioquia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", place.CategoryId);
-            return View(place);
+            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", model.CategoryId);
+            return View(model);
         }
 
         // GET: Places/Delete/5
@@ -141,9 +131,7 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var place = await _context.Places
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.PlaceId == id);
+            var place = await _placeService.GetByIdDelete(id);
             if (place == null)
             {
                 return NotFound();
@@ -157,15 +145,14 @@ namespace GestionAntioquia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var place = await _context.Places.FindAsync(id);
-            _context.Places.Remove(place);
-            await _context.SaveChangesAsync();
+            var place = await _placeService.GetById(id);
+            await _placeService.DeleteConfirmed(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool PlaceExists(int id)
         {
-            return _context.Places.Any(e => e.PlaceId == id);
+            return _placeService.CategoryExists(id);
         }
     }
 }

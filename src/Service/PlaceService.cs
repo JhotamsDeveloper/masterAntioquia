@@ -20,6 +20,7 @@ namespace Service
         Task<PlaceDto> Details(int? id);
         Task<PlaceDto> Create(PlaceCreateDto model);
         Task Edit(int id, PlaceEditDto model);
+        Task<PlaceDto> GetByIdDelete(int? id);
         bool CategoryExists(int id);
 
     }
@@ -81,21 +82,7 @@ namespace Service
             return _mapper.Map<PlaceDto>(_place);
         }
 
-
-
-
-
-
-
-
-
         public async Task<PlaceDto> Edit(int? id)
-        {
-            return _mapper.Map<PlaceDto>(
-                await _context.Places.FindAsync(id));
-        }
-
-        public async Task<PlaceDto> GetById(int? id)
         {
             return _mapper.Map<PlaceDto>(
                 await _context.Places.FindAsync(id));
@@ -123,6 +110,18 @@ namespace Service
             await _context.SaveChangesAsync();
         }
 
+        public async Task<PlaceDto> GetByIdDelete(int? id)
+        {
+            return _mapper.Map<PlaceDto>(
+                await _context.Places
+                .Include(c=>c.CategoryId)
+                .FirstOrDefaultAsync(p=>p.PlaceId == id));
+        }
+        public async Task<PlaceDto> GetById(int? id)
+        {
+            return _mapper.Map<PlaceDto>(
+                await _context.Places.FindAsync(id));
+        }
         public async Task DeleteConfirmed(int id)
         {
             _context.Remove(new Place

@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Model.Place>
-
 @{
     ViewData["Title"] = "Index";
 }
@@ -55,53 +54,54 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Admin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoverPage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Logo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contract)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Icono)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PlaceId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PlaceId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PlaceId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Admin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoverPage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Logo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contract)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Icono)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PlaceId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PlaceId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PlaceId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
