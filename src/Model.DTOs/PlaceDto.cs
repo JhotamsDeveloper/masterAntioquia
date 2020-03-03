@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -28,9 +30,9 @@ namespace Model.DTOs
     public class PlaceCreateDto
     {
 
-        [Required(ErrorMessage = "El Nit es requerido."), 
-            MaxLength(15), 
-            MinLength(10, ErrorMessage ="Cantidad Mínima de 10.")]
+        [Required(ErrorMessage = "El Nit es requerido."),
+            MaxLength(15),
+            MinLength(10, ErrorMessage = "Cantidad Mínima de 10.")]
         public string Nit { get; set; }
         [DisplayName("Nombre")]
         [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(10)]
@@ -54,11 +56,11 @@ namespace Model.DTOs
 
         [DisplayName("Portada")]
         [Required(ErrorMessage = "La portada es requerida.")]
-        public string CoverPage { get; set; }
+        public IFormFile CoverPage { get; set; }
 
         [DisplayName("Logo")]
         [Required(ErrorMessage = "La logo es requerida.")]
-        public string Logo { get; set; }
+        public IFormFile Logo { get; set; }
 
         [DisplayName("Contracto")]
         [Required(ErrorMessage = "El tipo de contracto es requerido."), MaxLength(10)]
@@ -90,4 +92,12 @@ namespace Model.DTOs
         public Category Category { get; set; }
         public List<Product> Products { get; set; }
     }
+
+    public class FileUPload {
+
+        [Required]
+        [Display(Name = "File")]
+        public IFormFile FormFile { get; set; }
+    }
+
 }

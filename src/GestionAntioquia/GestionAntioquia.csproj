@@ -26,4 +26,10 @@
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\CoverPages\" />
+    <Folder Include="wwwroot\Images\Logos\" />
+  </ItemGroup>
+
 </Project>

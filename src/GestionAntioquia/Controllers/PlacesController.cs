@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Model;
 using Model.DTOs;
 using Persisten.Database;
 using Service;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace GestionAntioquia.Controllers
 {
@@ -16,12 +15,15 @@ namespace GestionAntioquia.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IPlaceService _placeService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public PlacesController(ApplicationDbContext context,
+            IWebHostEnvironment webHostEnvironment,
             IPlaceService placeService)
         {
             _context = context;
             _placeService = placeService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Places
@@ -131,7 +133,7 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var place = await _placeService.GetByIdDelete(id);
+            var place = await _placeService.GetById(id);
             if (place == null)
             {
                 return NotFound();
@@ -145,7 +147,7 @@ namespace GestionAntioquia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var place = await _placeService.GetById(id);
+            //var place = await _placeService.GetById(id);
             await _placeService.DeleteConfirmed(id);
             return RedirectToAction(nameof(Index));
         }

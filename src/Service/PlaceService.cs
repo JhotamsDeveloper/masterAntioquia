@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.DTOs;
 using Persisten.Database;
+using Service.Commons;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service
@@ -29,12 +33,16 @@ namespace Service
         //Variables
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IHostingEnvironment _hostingEnvironment;
+
 
         public PlaceService(ApplicationDbContext context,
-                               IMapper mapper)
+            IHostingEnvironment hostingEnvironment,
+            IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<IEnumerable<Place>> GetAll()
@@ -58,6 +66,10 @@ namespace Service
 
         public async Task<PlaceDto> Create(PlaceCreateDto model)
         {
+            var _uploadedFile = new UploadedFile(_hostingEnvironment);
+
+            var _coverPage = _uploadedFile.UploadedFileCoverPage(model);
+            var _logo = _uploadedFile.UploadedFileLogo(model);
             var _fechaActual = DateTime.Now;
 
             var _place = new Place
@@ -68,8 +80,8 @@ namespace Service
                 Admin = model.Admin,
                 Address = model.Address,
                 Description = model.Description,
-                CoverPage = model.CoverPage,
-                Logo = model.Logo,
+                CoverPage = _coverPage,
+                Logo = _logo,
                 Contract = model.Contract,
                 State = model.State,
                 CreationDate = _fechaActual.ToString(),
@@ -80,6 +92,23 @@ namespace Service
             await _context.SaveChangesAsync();
 
             return _mapper.Map<PlaceDto>(_place);
+        }
+
+        public string UploadedFile(PlaceCreateDto model)
+        {
+            string uniqueFileName = null;
+
+            if (model.CoverPage != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.CoverPage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.CoverPage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         public async Task<PlaceDto> Edit(int? id)
@@ -109,7 +138,6 @@ namespace Service
 
             await _context.SaveChangesAsync();
         }
-
         public async Task<PlaceDto> GetByIdDelete(int? id)
         {
             return _mapper.Map<PlaceDto>(
@@ -131,10 +159,10 @@ namespace Service
 
             await _context.SaveChangesAsync();
         }
-
         public bool CategoryExists(int id)
         {
             return _context.Places.Any(e => e.PlaceId == id);
         }
+
     }
 }
