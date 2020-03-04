@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Model.DTOs.CustomValidations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Model.DTOs
 {
@@ -55,11 +54,16 @@ namespace Model.DTOs
         public string Description { get; set; }
 
         [DisplayName("Portada")]
+        //[FileExtensions(Extensions = "jpg", ErrorMessage = "Seleciones un archivo .png .jpg .jpeg")]
         [Required(ErrorMessage = "La portada es requerida.")]
+        [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
+        [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2")]
         public IFormFile CoverPage { get; set; }
 
         [DisplayName("Logo")]
         [Required(ErrorMessage = "La logo es requerida.")]
+        [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
+        [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2")]
         public IFormFile Logo { get; set; }
 
         [DisplayName("Contracto")]
