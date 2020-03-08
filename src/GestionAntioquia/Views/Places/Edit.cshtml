@@ -1,4 +1,4 @@
-﻿@model Model.DTOs.PlaceDto
+﻿@model Model.DTOs.PlaceEditDto
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form enctype="multipart/form-data" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PlaceId" />
             <div class="form-group">
@@ -43,16 +43,35 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
+
+            <div class="form-group">
+                <img src="~/images/Places/@ViewBag.CoverPage" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+            </div>
+
+
             <div class="form-group">
                 <label asp-for="CoverPage" class="control-label"></label>
-                <input asp-for="CoverPage" class="form-control" />
+                <div class="custom-file">
+                    <input asp-for="CoverPage" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
                 <span asp-validation-for="CoverPage" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <img src="~/images/Places/@ViewBag.Logo" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+            </div>
+
             <div class="form-group">
                 <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" />
+                <div class="custom-file">
+                    <input asp-for="Logo" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
                 <span asp-validation-for="Logo" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Contract" class="control-label"></label>
                 <input asp-for="Contract" class="form-control" />
@@ -80,5 +99,12 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

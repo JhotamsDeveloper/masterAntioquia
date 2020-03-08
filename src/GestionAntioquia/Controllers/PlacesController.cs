@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using GestionAntioquia.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -80,14 +82,32 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var place = await _placeService.Edit(id);
+            var place = await _placeService.GetById(id);
+            //var place = await _placeService.GetByIdEdit(id);
+
             if (place == null)
             {
                 return NotFound();
             }
 
+            var placeEditDto = new PlaceEditDto
+            {
+                PlaceId = place.PlaceId,
+                Nit = place.Nit,
+                Name = place.Name,
+                Phone = place.Phone,
+                Admin = place.Admin,
+                Address = place.Address,
+                Description = place.Description,
+                Contract = place.Contract,
+                State = place.State,
+                CategoryId = place.CategoryId
+            };
+
             ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", place.CategoryId);
-            return View(place);
+            ViewData["Logo"] = place.Logo.ToString();
+            ViewData["CoverPage"] = place.CoverPage.ToString();
+            return View(placeEditDto);
         }
 
         // POST: Places/Edit/5
@@ -97,6 +117,7 @@ namespace GestionAntioquia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, PlaceEditDto model)
         {
+
             if (id != model.PlaceId)
             {
                 return NotFound();

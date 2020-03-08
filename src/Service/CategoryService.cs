@@ -17,8 +17,10 @@ namespace Service
         Task<IEnumerable<Category>> GetAll();
         Task<CategoryDto> Details(int? id);
         Task<CategoryDto> Create(CategoryCreateDto model);
+
         Task<CategoryDto> Edit(int? id);
         Task Edit(int id, CategoryEditDto model);
+        
         Task<Category> GetById(int? id);
         Task DeleteConfirmed(int id);
         bool CategoryExists(int id);

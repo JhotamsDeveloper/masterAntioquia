@@ -18,13 +18,15 @@ namespace Service
     public interface IPlaceService
     {
         Task<IEnumerable<Place>> GetAll();
-        Task<PlaceDto> Edit(int? id);
-        Task DeleteConfirmed(int id);
-        Task<PlaceDto> GetById(int? id);
-        Task<PlaceDto> Details(int? id);
         Task<PlaceDto> Create(PlaceCreateDto model);
+        Task<PlaceDto> GetById(int? id);
+        Task<PlaceEditDto> GetByIdEdit(int? id);
+        Task<PlaceDto> Details(int? id);
+
+        Task<PlaceDto> Edit(int? id);
         Task Edit(int id, PlaceEditDto model);
-        Task<PlaceDto> GetByIdDelete(int? id);
+
+        Task DeleteConfirmed(int id);
         bool CategoryExists(int id);
 
     }
@@ -33,16 +35,19 @@ namespace Service
         //Variables
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUploadedFile _uploadedFile;
         private readonly IHostingEnvironment _hostingEnvironment;
-
 
         public PlaceService(ApplicationDbContext context,
             IHostingEnvironment hostingEnvironment,
+            IUploadedFile uploadedFile,
             IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+            _uploadedFile = uploadedFile;
             _hostingEnvironment = hostingEnvironment;
+
         }
 
         public async Task<IEnumerable<Place>> GetAll()
@@ -66,10 +71,10 @@ namespace Service
 
         public async Task<PlaceDto> Create(PlaceCreateDto model)
         {
-            var _uploadedFile = new UploadedFile(_hostingEnvironment);
 
-            var _coverPage = _uploadedFile.UploadedFileCoverPage(model);
-            var _logo = _uploadedFile.UploadedFileLogo(model);
+            var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+            var _logo = _uploadedFile.UploadedFileImage(model.Logo);
+
             var _fechaActual = DateTime.Now;
 
             var _place = new Place
@@ -94,33 +99,23 @@ namespace Service
             return _mapper.Map<PlaceDto>(_place);
         }
 
-        public string UploadedFile(PlaceCreateDto model)
-        {
-            string uniqueFileName = null;
-
-            if (model.CoverPage != null)
-            {
-                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.CoverPage.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.CoverPage.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }
 
         public async Task<PlaceDto> Edit(int? id)
         {
             return _mapper.Map<PlaceDto>(
-                await _context.Places.FindAsync(id));
+                await _context.Places.FindAsync(id)
+                );
         }
 
         public async Task Edit(int id, PlaceEditDto model)
         {
             var _fechaUpdate = DateTime.Now;
+
             var _place = await _context.Places.SingleAsync(x => x.PlaceId == id);
+
+            var _coverPage = _uploadedFile.UploadedFileImage(_place.CoverPage, model.CoverPage);
+            var _logo = _uploadedFile.UploadedFileImage(_place.Logo, model.Logo);
+
 
             _place.Nit = model.Nit;
             _place.Name = model.Name;
@@ -128,28 +123,29 @@ namespace Service
             _place.Admin = model.Admin;
             _place.Address = model.Address;
             _place.Description = model.Description;
-            _place.CoverPage = model.CoverPage;
-            _place.Logo = model.Logo;
+            _place.CoverPage = _coverPage;
+            _place.Logo = _logo;
             _place.Contract = model.Contract;
             _place.State = model.State;
             _place.UpdateDate = _fechaUpdate.ToString();
             _place.CategoryId = model.CategoryId;
 
-
             await _context.SaveChangesAsync();
-        }
-        public async Task<PlaceDto> GetByIdDelete(int? id)
-        {
-            return _mapper.Map<PlaceDto>(
-                await _context.Places
-                .Include(c=>c.CategoryId)
-                .FirstOrDefaultAsync(p=>p.PlaceId == id));
+
         }
         public async Task<PlaceDto> GetById(int? id)
         {
-            return _mapper.Map<PlaceDto>(
+
+            return _mapper.Map<PlaceDto> (
                 await _context.Places.FindAsync(id));
         }
+
+        public async Task<PlaceEditDto> GetByIdEdit(int? id)
+        {
+            return _mapper.Map<PlaceEditDto>(
+                await _context.Places.FindAsync(id));
+        }
+
         public async Task DeleteConfirmed(int id)
         {
             _context.Remove(new Place

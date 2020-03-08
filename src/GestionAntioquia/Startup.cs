@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persisten.Database;
 using Service;
+using Service.Commons;
 
 namespace GestionAntioquia
 {
@@ -34,6 +35,7 @@ namespace GestionAntioquia
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPlaceService, PlaceService>();
+            services.AddTransient<IUploadedFile, UploadedFile>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

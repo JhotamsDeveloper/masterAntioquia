@@ -18,7 +18,7 @@ namespace Model.DTOs.CustomValidations
             var file = (IFormFile)value;
             var size = 1048576 * 1;
 
-            if (size < file.Length) 
+            if (size < file.Length)
             {
                 return false;
             }
