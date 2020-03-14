@@ -15,6 +15,7 @@ namespace Service.Commons
     {
         string UploadedFileImage(string value, IFormFile file);
         string UploadedFileImage(IFormFile value);
+        Boolean DeleteConfirmed(string imgModel);
     }
 
     public class UploadedFile : IUploadedFile
@@ -68,6 +69,11 @@ namespace Service.Commons
             }
 
             return uniqueFileName;
+        }
+
+        public Boolean DeleteConfirmed(string imgModel)
+        {
+            return DeleteUpload(imgModel);
         }
 
         private Boolean DeleteUpload(string imgModel)

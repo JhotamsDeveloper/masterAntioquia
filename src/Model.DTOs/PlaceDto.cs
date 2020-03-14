@@ -60,15 +60,9 @@ namespace Model.DTOs
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
         public List<Product> Products { get; set; }
-        public UploadImage image { get; set; }
-    }
-
-    public class UploadImage
-    {
-        public IFormFile CoverPageImg { get; set; }
-        public IFormFile LogoImg { get; set; }
 
     }
+
     public class PlaceCreateDto
     {
 

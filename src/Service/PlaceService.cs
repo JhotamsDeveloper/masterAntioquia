@@ -20,13 +20,11 @@ namespace Service
         Task<IEnumerable<Place>> GetAll();
         Task<PlaceDto> Create(PlaceCreateDto model);
         Task<PlaceDto> GetById(int? id);
-        Task<PlaceEditDto> GetByIdEdit(int? id);
         Task<PlaceDto> Details(int? id);
-
         Task<PlaceDto> Edit(int? id);
         Task Edit(int id, PlaceEditDto model);
 
-        Task DeleteConfirmed(int id);
+        Task DeleteConfirmed(int id, string _cover, string _logo);
         bool CategoryExists(int id);
 
     }
@@ -36,17 +34,14 @@ namespace Service
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUploadedFile _uploadedFile;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
         public PlaceService(ApplicationDbContext context,
-            IHostingEnvironment hostingEnvironment,
             IUploadedFile uploadedFile,
             IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
             _uploadedFile = uploadedFile;
-            _hostingEnvironment = hostingEnvironment;
 
         }
 
@@ -136,24 +131,37 @@ namespace Service
         public async Task<PlaceDto> GetById(int? id)
         {
 
-            return _mapper.Map<PlaceDto> (
-                await _context.Places.FindAsync(id));
+            //return _mapper.Map<PlaceDto> (
+            //    await _context.Places
+            //    .FindAsync(id));
+
+            return _mapper.Map<PlaceDto>(
+                await _context.Places
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x=>x.PlaceId == id)
+                );
+
+            //var place = await _context.Places
+            //    .AsNoTracking()
+            //    .FirstOrDefaultAsync(x => x.PlaceId == id);
         }
 
-        public async Task<PlaceEditDto> GetByIdEdit(int? id)
+        public async Task DeleteConfirmed(int _id, string _cover, string _logo)
         {
-            return _mapper.Map<PlaceEditDto>(
-                await _context.Places.FindAsync(id));
-        }
 
-        public async Task DeleteConfirmed(int id)
-        {
+            if (_logo != null || _cover != null)
+            {
+                _uploadedFile.DeleteConfirmed(_cover);
+                _uploadedFile.DeleteConfirmed(_logo);
+            }
+
             _context.Remove(new Place
             {
-                PlaceId = id
+                PlaceId = _id
             });
 
             await _context.SaveChangesAsync();
+
         }
         public bool CategoryExists(int id)
         {

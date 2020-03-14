@@ -153,5 +153,13 @@ namespace GestionAntioquia.Controllers
         {
             return _categoryService.CategoryExists(id);
         }
+
+        public IActionResult Inline()
+        {
+            ViewBag.items = new[] { "Bold", "Italic", "Underline",
+                "Formats", "-", "Alignments", "OrderedList", "UnorderedList",
+                "CreateLink" };
+            return View();
+        }
     }
 }

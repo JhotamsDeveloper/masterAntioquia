@@ -147,7 +147,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Places/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
@@ -155,9 +155,20 @@ namespace GestionAntioquia.Controllers
             }
 
             var place = await _placeService.GetById(id);
+            //var place = await _context.Places
+            //    .AsNoTracking()
+            //    .FirstOrDefaultAsync(x => x.PlaceId == id);
+
             if (place == null)
             {
                 return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Eliminar falló. Inténtalo de nuevo y si el problema persiste " +
+                    "consulte al administrador del sistema";
             }
 
             return View(place);
@@ -168,9 +179,29 @@ namespace GestionAntioquia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            //var place = await _placeService.GetById(id);
-            await _placeService.DeleteConfirmed(id);
-            return RedirectToAction(nameof(Index));
+
+            var _place = await _placeService.GetById(id);
+
+            var _id = _place.PlaceId;
+            var _cover = _place.CoverPage;
+            var _logo = _place.Logo;
+
+            if (_place == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                await _placeService.DeleteConfirmed(_id, _cover, _logo);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction(nameof(Delete), new {id = id, saveChangesError = true });
+            }
+
         }
 
         private bool PlaceExists(int id)
