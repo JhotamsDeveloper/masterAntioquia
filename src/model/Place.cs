@@ -22,8 +22,10 @@ namespace Model
         public string CreationDate { get; set; }
         public string UpdateDate { get; set; }
 
+        //public string LatitudeCoordinates { get; set; }
+        //public string LengthCoordinates { get; set; }
+        
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
-        public List<Product> Products { get; set; }
     }
 }

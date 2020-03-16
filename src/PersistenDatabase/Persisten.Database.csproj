@@ -9,6 +9,18 @@
     <Compile Remove="Migrations\20200226184736_Version002-Agregando-Place.Designer.cs" />
     <Compile Remove="Migrations\20200227021724_version002-Arreglando-version-anterior.cs" />
     <Compile Remove="Migrations\20200227021724_version002-Arreglando-version-anterior.Designer.cs" />
+    <Compile Remove="Migrations\20200315234806_Version003Product.cs" />
+    <Compile Remove="Migrations\20200315234806_Version003Product.Designer.cs" />
+    <Compile Remove="Migrations\20200316010301_version003GalleriesProduct.cs" />
+    <Compile Remove="Migrations\20200316010301_version003GalleriesProduct.Designer.cs" />
+    <Compile Remove="Migrations\20200316012724_version003GalleriesProduct.cs" />
+    <Compile Remove="Migrations\20200316012724_version003GalleriesProduct.Designer.cs" />
+    <Compile Remove="Migrations\20200316014549_version003GalleriesProduct.cs" />
+    <Compile Remove="Migrations\20200316014549_version003GalleriesProduct.Designer.cs" />
+    <Compile Remove="Migrations\20200316014821_version003GalleriesProduct.cs" />
+    <Compile Remove="Migrations\20200316014821_version003GalleriesProduct.Designer.cs" />
+    <Compile Remove="Migrations\20200316015359_version003GalleriesProduct.cs" />
+    <Compile Remove="Migrations\20200316015359_version003GalleriesProduct.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

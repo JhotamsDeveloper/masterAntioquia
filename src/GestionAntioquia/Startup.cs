@@ -35,6 +35,8 @@ namespace GestionAntioquia
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPlaceService, PlaceService>();
+            services.AddTransient<IProductService, ProductService>();
+
             services.AddTransient<IUploadedFile, UploadedFile>();
 
             services.AddControllersWithViews();
