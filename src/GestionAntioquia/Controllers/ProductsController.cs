@@ -7,23 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using Persisten.Database;
+using Service;
 
 namespace GestionAntioquia.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IProductService _productService;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context,
+            IProductService productService)
         {
             _context = context;
+            _productService = productService;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Place);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _productService.GetAll());
+
+            //var applicationDbContext = _context.Products.Include(p => p.Place);
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -34,15 +40,18 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Place)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
+            var _product = await _productService.Details(id);
+
+            //var product = await _context.Products
+            //    .Include(p => p.Place)
+            //    .FirstOrDefaultAsync(m => m.ProductId == id);
+
+            if (_product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(_product);
         }
 
         // GET: Products/Create
@@ -53,8 +62,9 @@ namespace GestionAntioquia.Controllers
         }
 
         // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Para protegerse de ataques de superposición, habilite las propiedades específicas a las que desea enlazar, para
+        // más detalles ver http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProductId,Name,CoverPage,Description,Price,HighPrice,HalfPrice,LowPrice,Discounts,Statud,CreationDate,UpdateDate,PlaceId")] Product product)
