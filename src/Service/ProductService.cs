@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.DTOs;
 using Persisten.Database;
+using Service.Commons;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,18 +15,22 @@ namespace Service
     {
         Task<IEnumerable<Product>> GetAll();
         Task<ProductDto> Details(int? id);
+        Task<ProductDto> Create(ProductCreateDto model);
     }
 
     public class ProductService : IProductService
     {
         //Variables
         private readonly ApplicationDbContext _context;
+        private readonly IUploadedFile _uploadedFile;
         private readonly IMapper _mapper;
 
         public ProductService(ApplicationDbContext context,
+            IUploadedFile uploadedFile,
             IMapper mapper)
         {
             _context = context;
+            _uploadedFile = uploadedFile;
             _mapper = mapper;
         }
 
@@ -45,6 +50,32 @@ namespace Service
                 );
 
             return _mapper.Map<ProductDto>(_products);
+        }
+
+        public async Task<ProductDto> Create(ProductCreateDto model)
+        {
+            var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+            var _fechaActual = DateTime.Now;
+
+            var _product = new Product
+            {
+                Name = model.Name,
+                CoverPage = _coverPage,
+                Description = model.Description,
+                Price = model.Price.ToString().Trim(),
+                HighPrice = model.HighPrice,
+                HalfPrice = model.HalfPrice,
+                LowPrice = model.LowPrice,
+                Discounts = model.Discounts,
+                Statud = model.Statud,
+                PlaceId = model.PlaceId,
+                CreationDate = _fechaActual
+            };
+
+            await _context.AddAsync(_product);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<ProductDto>(_product);
         }
     }
 }

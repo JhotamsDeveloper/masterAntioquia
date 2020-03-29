@@ -1,4 +1,4 @@
-﻿@model Model.Product
+﻿@model Model.DTOs.ProductCreateDto
 
 @{
     ViewData["Title"] = "Create";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form enctype="multipart/form-data" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -19,7 +19,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="CoverPage" class="control-label"></label>
-                <input asp-for="CoverPage" class="form-control" />
+                <div class="custom-file">
+                    <input asp-for="CoverPage" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
                 <span asp-validation-for="CoverPage" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -58,18 +61,8 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" />
-                <span asp-validation-for="CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdateDate" class="control-label"></label>
-                <input asp-for="UpdateDate" class="form-control" />
-                <span asp-validation-for="UpdateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PlaceId" class="control-label"></label>
-                <select asp-for="PlaceId" class ="form-control" asp-items="ViewBag.PlaceId"></select>
+                <select asp-for="PlaceId" class ="form-control" asp-items="ViewBag.Name"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

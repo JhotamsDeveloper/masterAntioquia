@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -31,9 +32,9 @@ namespace Model.DTOs
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
-        public string CoverPage { get; set; }
+        public IFormFile CoverPage { get; set; }
         public string Description { get; set; }
-        public string Price { get; set; }
+        public float Price { get; set; }
         public float HighPrice { get; set; }
         public float HalfPrice { get; set; }
         public float LowPrice { get; set; }
@@ -45,8 +46,8 @@ namespace Model.DTOs
 
         //Claves foreanas
         public int PlaceId { get; set; }
-        public Place Place { get; set; }
+        //public Place Place { get; set; }
 
-        public List<Gallery> ListGalleries { get; set; }
+        //public List<Gallery> ListGalleries { get; set; }
     }
 }

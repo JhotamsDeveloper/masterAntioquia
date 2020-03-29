@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.DTOs;
 using Persisten.Database;
 using Service;
 
@@ -57,7 +58,7 @@ namespace GestionAntioquia.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId");
+            ViewData["Name"] = new SelectList(_context.Places, "PlaceId", "Name");
             return View();
         }
 
@@ -67,16 +68,18 @@ namespace GestionAntioquia.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,CoverPage,Description,Price,HighPrice,HalfPrice,LowPrice,Discounts,Statud,CreationDate,UpdateDate,PlaceId")] Product product)
+        public async Task<IActionResult> Create(ProductCreateDto model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                await _productService.Create(model);
+
+                //_context.Add(product);
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", product.PlaceId);
-            return View(product);
+            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", model.PlaceId);
+            return View(model);
         }
 
         // GET: Products/Edit/5
