@@ -54,28 +54,67 @@ namespace Service
 
         public async Task<ProductDto> Create(ProductCreateDto model)
         {
-            var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
-            var _fechaActual = DateTime.Now;
 
-            var _product = new Product
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                Name = model.Name,
-                CoverPage = _coverPage,
-                Description = model.Description,
-                Price = model.Price.ToString().Trim(),
-                HighPrice = model.HighPrice,
-                HalfPrice = model.HalfPrice,
-                LowPrice = model.LowPrice,
-                Discounts = model.Discounts,
-                Statud = model.Statud,
-                PlaceId = model.PlaceId,
-                CreationDate = _fechaActual
-            };
+                try
+                {
+                    //List<string> _galleries = new List<string>();
+                    //List<string> _uploadGalleries2 = _uploadedFile.UploadedMultipleFileImage(model.Gallery);
 
-            await _context.AddAsync(_product);
-            await _context.SaveChangesAsync();
+                    //for (int i = 0; i < _uploadGalleries2.Count; i++)
+                    //{
+                    //    _galleries.Insert(model.ProductId, _uploadGalleries2[i]);
+                    //}
 
-            return _mapper.Map<ProductDto>(_product);
+                    //await _context.AddRangeAsync(_galleries);
+
+                    var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+                    var _fechaActual = DateTime.Now;
+
+                    var _product = new Product
+                    {
+                        Name = model.Name,
+                        CoverPage = _coverPage,
+                        Description = model.Description,
+                        Price = model.Price.ToString().Trim(),
+                        HighPrice = model.HighPrice,
+                        HalfPrice = model.HalfPrice,
+                        LowPrice = model.LowPrice,
+                        Discounts = model.Discounts,
+                        Statud = model.Statud,
+                        PlaceId = model.PlaceId,
+                        CreationDate = _fechaActual
+                    };
+
+
+                    await _context.AddAsync(_product);
+                    await _context.SaveChangesAsync();
+
+                    _mapper.Map<ProductDto>(_product);
+
+
+                    List<string> _uploadGalleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery);
+                    var _productGalleries = new ProductGalleriesCreateDto 
+                    {
+                        ProductId = _product.ProductId,
+                        Galleries = _uploadGalleries
+                    };
+
+                    await _context.AddRangeAsync(_uploadGalleries);
+                    await _context.SaveChangesAsync();
+                    _mapper.Map<GalleryDto>(_productGalleries);
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+
+            return null;
+
         }
     }
 }

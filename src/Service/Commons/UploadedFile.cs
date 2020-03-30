@@ -15,6 +15,7 @@ namespace Service.Commons
     {
         string UploadedFileImage(string value, IFormFile file);
         string UploadedFileImage(IFormFile value);
+        List<string> UploadedMultipleFileImage(IEnumerable<IFormFile> files);
         Boolean DeleteConfirmed(string imgModel);
     }
 
@@ -71,6 +72,26 @@ namespace Service.Commons
             return uniqueFileName;
         }
 
+        public List<string> UploadedMultipleFileImage(IEnumerable<IFormFile> files)
+        {
+            //Nombre de archivo único
+            List<string> uniqueFileName = new List<string>();
+            int _contador = 0;
+
+            foreach (var file in files)
+            {
+                _contador++;
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
+                uniqueFileName.Add("Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1));
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName[_contador-1]);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
+        }
         public Boolean DeleteConfirmed(string imgModel)
         {
             return DeleteUpload(imgModel);

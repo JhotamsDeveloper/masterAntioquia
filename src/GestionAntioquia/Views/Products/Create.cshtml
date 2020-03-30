@@ -21,7 +21,7 @@
                 <label asp-for="CoverPage" class="control-label"></label>
                 <div class="custom-file">
                     <input asp-for="CoverPage" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <label class="custom-file-label" for="customFile">Selecione la portada</label>
                 </div>
                 <span asp-validation-for="CoverPage" class="text-danger"></span>
             </div>
@@ -55,6 +55,16 @@
                 <input asp-for="Discounts" class="form-control" />
                 <span asp-validation-for="Discounts" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="Gallery" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Gallery" multiple class="custom-file-input" id="customFile1">
+                    <label class="custom-file-label" for="customFile1">Selecionar Galleria</label>
+                </div>
+                <span asp-validation-for="Gallery" class="text-danger"></span>
+            </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Statud" /> @Html.DisplayNameFor(model => model.Statud)
@@ -62,7 +72,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PlaceId" class="control-label"></label>
-                <select asp-for="PlaceId" class ="form-control" asp-items="ViewBag.Name"></select>
+                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.Name"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -75,3 +85,16 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+@section Scripts {
+
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

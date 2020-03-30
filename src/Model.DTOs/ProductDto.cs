@@ -39,6 +39,7 @@ namespace Model.DTOs
         public float HalfPrice { get; set; }
         public float LowPrice { get; set; }
         public int Discounts { get; set; }
+        public IEnumerable<IFormFile> Gallery { get; set; }
         public bool Statud { get; set; }
 
         public DateTime CreationDate { get; set; }
@@ -49,5 +50,10 @@ namespace Model.DTOs
         //public Place Place { get; set; }
 
         //public List<Gallery> ListGalleries { get; set; }
+    }
+    public class ProductGalleriesCreateDto
+    {
+        public int ProductId { get; set; }
+        public List<string> Galleries { get; set; }
     }
 }
