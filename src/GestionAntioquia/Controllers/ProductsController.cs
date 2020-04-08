@@ -78,7 +78,7 @@ namespace GestionAntioquia.Controllers
                 //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", model.PlaceId);
+            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", model.PlaceId);
             return View(model);
         }
 
@@ -90,13 +90,32 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var _product = await _productService.GetById(id);
+
+            //var product = await _context.Products.FindAsync(id)
+            if (_product == null)
             {
                 return NotFound();
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", product.PlaceId);
-            return View(product);
+
+            var _galleries = _productService.ListGalleries();
+            var _productEditDto = new ProductEditDto
+            {
+                Name = _product.Name,
+                Description = _product.Description,
+                Price = _product.Price,
+                HighPrice = _product.HighPrice,
+                HalfPrice = _product.HalfPrice,
+                LowPrice = _product.LowPrice,
+                Discounts = _product.Discounts,
+                Statud = _product.Statud,
+                Galleries = _context.Galleries.Where(x => x.ProducId == id).ToList(),
+                PlaceId = _product.PlaceId
+            };
+
+            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", _product.PlaceId);
+            ViewData["CoverPage"] = _product.CoverPage.ToString();
+            return View(_productEditDto);
         }
 
         // POST: Products/Edit/5
@@ -110,7 +129,7 @@ namespace GestionAntioquia.Controllers
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try

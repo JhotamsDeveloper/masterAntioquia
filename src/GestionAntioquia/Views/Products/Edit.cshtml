@@ -1,4 +1,4 @@
-﻿@model Model.Product
+﻿@model Model.DTOs.ProductEditDto
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form enctype="multipart/form-data" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductId" />
             <div class="form-group">
@@ -18,11 +18,20 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <img src="~/images/Places/@ViewBag.CoverPage" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+            </div>
+
             <div class="form-group">
                 <label asp-for="CoverPage" class="control-label"></label>
-                <input asp-for="CoverPage" class="form-control" />
+                <div class="custom-file">
+                    <input asp-for="CoverPage" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
                 <span asp-validation-for="CoverPage" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
@@ -57,16 +66,6 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Statud" /> @Html.DisplayNameFor(model => model.Statud)
                 </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" />
-                <span asp-validation-for="CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdateDate" class="control-label"></label>
-                <input asp-for="UpdateDate" class="form-control" />
-                <span asp-validation-for="UpdateDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PlaceId" class="control-label"></label>

@@ -501,7 +501,7 @@ namespace Persisten.Database.Migrations
             modelBuilder.Entity("Model.Gallery", b =>
                 {
                     b.HasOne("Model.Product", "Products")
-                        .WithMany("ListGalleries")
+                        .WithMany("Galleries")
                         .HasForeignKey("ProductsProductId");
                 });
 

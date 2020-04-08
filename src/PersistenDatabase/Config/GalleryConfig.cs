@@ -12,7 +12,7 @@ namespace Persisten.Database.Config
         {
             entityBuilder.HasKey(x => x.GalleryId);
             entityBuilder.HasOne(x => x.Products)
-                .WithMany(x => x.ListGalleries);
+                .WithMany(x => x.Galleries);
         }
     }
 }

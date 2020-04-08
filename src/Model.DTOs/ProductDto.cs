@@ -7,11 +7,15 @@ namespace Model.DTOs
 {
     public class ProductDto
     {
+        public ProductDto()
+        {
+            Galleries = new List<Gallery>();
+        }
         public int ProductId { get; set; }
         public string Name { get; set; }
         public string CoverPage { get; set; }
         public string Description { get; set; }
-        public string Price { get; set; }
+        public float Price { get; set; }
         public float HighPrice { get; set; }
         public float HalfPrice { get; set; }
         public float LowPrice { get; set; }
@@ -25,7 +29,7 @@ namespace Model.DTOs
         public int PlaceId { get; set; }
         public Place Place { get; set; }
 
-        public List<Gallery> ListGalleries { get; set; }
+        public ICollection<Gallery> Galleries { get; set; }
     }
 
     public class ProductCreateDto
@@ -51,9 +55,31 @@ namespace Model.DTOs
 
         //public List<Gallery> ListGalleries { get; set; }
     }
-    public class ProductGalleriesCreateDto
+
+    public class ProductEditDto
     {
+        public ProductEditDto()
+        {
+            Galleries = new List<Gallery>();
+        }
+
         public int ProductId { get; set; }
-        public List<string> Galleries { get; set; }
+        public string Name { get; set; }
+        public IFormFile CoverPage { get; set; }
+        public string Description { get; set; }
+        public float Price { get; set; }
+        public float HighPrice { get; set; }
+        public float HalfPrice { get; set; }
+        public float LowPrice { get; set; }
+        public int Discounts { get; set; }
+        public IEnumerable<IFormFile> Gallery { get; set; }
+        public bool Statud { get; set; }
+        public DateTime UpdateDate { get; set; }
+
+        //Claves foreanas
+        public int PlaceId { get; set; }
+        //public Place Place { get; set; }
+
+        public ICollection<Gallery> Galleries { get; set; }
     }
 }

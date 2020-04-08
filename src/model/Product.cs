@@ -8,7 +8,7 @@ namespace Model
     {
         public Product()
         {
-            UpdateDate = DateTime.Now;
+            Galleries = new List<Gallery>();
         }
 
         public int ProductId { get; set; }
@@ -29,8 +29,7 @@ namespace Model
         public int PlaceId { get; set; }
         public Place Place { get; set; }
 
-        public List<Gallery> ListGalleries { get; set; }
-
+        public ICollection<Gallery> Galleries { get; set; }
         //Comodidades
         //Reservas
     }

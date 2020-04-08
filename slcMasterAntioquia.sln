@@ -23,7 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model.DTOs", "src\Model.DTO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPA.Client", "src\SPA.Client\SPA.Client.csproj", "{F201EAAB-F6C1-4F4E-A042-7AB9D96C106D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionAntioquia", "src\GestionAntioquia\GestionAntioquia.csproj", "{BA976346-4606-49B8-92B8-45847768F006}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionAntioquia", "src\GestionAntioquia\GestionAntioquia.csproj", "{BA976346-4606-49B8-92B8-45847768F006}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06. Test", "06. Test", "{A72A169D-DE0C-40C1-B481-F680F963F199}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "src\Test\Test.csproj", "{C0344ABA-6364-4CB1-A4E0-00B66C458877}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +59,10 @@ Global
 		{BA976346-4606-49B8-92B8-45847768F006}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA976346-4606-49B8-92B8-45847768F006}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA976346-4606-49B8-92B8-45847768F006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0344ABA-6364-4CB1-A4E0-00B66C458877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0344ABA-6364-4CB1-A4E0-00B66C458877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0344ABA-6364-4CB1-A4E0-00B66C458877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0344ABA-6364-4CB1-A4E0-00B66C458877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +74,7 @@ Global
 		{8806D9A6-A272-4374-8D74-A6FD5421E3CC} = {0690A37F-BB30-4A57-81AA-91210CD49ABD}
 		{F201EAAB-F6C1-4F4E-A042-7AB9D96C106D} = {C849E82C-1209-468F-8329-338202170405}
 		{BA976346-4606-49B8-92B8-45847768F006} = {DB9EF441-9150-4F8D-B41B-0FE008CA3654}
+		{C0344ABA-6364-4CB1-A4E0-00B66C458877} = {A72A169D-DE0C-40C1-B481-F680F963F199}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28531DD8-58AE-4956-AEE0-0132B996D539}
