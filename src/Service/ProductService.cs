@@ -18,9 +18,7 @@ namespace Service
         Task<ProductDto> Details(int? id);
         Task<ProductDto> Create(ProductCreateDto model);
         Task<ProductDto> GetById(int? id);
-        Task<ICollection<Gallery>> ListGalleries();
-
-        IEnumerable<Product> GetAllTest();
+        Task Edit(int id, ProductEditDto model);
     }
 
     public class ProductService : IProductService
@@ -28,14 +26,17 @@ namespace Service
         //Variables
         private readonly ApplicationDbContext _context;
         private readonly IUploadedFile _uploadedFile;
+        private readonly IGalleryService _galleryService;
         private readonly IMapper _mapper;
 
         public ProductService(ApplicationDbContext context,
             IUploadedFile uploadedFile,
+            IGalleryService galleryService,
             IMapper mapper)
         {
             _context = context;
             _uploadedFile = uploadedFile;
+            _galleryService = galleryService;
             _mapper = mapper;
         }
 
@@ -136,17 +137,66 @@ namespace Service
 
         }
 
-        public async Task<ICollection<Gallery>> ListGalleries()
+        public async Task Edit(int id, ProductEditDto model)
         {
-            var _list = _context.Galleries;
+            using (var transaction = _context.Database.BeginTransaction())
 
-            return (await _list.ToListAsync());
+            {
+                try
+                {
+
+                    DateTime _dateUpdate = DateTime.Now;
+                    var _product = await _context.Products.SingleAsync(x => x.ProductId == id);
+                    var _coverPage = _uploadedFile.UploadedFileImage(_product.CoverPage, model.CoverPage);
+
+                    _product.Name = model.Name;
+                    _product.CoverPage = _coverPage;
+                    _product.Description = model.Description;
+                    _product.Price = model.Price.ToString();
+                    _product.HighPrice = model.HighPrice;
+                    _product.HalfPrice = model.HighPrice;
+                    _product.LowPrice = model.LowPrice;
+                    _product.Discounts = model.Discounts;
+                    _product.Statud = model.Statud;
+                    _product.PlaceId = model.PlaceId;
+
+                    await _context.SaveChangesAsync();
+
+                    var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).Select(x => x.NameImage).ToList();
+                    
+                    //var _getGalleriesId = _galleryService.GetAll().Where(x => x.ProducId == id).Select(x => x.GalleryId).ToList();
+
+                    //foreach (var item in _getGalleriesId)
+                    //{
+                    //    _context.Remove(new Gallery
+                    //    {
+                    //        GalleryId = _getGalleriesId.item
+                    //    }) ;
+                    //    await _context.SaveChangesAsync();
+
+                    //}
+
+                    var _galleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery, _getGalleries);
+
+                    for (int i = 0; i < _galleries.Count; i++)
+                    {
+                        var _gallery = new Gallery
+                        {
+                            ProducId = _product.ProductId,
+                            NameImage = _galleries[i]
+                        };
+
+                        await _context.AddAsync(_gallery);
+                        await _context.SaveChangesAsync();
+                        _mapper.Map<GalleryDto>(_gallery);
+                    }
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
         }
-
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Galleries.ToListAsync());
-        //}
-
     }
 }

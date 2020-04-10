@@ -16,6 +16,7 @@ namespace Service.Commons
         string UploadedFileImage(string value, IFormFile file);
         string UploadedFileImage(IFormFile value);
         List<string> UploadedMultipleFileImage(IEnumerable<IFormFile> files);
+        List<string> UploadedMultipleFileImage(IEnumerable<IFormFile> files, List<string> value);
         Boolean DeleteConfirmed(string imgModel);
     }
 
@@ -47,7 +48,6 @@ namespace Service.Commons
             return uniqueFileName;
         }
 
-
         public string UploadedFileImage(string value, IFormFile file)
         {
             string uniqueFileName = null;
@@ -55,20 +55,19 @@ namespace Service.Commons
             if (value != null)
             {
                 var _deleteFile = DeleteUpload(value);
-
-                if (_deleteFile)
-                {
-                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
-                    uniqueFileName = "Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1);
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-
-                }
             }
 
+            if (file != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
+                uniqueFileName = "Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+            }
             return uniqueFileName;
         }
 
@@ -92,6 +91,38 @@ namespace Service.Commons
 
             return uniqueFileName;
         }
+
+        public List<string> UploadedMultipleFileImage(IEnumerable<IFormFile> files, List<string> value)
+        {
+            //Nombre de archivo único
+            List<string> uniqueFileName = new List<string>();
+
+            if (value != null)
+            {
+                DeleteUpload(value);
+            }
+
+            if (files != null)
+            {
+
+                int _contador = 0;
+
+                foreach (var file in files)
+                {
+                    _contador++;
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
+                    uniqueFileName.Add("Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1));
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName[_contador - 1]);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                }
+            }
+
+            return uniqueFileName;
+        }
+
         public Boolean DeleteConfirmed(string imgModel)
         {
             return DeleteUpload(imgModel);
@@ -114,6 +145,25 @@ namespace Service.Commons
             {
                 return false;
             }
+        }
+
+        private Boolean DeleteUpload(List<string> imgModel)
+        {
+            for (int i = 0; i < imgModel.Count; i++)
+            {
+                imgModel[i] = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places", imgModel[i]);
+                FileInfo fileInfo = new FileInfo(imgModel[i]);
+
+                if (fileInfo != null)
+                {
+                    System.IO.File.Delete(imgModel[i]);
+                    fileInfo.Delete();
+
+                }
+
+            }
+
+            return true;
         }
 
     }

@@ -16,12 +16,14 @@ namespace GestionAntioquia.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IProductService _productService;
-
+        private readonly IGalleryService _galleryService;
         public ProductsController(ApplicationDbContext context,
-            IProductService productService)
+            IProductService productService,
+            IGalleryService galleryService)
         {
             _context = context;
             _productService = productService;
+            _galleryService = galleryService;
         }
 
         // GET: Products
@@ -98,9 +100,10 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var _galleries = _productService.ListGalleries();
+            var _galleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
             var _productEditDto = new ProductEditDto
             {
+                ProductId = _product.ProductId,
                 Name = _product.Name,
                 Description = _product.Description,
                 Price = _product.Price,
@@ -109,12 +112,12 @@ namespace GestionAntioquia.Controllers
                 LowPrice = _product.LowPrice,
                 Discounts = _product.Discounts,
                 Statud = _product.Statud,
-                Galleries = _context.Galleries.Where(x => x.ProducId == id).ToList(),
+                Galleries = _galleries,
                 PlaceId = _product.PlaceId
             };
 
             ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", _product.PlaceId);
-            ViewData["CoverPage"] = _product.CoverPage.ToString();
+            ViewData["CoverPage"] = _product.CoverPage;
             return View(_productEditDto);
         }
 
@@ -123,9 +126,9 @@ namespace GestionAntioquia.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,CoverPage,Description,Price,HighPrice,HalfPrice,LowPrice,Discounts,Statud,CreationDate,UpdateDate,PlaceId")] Product product)
+        public async Task<IActionResult> Edit(int id, ProductEditDto model)
         {
-            if (id != product.ProductId)
+            if (id != model.ProductId)
             {
                 return NotFound();
             }
@@ -134,12 +137,13 @@ namespace GestionAntioquia.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    await _productService.Edit(id, model);
+                    //_context.Update(product);
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ProductId))
+                    if (!ProductExists(model.ProductId))
                     {
                         return NotFound();
                     }
@@ -150,8 +154,8 @@ namespace GestionAntioquia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", product.PlaceId);
-            return View(product);
+            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", model.PlaceId);
+            return View(model);
         }
 
         // GET: Products/Delete/5

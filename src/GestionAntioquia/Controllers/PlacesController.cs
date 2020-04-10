@@ -90,7 +90,7 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var placeEditDto = new PlaceEditDto
+            var _placeEditDto = new PlaceEditDto
             {
                 PlaceId = place.PlaceId,
                 Nit = place.Nit,
@@ -107,7 +107,7 @@ namespace GestionAntioquia.Controllers
             ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", place.CategoryId);
             ViewData["Logo"] = place.Logo.ToString();
             ViewData["CoverPage"] = place.CoverPage.ToString();
-            return View(placeEditDto);
+            return View(_placeEditDto);
         }
 
         // POST: Places/Edit/5

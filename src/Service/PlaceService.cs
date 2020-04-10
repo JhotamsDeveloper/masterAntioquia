@@ -111,7 +111,6 @@ namespace Service
             var _coverPage = _uploadedFile.UploadedFileImage(_place.CoverPage, model.CoverPage);
             var _logo = _uploadedFile.UploadedFileImage(_place.Logo, model.Logo);
 
-
             _place.Nit = model.Nit;
             _place.Name = model.Name;
             _place.Phone = model.Phone;
