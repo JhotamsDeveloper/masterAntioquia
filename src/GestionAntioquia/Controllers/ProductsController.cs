@@ -166,15 +166,18 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Place)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
+            //var _product = await _context.Products
+            //    .Include(p => p.Place)
+            //    .FirstOrDefaultAsync(m => m.ProductId == id);
+
+            var _product = await _productService.GetById(id);
+
+            if (_product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(_product);
         }
 
         // POST: Products/Delete/5
@@ -182,15 +185,23 @@ namespace GestionAntioquia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            var _product = await _productService.GetById(id);
+
+            var _id = _product.ProductId;
+            var _cove = _product.CoverPage;
+
+            await _productService.DeleteConfirmed(_id, _cove);
+
+            //var product = await _context.Products.FindAsync(id);
+            //_context.Products.Remove(product);
+            //await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.ProductId == id);
+            return _productService.ProductExists(id);
         }
     }
 }

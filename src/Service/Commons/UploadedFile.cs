@@ -17,6 +17,7 @@ namespace Service.Commons
         string UploadedFileImage(IFormFile value);
         List<string> UploadedMultipleFileImage(IEnumerable<IFormFile> files);
         List<string> UploadedMultipleFileImage(IEnumerable<IFormFile> files, List<string> value);
+        bool UploadedMultipleFileImage(List<string> value);
         Boolean DeleteConfirmed(string imgModel);
     }
 
@@ -166,5 +167,17 @@ namespace Service.Commons
             return true;
         }
 
+        public bool UploadedMultipleFileImage(List<string> value)
+        {
+            Boolean _status = false;
+
+            if (value.Count != 0)
+            {
+               DeleteUpload(value);
+               _status = true;
+            }
+
+            return _status;
+        }
     }
 }

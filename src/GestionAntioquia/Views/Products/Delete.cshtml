@@ -1,4 +1,4 @@
-﻿@model Model.Product
+﻿@model Model.DTOs.ProductDto
 
 @{
     ViewData["Title"] = "Delete";
@@ -84,7 +84,9 @@
             @Html.DisplayFor(model => model.Place.PlaceId)
         </dd class>
     </dl>
-    
+    <div class="text-warning">
+        <p><strong>Nota:</strong>Una vez elimine este también se eliminaran la galleria de imaganes</p>
+    </div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="ProductId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

@@ -31,6 +31,7 @@ namespace Service
 
             return _mapper.Map<GalleryDto>(
                 await _context.Galleries
+                .Include(x=>x.Products)
                 .AsNoTracking()
                 .SingleAsync(x => x.ProducId == id)
                 );
@@ -39,8 +40,20 @@ namespace Service
 
         public IEnumerable<Gallery> GetAll()
         {
-            return _context.Galleries.
-                AsNoTracking();
+            return _context.Galleries
+                .Include(x => x.Products)
+                .AsNoTracking();
+        }
+
+        public async Task<GalleryDto> Delete()
+        {
+            return _mapper.Map<GalleryDto>(
+                await _context.Galleries
+                .Include(p => p.Products)
+                .FirstAsync(x=>x.GalleryId == 1)
+
+                );
+
         }
 
     }

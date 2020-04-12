@@ -19,6 +19,8 @@ namespace Service
         Task<ProductDto> Create(ProductCreateDto model);
         Task<ProductDto> GetById(int? id);
         Task Edit(int id, ProductEditDto model);
+        Task DeleteConfirmed(int _id, string _cover);
+        bool ProductExists(int id);
     }
 
     public class ProductService : IProductService
@@ -130,8 +132,8 @@ namespace Service
 
             return _mapper.Map<ProductDto>(
                 await _context.Products
-                .Include(x=>x.Galleries)
                 .AsNoTracking()
+                .Include(g => g.Galleries)
                 .FirstOrDefaultAsync(x => x.ProductId == id)
                 );
 
@@ -209,6 +211,86 @@ namespace Service
                 catch (Exception ex)
                 {
                     transaction.Rollback();
+                }
+            }
+        }
+
+        public async Task DeleteConfirmed(int _id, string _cover)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+
+                    if (_cover != null)
+                    {
+                        _uploadedFile.DeleteConfirmed(_cover);
+                    }
+
+                    var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == _id).ToList();
+                    var _idsGalleries = _getGalleries.Select(x => x.GalleryId).ToList();
+                    var _galleries = _uploadedFile.UploadedMultipleFileImage(_getGalleries.Select(x => x.NameImage).ToList());
+
+                    _context.Remove(new Product
+                    {
+                        ProductId = _id
+
+                    });
+                    await _context.SaveChangesAsync();
+
+                    if (_idsGalleries.Count > 0)
+                    {
+                        foreach (var item in _idsGalleries)
+                        {
+
+                            _context.Remove(new Gallery
+                            {
+                                GalleryId = item
+
+                            });
+                            await _context.SaveChangesAsync();
+
+                        }
+                    }
+
+                    //_context.Remove(new Place
+                    //{
+                    //    PlaceId = _id
+                    //});
+
+                    //await _context.SaveChangesAsync();
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+
+            }
+        }
+
+        public bool ProductExists(int id)
+        {
+            return _context.Products.Any(e => e.ProductId == id);
+        }
+
+        private async Task DeleteGalleries(int id)
+        {
+            var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
+            var _idsGalleries = _getGalleries.Select(x => x.GalleryId).ToList();
+
+            if (_idsGalleries.Count > 0)
+            {
+                foreach (var item in _idsGalleries)
+                {
+
+                    _context.Remove(new Gallery
+                    {
+                        GalleryId = item
+                    });
+                    await _context.SaveChangesAsync();
+
                 }
             }
         }
