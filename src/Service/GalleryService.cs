@@ -31,6 +31,7 @@ namespace Service
 
             return _mapper.Map<GalleryDto>(
                 await _context.Galleries
+                .AsNoTracking()
                 .SingleAsync(x => x.ProducId == id)
                 );
 
@@ -38,7 +39,8 @@ namespace Service
 
         public IEnumerable<Gallery> GetAll()
         {
-            return _context.Galleries;
+            return _context.Galleries.
+                AsNoTracking();
         }
 
     }

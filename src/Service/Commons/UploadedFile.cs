@@ -52,7 +52,7 @@ namespace Service.Commons
         {
             string uniqueFileName = null;
 
-            if (value != null)
+            if (value != null && file != null)
             {
                 var _deleteFile = DeleteUpload(value);
             }
@@ -97,7 +97,7 @@ namespace Service.Commons
             //Nombre de archivo único
             List<string> uniqueFileName = new List<string>();
 
-            if (value != null)
+            if (value.Count != 0)
             {
                 DeleteUpload(value);
             }

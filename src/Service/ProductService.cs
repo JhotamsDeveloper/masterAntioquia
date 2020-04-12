@@ -144,10 +144,14 @@ namespace Service
             {
                 try
                 {
-
                     DateTime _dateUpdate = DateTime.Now;
                     var _product = await _context.Products.SingleAsync(x => x.ProductId == id);
                     var _coverPage = _uploadedFile.UploadedFileImage(_product.CoverPage, model.CoverPage);
+
+                    if (_coverPage == null)
+                    {
+                        _coverPage = _product.CoverPage;
+                    }
 
                     _product.Name = model.Name;
                     _product.CoverPage = _coverPage;
@@ -159,40 +163,50 @@ namespace Service
                     _product.Discounts = model.Discounts;
                     _product.Statud = model.Statud;
                     _product.PlaceId = model.PlaceId;
+                    _product.UpdateDate = DateTime.Now;
 
                     await _context.SaveChangesAsync();
 
-                    var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).Select(x => x.NameImage).ToList();
-                    
-                    //var _getGalleriesId = _galleryService.GetAll().Where(x => x.ProducId == id).Select(x => x.GalleryId).ToList();
-
-                    //foreach (var item in _getGalleriesId)
-                    //{
-                    //    _context.Remove(new Gallery
-                    //    {
-                    //        GalleryId = _getGalleriesId.item
-                    //    }) ;
-                    //    await _context.SaveChangesAsync();
-
-                    //}
-
-                    var _galleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery, _getGalleries);
-
-                    for (int i = 0; i < _galleries.Count; i++)
+                    if (model.Gallery != null)
                     {
-                        var _gallery = new Gallery
-                        {
-                            ProducId = _product.ProductId,
-                            NameImage = _galleries[i]
-                        };
 
-                        await _context.AddAsync(_gallery);
-                        await _context.SaveChangesAsync();
-                        _mapper.Map<GalleryDto>(_gallery);
+                        var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
+                        var _idsGalleries = _getGalleries.Select(x => x.GalleryId).ToList();
+
+                        if (_idsGalleries.Count >0)
+                        {
+                            foreach (var item in _idsGalleries)
+                            {
+
+                                _context.Remove(new Gallery
+                                {
+                                    GalleryId = item
+                                });
+                                await _context.SaveChangesAsync();
+
+                            }
+                        }
+
+                        var _galleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery, _getGalleries.Select(x => x.NameImage).ToList());
+
+                        for (int i = 0; i < _galleries.Count; i++)
+                        {
+                            var _gallery = new Gallery
+                            {
+                                ProducId = _product.ProductId,
+                                NameImage = _galleries[i]
+                            };
+
+                            await _context.AddAsync(_gallery);
+                            await _context.SaveChangesAsync();
+                            _mapper.Map<GalleryDto>(_gallery);
+                        }
+
                     }
+
                     transaction.Commit();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     transaction.Rollback();
                 }

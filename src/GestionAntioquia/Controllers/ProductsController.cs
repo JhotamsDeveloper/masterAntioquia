@@ -92,7 +92,7 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var _product = await _productService.GetById(id);
+           var _product = await _productService.GetById(id);
 
             //var product = await _context.Products.FindAsync(id)
             if (_product == null)
@@ -154,7 +154,7 @@ namespace GestionAntioquia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", model.PlaceId);
+            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", model.PlaceId);
             return View(model);
         }
 
