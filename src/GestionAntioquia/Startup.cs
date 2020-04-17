@@ -30,7 +30,7 @@ namespace GestionAntioquia
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
                 options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 

@@ -13,8 +13,7 @@ namespace GestionAntioquia.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        
-        
+
         public UserController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;

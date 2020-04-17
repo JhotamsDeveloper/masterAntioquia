@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.Identity;
@@ -11,7 +12,10 @@ using System.Text;
 namespace Persisten.Database
 {
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext :
+        IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>,
+        ApplicationUserRole, IdentityUserLogin<string>,
+        IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
                 : base(options)
@@ -32,6 +36,7 @@ namespace Persisten.Database
             base.OnModelCreating(builder);
 
             new ApplicationUserConfig(builder.Entity<ApplicationUser>());
+            new ApplicationRoleConfig(builder.Entity<ApplicationRole>());
 
             new CategoryConfig(builder.Entity<Category>());
             new PlaceConfig(builder.Entity<Place>());
