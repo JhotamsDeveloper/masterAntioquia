@@ -17,11 +17,11 @@ namespace Test
             optionsBuilder.UseSqlServer("Server=JHOTAN\\JHOTAMS;Database=dbMasterAntioquia;Trusted_Connection=True;MultipleActiveResultSets=true");
             var Contex = new ApplicationDbContext(optionsBuilder.Options);
 
-            var _productService = new ProductService(Contex, null, null);
-            using (Contex)
-            {
-                var product = _productService.GetAllTest();
-            }
+            //var _productService = new ProductService(Contex, null, null);
+            //using (Contex)
+            //{
+            //    var product = _productService.GetAllTest();
+            //}
 
 
 

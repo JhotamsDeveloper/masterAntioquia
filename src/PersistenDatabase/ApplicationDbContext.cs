@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.Identity;
 using Persisten.Database.Config;
 using Service.Config;
 using System;
@@ -10,7 +11,7 @@ using System.Text;
 namespace Persisten.Database
 {
 
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
                 : base(options)
@@ -29,6 +30,8 @@ namespace Persisten.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            new ApplicationUserConfig(builder.Entity<ApplicationUser>());
 
             new CategoryConfig(builder.Entity<Category>());
             new PlaceConfig(builder.Entity<Place>());
