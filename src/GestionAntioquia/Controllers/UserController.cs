@@ -2,35 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GestionAntioquia.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model.Identity;
+using Service;
 
 namespace GestionAntioquia.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserService _userService;
 
-        public UserController(UserManager<ApplicationUser> userManager)
+        public UserController(IUserService userService)
         {
-            _userManager = userManager;
+            _userService = userService;
 
         }
 
         // GET: User
         public async Task<ActionResult> Index()
         {
-            var _listUser = await _userManager.Users.ToListAsync();
-            return View(_listUser);
+            var _userList = await _userService.GetAll();
+            return View(_userList);
         }
 
         // GET: User/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _user = await _userService.GetByIdString(id);
+            if (_user == null)
+            {
+                return NotFound();
+            }
+
+ 
+
+            return View(_user);
         }
 
         // GET: User/Create

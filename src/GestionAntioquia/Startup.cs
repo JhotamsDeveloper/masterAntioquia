@@ -36,6 +36,8 @@ namespace GestionAntioquia
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddTransient<IUserService, UserService>();
+
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPlaceService, PlaceService>();
             services.AddTransient<IProductService, ProductService>();
