@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Model.DTOs;
 using Model.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,13 +22,20 @@ namespace Service
     {
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UserService(UserManager<ApplicationUser> userManager,
+                           SignInManager<ApplicationUser> signInManager,
                            IMapper mapper)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _mapper = mapper;
         }
+
+        public string ReturnUrl { get; set; }
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
 
         public async Task<IEnumerable<ApplicationUser>> GetAll()
         {
@@ -45,6 +54,7 @@ namespace Service
                 );
 
         }
+
 
     }
 }

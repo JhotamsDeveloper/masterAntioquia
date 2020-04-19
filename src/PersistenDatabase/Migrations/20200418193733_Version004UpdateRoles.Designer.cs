@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persisten.Database;
 
 namespace Persisten.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200418193733_Version004UpdateRoles")]
+    partial class Version004UpdateRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,15 +201,15 @@ namespace Persisten.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b4263412-a981-4dcd-9ebc-57fa56769552",
-                            ConcurrencyStamp = "d953ba6d-e73b-42d5-a246-a59a6ff5dd9d",
+                            Id = "a1ba6ec5-12c1-4830-afd5-4b6996933910",
+                            ConcurrencyStamp = "788dea2f-5c8b-4092-8b86-95c69b4811bd",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "9e58de91-a5dd-45cd-9238-6c37d4f681be",
-                            ConcurrencyStamp = "8e5d59e5-9efb-412d-9b48-7bedcbac403b",
+                            Id = "6036db73-bbe0-465b-b30e-4d38a3a67434",
+                            ConcurrencyStamp = "17282073-617a-45f3-b0d9-5d40d85c264c",
                             Name = "UserApp",
                             NormalizedName = "UserApp"
                         });

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using GestionAntioquia.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Model.DTOs;
 using Model.Identity;
 using Service;
 
@@ -15,10 +18,16 @@ namespace GestionAntioquia.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,
+                              UserManager<ApplicationUser> userManager,
+                              SignInManager<ApplicationUser> signInManager)
         {
             _userService = userService;
+            _userManager = userManager;
+            _signInManager = signInManager;
 
         }
 
@@ -48,6 +57,7 @@ namespace GestionAntioquia.Controllers
             return View(_user);
         }
 
+
         // GET: User/Create
         public ActionResult Create()
         {
@@ -57,19 +67,51 @@ namespace GestionAntioquia.Controllers
         // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(UserCreateDto model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                var _user = new ApplicationUser
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.Email,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    Birthday = model.Birthday,
+                    Country = model.Country
+                };
 
-                return RedirectToAction(nameof(Index));
+                var _result = await _userManager.CreateAsync(_user, model.Password);
+                await _userManager.AddToRoleAsync(_user, "UserApp");
+
+                if (_result.Succeeded)
+                {
+                    //Preguntar si requiere confirmacion de la cuenta
+
+                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    //{
+                    //    return RedirectToAction("RegisterConfirmation", new { email = model.Email });
+                    //}
+                    //else
+                    //{
+                    //    await _signInManager.SignInAsync(_user, isPersistent: false);
+                    //    return RedirectToAction("Index", "Home");
+                    //}
+
+                    await _signInManager.SignInAsync(_user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in _result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View(model);
         }
+
+
 
         // GET: User/Edit/5
         public ActionResult Edit(int id)
@@ -114,6 +156,29 @@ namespace GestionAntioquia.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        // GET
+        public ActionResult Logout()
+        {
+            return View();
+        }
+
+        // POST: User/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout(string returnUrl = null)
+        {
+            await _signInManager.SignOutAsync();
+
+            if (returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
             }
         }
     }
