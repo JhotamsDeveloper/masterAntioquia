@@ -21,6 +21,9 @@ namespace GestionAntioquia.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
+        [TempData]
+        public string ErrorMessage { get; set; }
+        public DateTime DataBrithDay { get; set; } = new DateTime(0000, 00);
         public UserController(IUserService userService,
                               UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager)
@@ -59,6 +62,7 @@ namespace GestionAntioquia.Controllers
 
 
         // GET: User/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -67,7 +71,7 @@ namespace GestionAntioquia.Controllers
         // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(UserCreateDto model)
+        public async Task<ActionResult> Create(UserRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -111,12 +115,84 @@ namespace GestionAntioquia.Controllers
             return View(model);
         }
 
+        // GET: User/Login
+        [HttpGet]
+        public ActionResult Login()
+        {
 
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessage);
+            }
+
+            return View();
+        }
+
+        // POST: User/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(UserLoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, 
+                                                                      lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Inicio de sesión invalida");
+                }
+            }
+            return View(model);
+        }
 
         // GET: User/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public async Task<ActionResult> Edit(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _user = await _userManager.FindByIdAsync(id);
+            var _userClaims = await _userManager.GetClaimsAsync(_user);
+            var _userRoles = await _userManager.GetRolesAsync(_user);
+
+            if (_user == null)
+            {
+                return NotFound();
+            }
+
+            var _dataBirthday = _user.Birthday.ToString();
+
+            if (_dataBirthday != "")
+            {
+                DataBrithDay = _user.Birthday.Value;
+            }
+
+            var _userView = new UserEditViewModel
+            {
+                Id = _user.Id,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName,
+                UserName = _user.UserName,
+                Email = _user.Email,
+                EmailConfirmed = _user.EmailConfirmed,
+                PhoneNumber = _user.PhoneNumber,
+                Birthday = DataBrithDay,
+                Country = _user.Country,
+                Cleims = _userClaims.Select(c=>c.Value).ToList(),
+                Roles = _userRoles
+            };
+
+            return View(_userView);
+
         }
 
         // POST: User/Edit/5
@@ -135,29 +211,76 @@ namespace GestionAntioquia.Controllers
                 return View();
             }
         }
-
-        // GET: User/Delete/5
-        public ActionResult Delete(int id)
+        
+        // GET: User/Edit/5
+        [HttpGet]
+        public async Task<ActionResult> Delete(string id)
         {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _user = await _userManager.FindByIdAsync(id);
+
+            if (_user == null)
+            {
+                return NotFound();
+            }
+
+            var _dataBirthday = _user.Birthday.ToString();
+
+            if (_dataBirthday != "")
+            {
+                DataBrithDay = _user.Birthday.Value;
+            }
+
+            var _userView = new UserViewModel
+            {
+                Id = _user.Id,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName,
+                UserName = _user.UserName,
+                Email = _user.Email,
+                EmailConfirmed = _user.EmailConfirmed,
+                PhoneNumber = _user.PhoneNumber,
+                Birthday = DataBrithDay,
+                Country = _user.Country
+            };
+
+            return View(_userView);
+        }
+
+        // POST: Products/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            var _user = await _userManager.FindByIdAsync(id);
+
+            if (_user == null)
+            {
+                ViewBag.ErrorMesage = $"El Usario identificado con el id {id} no fue encontrado";
+                return NotFound();
+            }
+            else
+            {
+                var _result = await _userManager.DeleteAsync(_user);
+
+                if (_result.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                foreach (var error in _result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
             return View();
         }
 
-        // POST: User/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET
         public ActionResult Logout()

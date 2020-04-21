@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Model.Identity;
+﻿using Model.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Model.DTOs
+namespace GestionAntioquia.Models
 {
-    public class UserDto
+    public class UserRegisterViewModel
     {
-        public string Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -30,9 +29,8 @@ namespace Model.DTOs
         public string ConfirmPassword { get; set; }
         public Boolean EmailConfirmed { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime? Birthday { get; set; }
+        public DateTime Birthday { get; set; }
         [Required]
         public string Country { get; set; }
     }
-
 }

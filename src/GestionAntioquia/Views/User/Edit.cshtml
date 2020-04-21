@@ -1,4 +1,4 @@
-﻿@model UserRegisterViewModel
+﻿@model UserEditViewModel
 
 @{
     ViewData["Title"] = "Register";
@@ -36,21 +36,36 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
 
             <div class="form-group">
                 <label asp-for="Birthday"></label>
                 <input asp-for="Birthday" class="form-control" />
                 <span asp-validation-for="Birthday" class="text-danger"></span>
+            </div>
+
+            @*Válidar si el usuarios es administrador para que le aparezca
+              las opciones de hacer los cambios de roles*@
+
+        <div class="form-group">
+            <div class="table">
+                <table>
+                    <tr>
+                        @{
+                            int cnt = 0;
+
+                            foreach (var rol in Model.Roles)
+                            {
+                                if (cnt++ % 3 == 0)
+                                {
+                                @:</tr><tr>
+                                }
+                                @:<td>
+                                <input type="checkbox" name="rol" />
+                            }
+                        @:</tr>
+                        }
+                    </table>
+                </div>
             </div>
 
             <div class="form-group">
