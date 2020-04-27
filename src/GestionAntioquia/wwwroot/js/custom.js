@@ -133,7 +133,7 @@ $(document).ready(function()
 			{
 				items:1,
 				animateOut: 'slideOutDown',
-   				animateIn: 'fadeIn',
+				animateIn: 'fadeIn',
 				loop:true,
 				autoplay:true,
 				nav:false,
