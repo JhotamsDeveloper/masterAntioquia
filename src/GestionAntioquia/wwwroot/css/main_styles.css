@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 /******************************
@@ -18,6 +18,7 @@
 11. CTA 2
 12. Clients
 13. Footer
+14. Blog
 
 
 ******************************/
@@ -1319,3 +1320,112 @@ section
 {
 	color: #ffb400;
 }
+
+/*********************************
+14. Blog
+*********************************/
+
+.blog {
+	background: #FFFFFF;
+	padding-top: 132px;
+	padding-bottom: 93px;
+	border-bottom: solid 2px #e1ecf4;
+}
+
+.blog_posts_container {
+	left: -15px;
+	width: calc(100% + 30px);
+}
+
+.blog_post {
+	width: calc(100% / 3);
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-bottom: 39px;
+}
+
+.blog_post_container {
+	background: #eaf2f8;
+}
+
+.blog_post_content {
+	padding-left: 40px;
+	padding-top: 33px;
+	padding-bottom: 40px;
+	padding-right: 15px;
+}
+
+.blog_post_date {
+	width: 90px;
+	height: 27px;
+	background: #ffb400;
+	border-radius: 5px;
+}
+
+	.blog_post_date a {
+		display: block;
+		height: 100%;
+		text-align: center;
+		font-size: 12px;
+		font-weight: 400;
+		color: #FFFFFF;
+		line-height: 27px;
+	}
+
+		.blog_post_date a:hover {
+			color: #FFFFFF !important;
+		}
+
+.blog_post_title {
+	margin-top: 6px;
+}
+
+	.blog_post_title h3 a {
+		font-size: 24px;
+		font-weight: 600;
+		color: #000000;
+		line-height: 1.5;
+	}
+
+.blog_post_tags {
+	margin-top: -6px;
+}
+
+	.blog_post_tags ul li:not(:last-of-type)::after {
+		display: inline-block;
+		content: ',';
+		margin-right: 3px;
+	}
+
+	.blog_post_tags ul li a {
+		font-size: 12px;
+		font-weight: 400;
+		color: #9d9d9d;
+		line-height: 1.2;
+	}
+
+.blog_post_text {
+	margin-top: 23px;
+}
+
+.blog_posts_more {
+	margin-top: 55px;
+}
+
+.load_more_button {
+	width: 156px;
+	height: 56px;
+}
+
+	.load_more_button:hover {
+		background: #ffb400;
+		box-shadow: 0px 23px 45px rgba(0,0,0,0.25);
+	}
+
+	.load_more_button a {
+		line-height: 56px;
+	}
+
+	.load_more_button:hover a {
+		color: #FFFFFF !important;
+	}

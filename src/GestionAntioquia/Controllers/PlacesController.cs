@@ -208,5 +208,11 @@ namespace GestionAntioquia.Controllers
         {
             return _placeService.CategoryExists(id);
         }
+
+        // GET: Places
+        public async Task<IActionResult> Aliados()
+        {
+            return View(await _placeService.GetAll());
+        }
     }
 }

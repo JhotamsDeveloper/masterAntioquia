@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 /******************************
@@ -107,6 +107,10 @@
 	{
 		width: 106px;
 		height: 106px;
+	}
+
+	.blog_post {
+		width: 50%;
 	}
 }
 
@@ -348,6 +352,9 @@
 	{
 		font-size: 40px;
 	}
+	.blog_post {
+		width: 100%;
+	}
 	.footer_container
 	{
 		height: auto;
@@ -358,6 +365,8 @@
 	{
 		margin-top: 20px;
 	}
+
+
 }
 
 /************
