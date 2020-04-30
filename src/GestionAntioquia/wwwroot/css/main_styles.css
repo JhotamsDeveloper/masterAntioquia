@@ -672,19 +672,21 @@ section
 {
 	margin-bottom: 15px;
 }
-.home_container
-{
+.home_container {
 	position: absolute;
 	left: 0;
 	top: 36.2%;
 	width: 100%;
+	z-index: 1;
 }
-.home_content
-{
-
+.home_content {
+	padding-bottom: 117px;
+	text-align: center;
 }
-.home_title
-{
+.home_title {
+	font-size: 48px;
+	font-weight: 500;
+	color: #FFFFFF;y
 	display: inline-block;
 }
 .home_title h1

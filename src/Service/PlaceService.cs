@@ -26,6 +26,7 @@ namespace Service
 
         Task DeleteConfirmed(int id, string _cover, string _logo);
         bool CategoryExists(int id);
+        Task<IEnumerable<Place>> GetAliados();
 
     }
     public class PlaceService : IPlaceService
@@ -165,6 +166,13 @@ namespace Service
         public bool CategoryExists(int id)
         {
             return _context.Places.Any(e => e.PlaceId == id);
+        }
+
+        public async Task<IEnumerable<Place>> GetAliados()
+        {
+
+            var _listAliados = _context.Places.Where(X=>X.State == true);
+            return (await _listAliados.ToListAsync());
         }
 
     }

@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Model.DTOs;
 using Persisten.Database;
+using System.Linq;
 using Service;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using GestionAntioquia.Models.ViewPlaces;
+using System.Collections.Generic;
 
 namespace GestionAntioquia.Controllers
 {
@@ -212,7 +215,22 @@ namespace GestionAntioquia.Controllers
         // GET: Places
         public async Task<IActionResult> Aliados()
         {
-            return View(await _placeService.GetAll());
+
+            var _aliados = await _placeService.GetAliados();
+
+            var _nuevo = DateTime.Now.AddMonths(1);
+
+            var _viewAliados = (from a in _aliados
+                                select new ViewAliados {
+                                    Name = a.Name,
+                                    Contract = a.Contract,
+                                    CoverPage = a.CoverPage,
+                                    Description = a.Description.Substring(0,20),
+                                    DataCreate = DateTime.Parse(a.CreationDate).AddMonths(1),
+                                    New = "nuevo"
+                                });
+
+            return View(_viewAliados);
         }
     }
 }
