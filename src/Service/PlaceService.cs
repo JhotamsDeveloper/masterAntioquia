@@ -28,6 +28,8 @@ namespace Service
         bool CategoryExists(int id);
         Task<IEnumerable<Place>> GetAliados();
 
+        Task<PlaceDto> DetalleHotel(string nameHotel);
+
     }
     public class PlaceService : IPlaceService
     {
@@ -173,6 +175,19 @@ namespace Service
 
             var _listAliados = _context.Places.Where(X=>X.State == true);
             return (await _listAliados.ToListAsync());
+        }
+
+        public async Task<PlaceDto> DetalleHotel(string nameHotel)
+        {
+            var _place = _mapper.Map<PlaceDto>(
+                    await _context.Places
+                    .Include(c => c.Category)
+                    .Where(s=>s.State == true)
+                    .FirstOrDefaultAsync(m => m.Name == nameHotel)
+                    
+                );
+
+            return _mapper.Map<PlaceDto>(_place);
         }
 
     }

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Aliados";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content("~/images/blog.jpg");
 }
 
 
@@ -10,7 +11,7 @@
 
 <!-- Home -->
 <div class="home">
-    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="/images/blog.jpg" data-speed="0.8"></div>
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
     <div class="home_container">
         <div class="container">
             <div class="row">
@@ -61,7 +62,11 @@
                                             {
                                                 <div class="blog_post_date"><a href="#">Nuevo</a></div>
                                             }
-                                            <div class="blog_post_title"><h3><a href="#">@_aliados.Name</a></h3></div>
+                                            <div class="blog_post_title">
+                                                <h3>
+                                                    <a asp-action="DetalleHotel" asp-route-id="@_aliados.PlaceId">@_aliados.Name</a>
+                                                </h3>
+                                            </div>
                                             <div class="blog_post_tags">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">
                                                     <li><a href="#">@_aliados.Contract</a></li>
@@ -69,7 +74,7 @@
                                                 </ul>
                                             </div>
                                             <div class="blog_post_text">
-                                                <p>@_aliados.Description</p>
+                                                <p>@_aliados.Description ...</p>
                                             </div>
                                         </div>
                                         </div>

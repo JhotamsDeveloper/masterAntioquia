@@ -222,6 +222,7 @@ namespace GestionAntioquia.Controllers
 
             var _viewAliados = (from a in _aliados
                                 select new ViewAliados {
+                                    PlaceId = a.PlaceId,
                                     Name = a.Name,
                                     Contract = a.Contract,
                                     CoverPage = a.CoverPage,
@@ -231,6 +232,24 @@ namespace GestionAntioquia.Controllers
                                 });
 
             return View(_viewAliados);
+        }
+
+        // GET: Places/DetalleHotel/Maristal
+        public async Task<IActionResult> DetalleHotel(string nameHotel)
+        {
+            if (nameHotel == null)
+            {
+                return NotFound();
+            }
+
+            var _detalleHotel = await _placeService.DetalleHotel(nameHotel);
+
+            if (_detalleHotel == null)
+            {
+                return NotFound();
+            }
+
+            return View(_detalleHotel);
         }
     }
 }

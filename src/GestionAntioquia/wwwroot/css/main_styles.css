@@ -624,12 +624,18 @@ section
 5. Home
 *********************************/
 
-.home
-{
+.home_carousel {
 	height: 857px;
 	background: #360f64;
 	overflow: hidden;
 }
+
+.home {
+	height: 433px;
+	overflow: hidden;
+}
+
+
 .home_slider_container
 {
 	width: 100%;
