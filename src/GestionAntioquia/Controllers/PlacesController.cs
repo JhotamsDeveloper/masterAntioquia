@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Model.DTOs;
 using Persisten.Database;
+using System.Linq;
 using Service;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using GestionAntioquia.Models.ViewPlaces;
+using System.Collections.Generic;
 
 namespace GestionAntioquia.Controllers
 {
@@ -207,6 +210,46 @@ namespace GestionAntioquia.Controllers
         private bool PlaceExists(int id)
         {
             return _placeService.CategoryExists(id);
+        }
+
+        // GET: Places
+        public async Task<IActionResult> Aliados()
+        {
+
+            var _aliados = await _placeService.GetAliados();
+
+            var _nuevo = DateTime.Now.AddMonths(1);
+
+            var _viewAliados = (from a in _aliados
+                                select new ViewAliados {
+                                    PlaceId = a.PlaceId,
+                                    Name = a.Name,
+                                    Contract = a.Contract,
+                                    CoverPage = a.CoverPage,
+                                    Description = a.Description.Substring(0,20),
+                                    DataCreate = DateTime.Parse(a.CreationDate).AddMonths(1),
+                                    New = "nuevo"
+                                });
+
+            return View(_viewAliados);
+        }
+
+        // GET: Places/DetalleHotel/Maristal
+        public async Task<IActionResult> DetalleHotel(string nameHotel)
+        {
+            if (nameHotel == null)
+            {
+                return NotFound();
+            }
+
+            var _detalleHotel = await _placeService.DetalleHotel(nameHotel);
+
+            if (_detalleHotel == null)
+            {
+                return NotFound();
+            }
+
+            return View(_detalleHotel);
         }
     }
 }
