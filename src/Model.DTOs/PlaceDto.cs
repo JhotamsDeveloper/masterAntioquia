@@ -169,4 +169,15 @@ namespace Model.DTOs
         public List<Product> Products { get; set; }
     }
 
+    public class PlacesAlliesDto
+    {
+        public int PlaceId { get; set; }
+        public string Name { get; set; }
+        public string CoverPage { get; set; }
+        public string Contract { get; set; }
+        public string Description { get; set; }
+        public DateTime DataCreate { get; set; }
+        public string New { get; set; }
+    }
+
 }

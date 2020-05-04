@@ -38,6 +38,7 @@ namespace GestionAntioquia
             services.AddTransient<IPlaceService, PlaceService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IGalleryService, GalleryService>();
+            services.AddTransient<ICompanyService, CompanyService>();
 
             services.AddTransient<IUploadedFile, UploadedFile>();
 
@@ -69,10 +70,18 @@ namespace GestionAntioquia
 
             app.UseEndpoints(endpoints =>
             {
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapRazorPages();
+
+                endpoints.MapControllerRoute(
+                name: "company",
+                pattern: "hotel/{nameHotel}",
+                defaults: new { Controller = "Company", action = "Details" });
+
             });
 
         }
