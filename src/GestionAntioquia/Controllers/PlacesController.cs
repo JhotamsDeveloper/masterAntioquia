@@ -13,6 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+
 namespace GestionAntioquia.Controllers
 {
     public class PlacesController : Controller
@@ -67,8 +68,10 @@ namespace GestionAntioquia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PlaceCreateDto model)
         {
+
             if (ModelState.IsValid)
             {
+
                 await _placeService.Create(model);
                 return RedirectToAction(nameof(Index));
             }
@@ -81,6 +84,7 @@ namespace GestionAntioquia.Controllers
         {
             if (id == null)
             {
+
                 return NotFound();
             }
 

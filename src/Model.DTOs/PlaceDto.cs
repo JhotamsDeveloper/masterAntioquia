@@ -12,12 +12,13 @@ namespace Model.DTOs
         public int PlaceId { get; set; }
 
         [Required(ErrorMessage = "El Nit es requerido."),
-            MaxLength(15),
-            MinLength(10, ErrorMessage = "Cantidad Mínima de 10.")]
+        MaxLength(15),
+        MinLength(10, ErrorMessage = "Cantidad Mínima de 10.")]
         public string Nit { get; set; }
 
         [DisplayName("Nombre")]
-        [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(10)]
+        [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(40)]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑ ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
@@ -35,18 +36,11 @@ namespace Model.DTOs
 
         [DisplayName("Descripción")]
         [Required(ErrorMessage = "La descripción es requerido.")]
-        public string Description { get; set; }
+         public string Description { get; set; }
 
-        //[DisplayName("Portada")]
-        //[Required(ErrorMessage = "La portada es requerida.")]
-        //[ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
-        //[ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
+        public string NameUrl { get; set; }
+
         public string CoverPage { get; set; }
-
-        //[DisplayName("Logo")]
-        //[Required(ErrorMessage = "La logo es requerida.")]
-        //[ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
-        //[ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
         public string Logo { get; set; }
 
         [DisplayName("Contracto")]
@@ -56,6 +50,8 @@ namespace Model.DTOs
         [DisplayName("Activar")]
         public Boolean State { get; set; }
         public string CreationDate { get; set; }
+        public string LatitudeCoordinates { get; set; }
+        public string LengthCoordinates { get; set; }
         public string UpdateDate { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
@@ -67,11 +63,13 @@ namespace Model.DTOs
     {
 
         [Required(ErrorMessage = "El Nit es requerido."),
-            MaxLength(15),
-            MinLength(10, ErrorMessage = "Cantidad Mínima de 10.")]
+        MaxLength(15),
+        MinLength(10, ErrorMessage = "Cantidad Mínima de 10.")]
         public string Nit { get; set; }
+
         [DisplayName("Nombre")]
-        [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(10)]
+        [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(40)]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑ ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
@@ -89,6 +87,7 @@ namespace Model.DTOs
 
         [DisplayName("Descripción")]
         [Required(ErrorMessage = "La descripción es requerido.")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [DisplayName("Portada")]
@@ -106,6 +105,8 @@ namespace Model.DTOs
         [DisplayName("Contracto")]
         [Required(ErrorMessage = "El tipo de contracto es requerido."), MaxLength(10)]
         public string Contract { get; set; }
+
+        public string NameUrl { get; set; }
 
         [DisplayName("Activar")]
         public Boolean State { get; set; }
@@ -125,7 +126,8 @@ namespace Model.DTOs
         public string Nit { get; set; }
 
         [DisplayName("Nombre")]
-        [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(10)]
+        [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(40)]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
