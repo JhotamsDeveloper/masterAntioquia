@@ -33,6 +33,7 @@ namespace GestionAntioquia.Controllers
                                 {
                                     PlaceId = a.PlaceId,
                                     Name = a.Name,
+                                    UrlName = a.NameUrl,
                                     Contract = a.Contract,
                                     CoverPage = a.CoverPage,
                                     Description = a.Description.Substring(0, 20),
@@ -44,15 +45,15 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: hotel/Details/5
-        public async Task<ActionResult> Details(string nameHotel)
+        public async Task<ActionResult> Details(string urlName)
         {
 
-            if (nameHotel == null)
+            if (urlName == null)
             {
                 return NotFound();
             }
 
-            var _detalleHotel = await _companyService.Details(nameHotel);
+            var _detalleHotel = await _companyService.Details(urlName);
 
             if (_detalleHotel == null)
             {

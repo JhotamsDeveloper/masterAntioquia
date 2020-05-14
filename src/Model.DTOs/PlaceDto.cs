@@ -18,7 +18,7 @@ namespace Model.DTOs
 
         [DisplayName("Nombre")]
         [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(40)]
-        [RegularExpression(@"^[-a-zA-Z0-9ñÑ ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑáéíóúáéíóúÁÉÍÓÚ ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
@@ -69,7 +69,7 @@ namespace Model.DTOs
 
         [DisplayName("Nombre")]
         [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(40)]
-        [RegularExpression(@"^[-a-zA-Z0-9ñÑ ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑáéíóúáéíóúÁÉÍÓÚ ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
@@ -127,7 +127,7 @@ namespace Model.DTOs
 
         [DisplayName("Nombre")]
         [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(40)]
-        [RegularExpression(@"^[-a-zA-Z0-9ñÑ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑáéíóúáéíóúÁÉÍÓÚ ]{1,40}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
@@ -175,6 +175,7 @@ namespace Model.DTOs
     {
         public int PlaceId { get; set; }
         public string Name { get; set; }
+        public string UrlName { get; set; }
         public string CoverPage { get; set; }
         public string Contract { get; set; }
         public string Description { get; set; }

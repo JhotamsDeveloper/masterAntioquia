@@ -36,13 +36,13 @@ namespace Service
             return (await _listAliados.ToListAsync());
         }
 
-        public async Task<PlaceDto> Details(string nameHotel)
+        public async Task<PlaceDto> Details(string urlName)
         {
             var _place = _mapper.Map<PlaceDto>(
                     await _context.Places
                     .Include(c => c.Category)
                     .Where(s => s.State == true)
-                    .FirstOrDefaultAsync(m => m.Name == nameHotel)
+                    .FirstOrDefaultAsync(m => m.NameUrl == urlName)
 
                 );
 

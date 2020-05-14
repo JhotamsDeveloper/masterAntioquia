@@ -71,7 +71,17 @@ namespace GestionAntioquia.Controllers
 
             if (ModelState.IsValid)
             {
+                //var urlName = _context.Places
+                //    .Where(x=>x.Name == model.Name);
 
+                var _urlName = _placeService.DuplicaName(model.Name);
+
+                if (_urlName)
+                {
+                    ViewBag.DuplicateName = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
+                    ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", model.CategoryId);
+                    return View(model);
+                }
                 await _placeService.Create(model);
                 return RedirectToAction(nameof(Index));
             }

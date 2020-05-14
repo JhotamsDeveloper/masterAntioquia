@@ -27,8 +27,9 @@ namespace Service
         Task DeleteConfirmed(int id, string _cover, string _logo);
         bool CategoryExists(int id);
         Task<IEnumerable<Place>> GetAliados();
-
         Task<PlaceDto> DetalleHotel(string nameHotel);
+
+        Boolean DuplicaName(string name);
 
     }
     public class PlaceService : IPlaceService
@@ -79,7 +80,7 @@ namespace Service
             {
                 Nit = model.Nit,
                 Name = model.Name,
-                NameUrl = _url,
+                NameUrl = _url.ToLower(),
                 Phone = model.Phone,
                 Admin = model.Admin,
                 Address = model.Address,
@@ -116,7 +117,6 @@ namespace Service
             var _logo = _uploadedFile.UploadedFileImage(_place.Logo, model.Logo);
 
             _place.Nit = model.Nit;
-            _place.Name = model.Name;
             _place.Phone = model.Phone;
             _place.Admin = model.Admin;
             _place.Address = model.Address;
@@ -191,6 +191,7 @@ namespace Service
             return _mapper.Map<PlaceDto>(_place);
         }
 
+
         private String FormatString(String texto)
         {
             var original = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ ";
@@ -206,6 +207,15 @@ namespace Service
             }
 
             return output;
+        }
+
+        public Boolean DuplicaName(string name)
+        {
+
+            var urlName = _context.Places
+                .Where(x => x.Name == name);
+
+            return urlName.Any();
         }
     }
 }
