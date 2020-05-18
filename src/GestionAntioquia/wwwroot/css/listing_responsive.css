@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 /******************************
@@ -142,6 +142,7 @@
 	{
 		width: 152px;
 	}
+
 	.listin_info_options
 	{
 		margin-top: 20px;

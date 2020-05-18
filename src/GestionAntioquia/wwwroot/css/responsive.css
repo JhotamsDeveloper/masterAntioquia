@@ -112,6 +112,18 @@
 	.blog_post {
 		width: 50%;
 	}
+
+	.listing_info_button {
+		height: 51px;
+	}
+
+		.listing_info_button a {
+			line-height: 51px;
+		}
+
+	.work_hours {
+		padding-right: 30px;
+	}
 }
 
 /************
@@ -158,6 +170,9 @@
 	{
 		width: 152px;
 	}
+
+
+
 	.cat_icon
 	{
 		width: 50px;
@@ -221,6 +236,37 @@
 	{
 		
 	}
+
+	.listin_info_options {
+		margin-top: 20px;
+	}
+
+	.review_user_container {
+		width: auto;
+	}
+
+	.review_user > div:last-child {
+		padding-left: 15px;
+	}
+
+	.review_user_name {
+		margin-top: 0;
+	}
+
+	.review_content {
+		width: 100%;
+		margin-top: 20px;
+		padding-left: 0;
+	}
+
+	.sidebar_col {
+		margin-top: 94px;
+	}
+
+	.similar_place {
+		width: calc((100% - 30px) / 2);
+	}
+
 	.footer_nav ul li:not(:last-of-type)
 	{
 		margin-right: 31px;

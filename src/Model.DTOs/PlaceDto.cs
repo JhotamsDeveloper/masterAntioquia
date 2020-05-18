@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Model.DTOs
 {
@@ -34,8 +35,8 @@ namespace Model.DTOs
         [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
         public string Address { get; set; }
 
+        [AllowHtml]
         [DisplayName("Descripción")]
-        [Required(ErrorMessage = "La descripción es requerido.")]
          public string Description { get; set; }
 
         public string NameUrl { get; set; }
@@ -85,9 +86,8 @@ namespace Model.DTOs
         [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
         public string Address { get; set; }
 
+        [AllowHtml]
         [DisplayName("Descripción")]
-        [Required(ErrorMessage = "La descripción es requerido.")]
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [DisplayName("Portada")]
@@ -143,8 +143,8 @@ namespace Model.DTOs
         [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
         public string Address { get; set; }
 
+        [AllowHtml]
         [DisplayName("Descripción")]
-        [Required(ErrorMessage = "La descripción es requerido.")]
         public string Description { get; set; }
 
         [DisplayName("Portada")]
