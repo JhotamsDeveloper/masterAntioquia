@@ -15,6 +15,7 @@ namespace Service
     {
         Task<IEnumerable<Place>> GetAll();
         Task<PlaceDto> Details(string nameHotel);
+        Task<IEnumerable<Product>> GetProduct(int place);
     }
 
     public class CompanyService : ICompanyService
@@ -40,7 +41,7 @@ namespace Service
         {
             var _place = _mapper.Map<PlaceDto>(
                     await _context.Places
-                    .Include(c => c.Category)
+                    .Include(c => c.Products)
                     .Where(s => s.State == true)
                     .FirstOrDefaultAsync(m => m.NameUrl == urlName)
 
@@ -49,5 +50,12 @@ namespace Service
             return _mapper.Map<PlaceDto>(_place);
         }
 
+        public async Task<IEnumerable<Product>> GetProduct(int place)
+        {
+            var _listProducts = _context.Products
+                                .AsNoTracking()
+                                .Where(X => X.Statud == true && X.PlaceId == place);
+            return (await _listProducts.ToListAsync());
+        }
     }
 }

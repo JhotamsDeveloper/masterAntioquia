@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20200316014821_version003GalleriesProduct.Designer.cs" />
     <Compile Remove="Migrations\20200316015359_version003GalleriesProduct.cs" />
     <Compile Remove="Migrations\20200316015359_version003GalleriesProduct.Designer.cs" />
+    <Compile Remove="Migrations\20200521043340_version005addListPlaces.cs" />
+    <Compile Remove="Migrations\20200521043340_version005addListPlaces.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

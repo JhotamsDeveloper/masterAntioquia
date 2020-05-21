@@ -1,7 +1,7 @@
 ﻿@model Model.DTOs.PlaceDto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["imagen"] = Url.Content("~/images/blog.jpg");
 
@@ -15,20 +15,20 @@
             <div class="row">
                 <div class="col">
                     <div class="home_content">
-                        <div class="listing_title"><h1>The Meal</h1></div>
+                        @*<div class="listing_title"><h1>The Meal</h1></div>*@
                         <div class="listing_info_container d-flex flex-lg-row flex-column align-items-start justify-content-start">
-                            <div class="listing_info d-flex flex-row align-items-center justify-content-start">
+                            @*<div class="listing_info d-flex flex-row align-items-center justify-content-start">
                                 <div class="listing_rating">4,5</div>
                                 <div class="listing_price">$$$</div>
                                 <div class="listing_type">Restaurant</div>
                                 <div class="listing_status">Closed</div>
-                            </div>
+                            </div>*@
                             <div class="listin_info_options d-flex flex-row align-items-start justify-content-start ml-lg-auto">
                                 <div class="listing_info_button listing_info_button_1">
-                                    <a href="#">Write a review</a>
+                                    <a href="#">Estribe una reseña</a>
                                 </div>
                                 <div class="listing_info_button listing_info_button_2">
-                                    <a href="#">Book a table</a>
+                                    <a href="#">Buscar Plan</a>
                                 </div>
                             </div>
                         </div>
@@ -48,87 +48,50 @@
             <!-- Listing Content -->
             <div class="col-lg-8">
                 <div class="listing_content">
-                    <div class="section_title"><h1>About The Meal</h1></div>
+                    <div class="section_title">
+                        <h1>
+                            @Html.DisplayFor(model => model.Name)
+                        </h1>
+                    </div>
                     <div class="listing_text">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin eget lorem luctus ligula volutpat fermentum. Nulla
-                            auctor odio sit amet dui lobortis aliquet. Donec leo eros,
-                            faucibus vitae finibus a, tincidunt vehicula eros. Morbi
-                            aliquet sem euismod venenatis elementum. Proin laoreet
-                            sapien sit amet posuere sollicitudin. Mauris quis faucibus
-                            velit. Aenean dictum mauris tristique turpis eleifend,
-                            hendrerit interdum felis facilisis. In mollis vel libero
-                            sit amet fringilla. Suspendisse nibh diam, ullamcorper
-                            vitae commodo at, tempus vel sem. Pellentesque dictum,
-                            nisi sit amet semper rutrum, sapien nisl scelerisque
-                            massa, vel fermentum ex mi id mi. Aenean dictum mauris
-                            tristique turpis el.
-                        </p>
+                        <text>
+                            @Html.DisplayFor(model => model.Description)
+                        </text>
                     </div>
 
                     <!-- Accordions -->
                     <div class="accordions">
-                        <!-- Accordion -->
-                        <div class="accordion_container">
-                            <div class="accordion d-flex flex-row align-items-center">
-                                <div>
-                                    Maecenas velit ex, posuere vitae sapien eu,
-                                    consectetur iaculis
-                                </div>
-                            </div>
-                            <div class="accordion_panel">
-                                <div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nullam accumsan dolor id enim lacinia, sed
-                                        feugiat ex suscipit. Nunc molestie malesuada
-                                        pellentesque. Quisque mattis ante ut nisl tristique
-                                        ornare. Aenean interdum dictum augue.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Accordion -->
-                        <div class="accordion_container">
-                            <div class="accordion d-flex flex-row align-items-center">
-                                <div>
-                                    Mauris diam augue, aliquam ut accumsan at, dignissim
-                                </div>
-                            </div>
-                            <div class="accordion_panel">
-                                <div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nullam accumsan dolor id enim lacinia, sed
-                                        feugiat ex suscipit. Nunc molestie malesuada
-                                        pellentesque. Quisque mattis ante ut nisl tristique
-                                        ornare. Aenean interdum dictum augue.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        @if (Model.Products.Any())
+                        {
 
-                        <!-- Accordion -->
-                        <div class="accordion_container">
-                            <div class="accordion d-flex flex-row align-items-center">
-                                <div>
-                                    Mauris diam augue, aliquam ut accumsan at, dignissim
+                            @foreach (var product in Model.Products)
+                            {
+
+                                <!-- Accordion -->
+                                <div class="accordion_container">
+                                    <div class="accordion d-flex flex-row align-items-center">
+                                        <div>
+                                            @product.Name
+                                        </div>
+                                    </div>
+                                    <div class="accordion_panel">
+                                        <div>
+                                            <p>
+                                                @product.Description
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="accordion_panel">
-                                <div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nullam accumsan dolor id enim lacinia, sed
-                                        feugiat ex suscipit. Nunc molestie malesuada
-                                        pellentesque. Quisque mattis ante ut nisl tristique
-                                        ornare. Aenean interdum dictum augue.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                            }
+
+                        }
+                        else
+                        {
+                            <h1>El hote @Model.Name no cuenta con planes en el momento</h1>
+                        }
+
+
                     </div>
 
                     <!-- Reviews -->
