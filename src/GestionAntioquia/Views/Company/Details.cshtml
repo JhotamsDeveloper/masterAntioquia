@@ -1,7 +1,7 @@
 ﻿@model Model.DTOs.PlaceDto
 
 @{
-    ViewData["Title"] = Model.Name;
+    ViewData["Title"] = Model.Name + ", ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["imagen"] = Url.Content("~/images/blog.jpg");
 
@@ -189,8 +189,12 @@
                 <div class="sidebar">
                     <!-- Work Hours -->
                     <div class="work_hours d-flex flex-row align-items-center justify-content-start">
-                        <div class="closed">Closed Now!</div>
-                        <div class="ml-auto">Open : 09:00 - 24:00</div>
+                        <div class="sidebar_info_icon">
+                            <img src="~/images/ws.svg" alt="" />
+                        </div>
+                        <div class="sidebar_info_content">
+                            <span>Escribanos: </span> <a href="https://api.whatsapp.com/send?phone=3105108287" target="_blank">3104304545</a>
+                        </div>
                     </div>
 
                     <!-- Info -->
@@ -201,15 +205,15 @@
                                     <img src="~/images/info_1.png" alt="" />
                                 </div>
                                 <div class="sidebar_info_content">
-                                    <span>Address: </span>Main Str, no 253, New York, NY
+                                    <span>Municipio: </span>@Model.City
                                 </div>
                             </li>
                             <li class="d-flex flex-row align-items-start justify-content-start">
                                 <div class="sidebar_info_icon">
-                                    <img src="~/images/info_2.png" alt="" />
+                                    <img src="~/images/info_1.png" alt="" />
                                 </div>
                                 <div class="sidebar_info_content">
-                                    <span>Phone: </span>+546 990221 123
+                                    <span>Dirección: </span>@Model.Address
                                 </div>
                             </li>
                             <li class="d-flex flex-row align-items-start justify-content-start">
@@ -217,7 +221,7 @@
                                     <img src="~/images/info_3.png" alt="" />
                                 </div>
                                 <div class="sidebar_info_content">
-                                    <span>E-mail: </span>restaurant@contact.com
+                                    <span>E-mail: </span>@Model.Email
                                 </div>
                             </li>
                         </ul>

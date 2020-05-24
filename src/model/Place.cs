@@ -14,7 +14,9 @@ namespace Model
         public string NameUrl { get; set; }
         public string Phone { get; set; }
         public string Admin { get; set; }
+        public string Email { get; set; }
         public string Address { get; set; }
+        public string City { get; set; }
         public string Description { get; set; }
         public string CoverPage { get; set; }
         public string Logo { get; set; }

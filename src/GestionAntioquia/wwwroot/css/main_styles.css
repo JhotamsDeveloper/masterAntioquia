@@ -10,6 +10,7 @@
 3. Header
 4. Menu
 5. Home
+5.1 Button
 6. Categories
 7. Locations
 8. Food
@@ -915,6 +916,50 @@ section
 
 .listing_info_button_2 {
 	background: #49237d;
+}
+
+/*********************************
+6.1 Buttons
+*********************************/
+
+.buttons_container {
+	margin-top: 38px;
+}
+
+.buttons_container > .button {
+	margin-bottom: 16px;
+}
+
+.buttons_container > .button:not(:last-child) {
+	margin-right: 16px;
+}
+
+.button_2 {
+	background: #49237d;
+}
+
+.button_2:hover {
+	background: #ffb400;
+}
+
+.button_2:hover a {
+	color: #FFFFFF !important;
+}
+
+.button_3 {
+	background: #cad8e2;
+}
+
+.button_3:hover {
+	background: #ffb400;
+}
+
+.button_3 a {
+	color: #000000;
+}
+
+.button_3:hover a {
+	color: #000000 !important;
 }
 
 /*********************************

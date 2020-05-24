@@ -113,6 +113,8 @@ namespace GestionAntioquia.Controllers
                 Name = place.Name,
                 Phone = place.Phone,
                 Admin = place.Admin,
+                City = place.City,
+                Email = place.Email,
                 Address = place.Address,
                 Description = place.Description,
                 Contract = place.Contract,

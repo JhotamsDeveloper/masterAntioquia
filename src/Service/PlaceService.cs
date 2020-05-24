@@ -83,6 +83,8 @@ namespace Service
                 NameUrl = _url.ToLower(),
                 Phone = model.Phone,
                 Admin = model.Admin,
+                Email = model.Email,
+                City = model.City,
                 Address = model.Address,
                 Description = model.Description,
                 CoverPage = _coverPage,
@@ -120,6 +122,8 @@ namespace Service
             _place.Phone = model.Phone;
             _place.Admin = model.Admin;
             _place.Address = model.Address;
+            _place.Email = model.Email;
+            _place.City = model.City;
             _place.Description = model.Description;
             _place.CoverPage = _coverPage;
             _place.Logo = _logo;

@@ -31,9 +31,17 @@ namespace Model.DTOs
         [Required(ErrorMessage = "El administrador es requerido."), MaxLength(20)]
         public string Admin { get; set; }
 
+        [DisplayName("Correo")]
+        [Required(ErrorMessage = "El correo es requerido."), MaxLength(20)]
+        public string Email { get; set; }
+
         [DisplayName("Dirección")]
         [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
         public string Address { get; set; }
+
+        [DisplayName("Municipio")]
+        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(20)]
+        public string City { get; set; }
 
         [AllowHtml]
         [DisplayName("Descripción")]
@@ -82,9 +90,17 @@ namespace Model.DTOs
         [Required(ErrorMessage = "El administrador es requerido."), MaxLength(20)]
         public string Admin { get; set; }
 
+        [DisplayName("Correo")]
+        [Required(ErrorMessage = "El correo es requerido."), MaxLength(20)]
+        public string Email { get; set; }
+
         [DisplayName("Dirección")]
         [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
         public string Address { get; set; }
+
+        [DisplayName("Municipio")]
+        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(20)]
+        public string City { get; set; }
 
         [AllowHtml]
         [DisplayName("Descripción")]
@@ -139,9 +155,17 @@ namespace Model.DTOs
         [Required(ErrorMessage = "El administrador es requerido."), MaxLength(20)]
         public string Admin { get; set; }
 
+        [DisplayName("Correo")]
+        [Required(ErrorMessage = "El correo es requerido."), MaxLength(20)]
+        public string Email { get; set; }
+
         [DisplayName("Dirección")]
         [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
         public string Address { get; set; }
+
+        [DisplayName("Municipio")]
+        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(20)]
+        public string City { get; set; }
 
         [AllowHtml]
         [DisplayName("Descripción")]
