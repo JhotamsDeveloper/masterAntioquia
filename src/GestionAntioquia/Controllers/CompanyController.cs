@@ -36,7 +36,7 @@ namespace GestionAntioquia.Controllers
                                     Name = a.Name,
                                     UrlName = a.NameUrl,
                                     Contract = a.Contract,
-                                    CoverPage = a.CoverPage,
+                                    SquareCover = a.SquareCover,
                                     Description = a.Description.Substring(0, 20),
                                     DataCreate = DateTime.Parse(a.CreationDate).AddMonths(1),
                                     New = "nuevo"

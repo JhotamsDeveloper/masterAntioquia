@@ -3,34 +3,20 @@
 @{
     ViewData["Title"] = Model.Name + ", ";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["imagen"] = Url.Content("~/images/blog.jpg");
+    ViewData["imagen"] = Url.Content($"~/images/places/{Model.CoverPage}");
 
 }
 
 <!-- Home -->
 <div class="home">
     <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
-    <div class="home_container_places_hotel">
-        <div class="container fill_height">
+    <div class="home_container">
+        <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="home_content">
-                        @*<div class="listing_title"><h1>The Meal</h1></div>*@
-                        <div class="listing_info_container d-flex flex-lg-row flex-column align-items-start justify-content-start">
-                            @*<div class="listing_info d-flex flex-row align-items-center justify-content-start">
-                                <div class="listing_rating">4,5</div>
-                                <div class="listing_price">$$$</div>
-                                <div class="listing_type">Restaurant</div>
-                                <div class="listing_status">Closed</div>
-                            </div>*@
-                            <div class="listin_info_options d-flex flex-row align-items-start justify-content-start ml-lg-auto">
-                                <div class="listing_info_button listing_info_button_1">
-                                    <a href="#">Estribe una reseña</a>
-                                </div>
-                                <div class="listing_info_button listing_info_button_2">
-                                    <a href="#">Buscar Plan</a>
-                                </div>
-                            </div>
+                        <div class="home_title">
+                            <img src="~/images/Places/@Model.Logo" class="rounded-circle" height="200" width="200" asp-append-version="true" />
                         </div>
                     </div>
                 </div>
@@ -76,11 +62,58 @@
                                         </div>
                                     </div>
                                     <div class="accordion_panel">
-                                        <div>
-                                            <p>
-                                                @product.Description
-                                            </p>
+
+                                        <div class="card">
+                                            <a href="">
+                                                <img src="~/images/Places/@product.CoverPage" class="card-img-top" alt="...">
+                                            </a>
+                                            <div class="card-body justify-content-center">
+                                                <dl class="row ">
+                                                    <dt class="col-sm-3">
+                                                        Nombre
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        @product.Name
+                                                    </dd>
+                                                    <dt class="col-sm-3">
+                                                        Ddescripción
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        @product.Description
+                                                    </dd>
+                                                    <dt class="col-sm-3">
+                                                        Personas
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        @if (@product.PersonNumber <= 1)
+                                                        {
+                                                            @product.PersonNumber <span>persona</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            @product.PersonNumber <span>personas</span>
+                                                        }
+                                                    </dd>
+                                                    <dt class="col-sm-3">
+                                                        Precio
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        @product.Price Col
+                                                    </dd>
+                                                    <dt class="col-sm-3">
+                                                        Disponibilidad
+                                                    </dt>
+                                                    <dd class="col-sm-9">
+                                                        Ver disponibilidad
+                                                    </dd>
+                                                </dl>
+                                                @*<a href="#" class="btn button_3 d-block" role="button" aria-pressed="true">reservar</a>*@
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted">Este producto esta sujeto a cambios por el hotel</small>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             }
@@ -96,7 +129,7 @@
 
                     <!-- Reviews -->
                     <div class="reviews">
-                        <div class="section_title"><h1>2 Reviews</h1></div>
+                        <div class="section_title"><h1>2 Comentarios</h1></div>
                         <div class="reviews_container">
                             <!-- Review -->
                             <div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start">
@@ -227,26 +260,9 @@
                         </ul>
                     </div>
 
-                    <!-- Location -->
-                    <div class="location">
-                        <div class="location_icon">
-                            <img src="~/images/loc.png" alt="" />
-                        </div>
-
-                        <!-- Google Map -->
-
-                        <div class="map">
-                            <div id="google_map" class="google_map">
-                                <div class="map_container">
-                                    <div id="map"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Similar Places -->
                     <div class="similar_places">
-                        <div class="section_title"><h1>Similar places</h1></div>
+                        <div class="section_title"><h1>Cercanos a @Model.Name</h1></div>
                         <div class="similar_places_container d-flex flex-lg-column flex-row align-items-start justify-content-between flex-wrap">
                             <!-- Similar Place -->
                             <div class="similar_place">
@@ -258,7 +274,7 @@
                                     <img src="~/images/similar.jpg" alt="" />
                                 </div>
                                 <div class="similar_place_title">
-                                    <a href="#">The Lunch</a>
+                                    <a href="#">Restaurante</a>
                                 </div>
                             </div>
                         </div>
@@ -385,5 +401,7 @@
     <a asp-action="Edit" asp-route-id="@Model.PlaceId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+@section Scripts {
 
-@{await Html.RenderPartialAsync("_ScriptPlacesDetails");}
+    @{await Html.RenderPartialAsync("_ScriptPlacesDetails");}
+}

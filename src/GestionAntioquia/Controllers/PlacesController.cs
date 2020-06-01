@@ -78,7 +78,7 @@ namespace GestionAntioquia.Controllers
 
                 if (_urlName)
                 {
-                    ViewBag.DuplicateName = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
+                    ViewData["DuplicaName"] = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
                     ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", model.CategoryId);
                     return View(model);
                 }
@@ -203,6 +203,7 @@ namespace GestionAntioquia.Controllers
             var _id = _place.PlaceId;
             var _cover = _place.CoverPage;
             var _logo = _place.Logo;
+            var _squareCover = _place.SquareCover;
 
             if (_place == null)
             {
@@ -211,7 +212,7 @@ namespace GestionAntioquia.Controllers
 
             try
             {
-                await _placeService.DeleteConfirmed(_id, _cover, _logo);
+                await _placeService.DeleteConfirmed(_id, _cover, _logo, _squareCover);
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateException /* ex */)

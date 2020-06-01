@@ -134,7 +134,7 @@
                     <div class="row mt-3">
 
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form">
                                 <label asp-for="Logo" class="control-label"></label>
                                 <div class="custom-file">
@@ -146,7 +146,7 @@
                         </div>
 
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form">
                                 <label asp-for="CoverPage" class="control-label"></label>
                                 <div class="custom-file">
@@ -157,7 +157,19 @@
                             </div>
                         </div>
 
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="SquareCover" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="SquareCover" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <span asp-validation-for="SquareCover" class="text-danger"></span>
+                            </div>
                         </div>
+                    </div>
+
                     <!--Grid row-->
                     <div class="row mt-3">
 
@@ -187,7 +199,7 @@
                             </div>
                         </div>
 
-                     </div>
+                    </div>
 
                     <br />
 

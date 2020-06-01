@@ -111,6 +111,7 @@ namespace GestionAntioquia.Controllers
                 HalfPrice = _product.HalfPrice,
                 LowPrice = _product.LowPrice,
                 Discounts = _product.Discounts,
+                PersonNumber = _product.PersonNumber,
                 Statud = _product.Statud,
                 Galleries = _galleries,
                 PlaceId = _product.PlaceId

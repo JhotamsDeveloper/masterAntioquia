@@ -88,6 +88,7 @@ namespace Service
                         HalfPrice = model.HalfPrice,
                         LowPrice = model.LowPrice,
                         Discounts = model.Discounts,
+                        PersonNumber = model.PersonNumber,
                         Statud = model.Statud,
                         PlaceId = model.PlaceId,
                         
@@ -163,6 +164,7 @@ namespace Service
                     _product.HalfPrice = model.HighPrice;
                     _product.LowPrice = model.LowPrice;
                     _product.Discounts = model.Discounts;
+                    _product.PersonNumber = model.PersonNumber;
                     _product.Statud = model.Statud;
                     _product.PlaceId = model.PlaceId;
                     _product.UpdateDate = DateTime.Now;

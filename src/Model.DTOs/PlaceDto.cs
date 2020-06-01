@@ -50,6 +50,7 @@ namespace Model.DTOs
         public string NameUrl { get; set; }
 
         public string CoverPage { get; set; }
+        public string SquareCover { get; set; }
         public string Logo { get; set; }
 
         [DisplayName("Contracto")]
@@ -111,6 +112,12 @@ namespace Model.DTOs
         [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
         [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
         public IFormFile CoverPage { get; set; }
+
+        [DisplayName("Portada Cuadrada")]
+        [Required(ErrorMessage = "La portada cuadrada es requerida.")]
+        [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
+        [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
+        public IFormFile SquareCover { get; set; }
 
         [DisplayName("Logo")]
         [Required(ErrorMessage = "La logo es requerida.")]
@@ -177,6 +184,12 @@ namespace Model.DTOs
         [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
         public IFormFile CoverPage { get; set; }
 
+        [DisplayName("Portada Cuadrada")]
+        [Required(ErrorMessage = "La portada cuadrada es requerida.")]
+        [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
+        [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
+        public IFormFile SquareCover { get; set; }
+
         [DisplayName("Logo")]
         [Required(ErrorMessage = "La logo es requerida.")]
         [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
@@ -200,7 +213,7 @@ namespace Model.DTOs
         public int PlaceId { get; set; }
         public string Name { get; set; }
         public string UrlName { get; set; }
-        public string CoverPage { get; set; }
+        public string SquareCover { get; set; }
         public string Contract { get; set; }
         public string Description { get; set; }
         public DateTime DataCreate { get; set; }

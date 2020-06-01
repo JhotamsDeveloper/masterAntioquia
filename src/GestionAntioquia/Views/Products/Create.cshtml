@@ -1,95 +1,210 @@
 ﻿@model Model.DTOs.ProductCreateDto
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = ", Creando un producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
 }
 
-<h1>Create</h1>
-
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form enctype="multipart/form-data" asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CoverPage" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="CoverPage" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile">Selecione la portada</label>
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">
+                            <h2 class="section-heading text-center h1 pt-4">Creando un nuevo producto</h2>
+                        </div>
+                    </div>
                 </div>
-                <span asp-validation-for="CoverPage" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HighPrice" class="control-label"></label>
-                <input asp-for="HighPrice" class="form-control" />
-                <span asp-validation-for="HighPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HalfPrice" class="control-label"></label>
-                <input asp-for="HalfPrice" class="form-control" />
-                <span asp-validation-for="HalfPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LowPrice" class="control-label"></label>
-                <input asp-for="LowPrice" class="form-control" />
-                <span asp-validation-for="LowPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Discounts" class="control-label"></label>
-                <input asp-for="Discounts" class="form-control" />
-                <span asp-validation-for="Discounts" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Gallery" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="Gallery" multiple class="custom-file-input" id="customFile1">
-                    <label class="custom-file-label" for="customFile1">Selecionar Galleria</label>
-                </div>
-                <span asp-validation-for="Gallery" class="text-danger"></span>
-            </div>
-
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Statud" /> @Html.DisplayNameFor(model => model.Statud)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="PlaceId" class="control-label"></label>
-                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.Name"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+<div class="container mt-5">
+
+    <section class="section">
+
+
+
+        <div class="row">
+            <!--Grid column-->
+
+            <div class="col-md-8 col-xl-9">
+
+                <form enctype="multipart/form-data" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <label asp-for="CoverPage" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="CoverPage" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Selecione la portada</label>
+                                </div>
+                                <span asp-validation-for="CoverPage" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <!--Grid column-->
+                        <div class="col-md-12">
+                            <div class="md-form">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control" rows="5"> </textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="Price" class="control-label"></label>
+                                <input asp-for="Price" class="form-control" />
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="HighPrice" class="control-label"></label>
+                                <input asp-for="HighPrice" class="form-control" />
+                                <span asp-validation-for="HighPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="HalfPrice" class="control-label"></label>
+                                <input asp-for="HalfPrice" class="form-control" />
+                                <span asp-validation-for="HalfPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="LowPrice" class="control-label"></label>
+                                <input asp-for="LowPrice" class="form-control" />
+                                <span asp-validation-for="LowPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="Discounts" class="control-label"></label>
+                                <input asp-for="Discounts" class="form-control" />
+                                <span asp-validation-for="Discounts" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form form-check">
+                                <label class="form-check-label mt-4">
+                                    <input class="form-check-input" asp-for="Statud" /> @Html.DisplayNameFor(model => model.Statud)
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <label asp-for="PersonNumber" class="control-label"></label>
+                                <input asp-for="PersonNumber" class="form-control" />
+                                <span asp-validation-for="PersonNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <label asp-for="PlaceId" class="control-label"></label>
+                                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.Name"></select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <!--Grid column-->
+                        <div class="col-md-12">
+                            <div class="md-form">
+                                <label asp-for="Gallery" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="Gallery" multiple class="custom-file-input" id="customFile1">
+                                    <label class="custom-file-label" for="customFile1">Selecionar Galleria</label>
+                                </div>
+                                <span asp-validation-for="Gallery" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn button button_3 btn-block" />
+                    </div>
+
+                    <div>
+                        <a asp-action="Index">Back to List</a>
+                    </div>
+                </form>
+
+            </div>
+
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-4 col-xl-3">
+                <p>Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo "Contenido aquí, contenido aquí". Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como </p>
+            </div>
+            <!--Grid column-->
+
+        </div>
+    </section>
+
 </div>
 
 
 @section Scripts {
 
     <script type="text/javascript">
-        // Add the following code if you want the name of the file appear on select
+        // Agregue el siguiente código si desea que aparezca el nombre del archivo en select
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);

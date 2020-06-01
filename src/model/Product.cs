@@ -22,6 +22,8 @@ namespace Model
         public int Discounts { get; set; }
         public bool Statud { get; set; }
 
+        public int PersonNumber { get; set; }
+
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
 

@@ -24,7 +24,7 @@ namespace Service
         Task<PlaceDto> Edit(int? id);
         Task Edit(int id, PlaceEditDto model);
 
-        Task DeleteConfirmed(int id, string _cover, string _logo);
+        Task DeleteConfirmed(int id, string _cover, string _logo, string _squareCover);
         bool CategoryExists(int id);
         Task<IEnumerable<Place>> GetAliados();
         Task<PlaceDto> DetalleHotel(string nameHotel);
@@ -72,6 +72,7 @@ namespace Service
         {
 
             var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+            var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
             var _logo = _uploadedFile.UploadedFileImage(model.Logo);
 
             var _fechaActual = DateTime.Now;
@@ -88,6 +89,7 @@ namespace Service
                 Address = model.Address,
                 Description = model.Description,
                 CoverPage = _coverPage,
+                SquareCover = _squareCover,
                 Logo = _logo,
                 Contract = model.Contract,
                 State = model.State,
@@ -116,6 +118,7 @@ namespace Service
             var _place = await _context.Places.SingleAsync(x => x.PlaceId == id);
 
             var _coverPage = _uploadedFile.UploadedFileImage(_place.CoverPage, model.CoverPage);
+            var _squareCover = _uploadedFile.UploadedFileImage(_place.SquareCover, model.SquareCover);
             var _logo = _uploadedFile.UploadedFileImage(_place.Logo, model.Logo);
 
             _place.Nit = model.Nit;
@@ -126,6 +129,7 @@ namespace Service
             _place.City = model.City;
             _place.Description = model.Description;
             _place.CoverPage = _coverPage;
+            _place.SquareCover = _squareCover;
             _place.Logo = _logo;
             _place.Contract = model.Contract;
             _place.State = model.State;
@@ -153,13 +157,23 @@ namespace Service
             //    .FirstOrDefaultAsync(x => x.PlaceId == id);
         }
 
-        public async Task DeleteConfirmed(int _id, string _cover, string _logo)
+        public async Task DeleteConfirmed(int _id, string _cover, string _logo, string _squareCover)
         {
 
-            if (_logo != null || _cover != null)
+            if (_logo != null)
+            {
+                _uploadedFile.DeleteConfirmed(_logo);
+
+            }
+            
+            if (_cover != null)
             {
                 _uploadedFile.DeleteConfirmed(_cover);
-                _uploadedFile.DeleteConfirmed(_logo);
+            }
+            
+            if (_squareCover != null)
+            {
+                _uploadedFile.DeleteConfirmed(_squareCover);
             }
 
             _context.Remove(new Place

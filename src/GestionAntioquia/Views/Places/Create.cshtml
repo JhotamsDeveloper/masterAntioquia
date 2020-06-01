@@ -2,20 +2,34 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
 }
 
-<h1>Create</h1>
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">
+                            <h2 class="section-heading text-center h1 pt-4">Creando un nuevo lugar</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h4>Place</h4>
-<hr />
-
-
-<div class="container">
+<div class="container mt-5">
 
     <section class="section">
 
         <!--Section heading-->
-        <h2 class="section-heading text-center h1 pt-4">Creando un nuevo lugar</h2>
+        @*<h2 class="section-heading text-center h1 pt-4">Creando un nuevo lugar</h2>*@
         <!--Section description-->
         @*<p class="section-description">
                 Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
@@ -46,7 +60,7 @@
                             <div class="form-group">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <span asp-validation-for="Name" class="text-danger">@ViewData["DuplicaName"]</span>
                             </div>
                         </div>
 
@@ -119,7 +133,7 @@
                     <div class="row mt-3">
 
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form">
                                 <label asp-for="Logo" class="control-label"></label>
                                 <div class="custom-file">
@@ -131,7 +145,7 @@
                         </div>
 
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form">
                                 <label asp-for="CoverPage" class="control-label"></label>
                                 <div class="custom-file">
@@ -142,7 +156,19 @@
                             </div>
                         </div>
 
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="SquareCover" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="SquareCover" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <span asp-validation-for="SquareCover" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
+
                     <!--Grid row-->
                     <div class="row mt-3">
 
@@ -298,6 +324,14 @@
 
 
 @section Scripts {
+
+    <script type="text/javascript">
+        // Agregue el siguiente código si desea que aparezca el nombre del archivo en select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -19,6 +19,7 @@ namespace Model
         public string City { get; set; }
         public string Description { get; set; }
         public string CoverPage { get; set; }
+        public string SquareCover { get; set; }
         public string Logo { get; set; }
         public string Contract { get; set; }
         public string CreationDate { get; set; }
