@@ -6,13 +6,9 @@ namespace Model
 {
     public class Product
     {
-        public Product()
-        {
-            Galleries = new List<Gallery>();
-        }
-
         public int ProductId { get; set; }
         public string Name { get; set; }
+        public string ProductUrl { get; set; }
         public string CoverPage { get; set; }
         public string Description { get; set; }
         public string Price { get; set; }
@@ -20,6 +16,7 @@ namespace Model
         public float HalfPrice { get; set; }
         public float LowPrice { get; set; }
         public int Discounts { get; set; }
+        public int AmountSupported { get; set; }
         public bool Statud { get; set; }
 
         public int PersonNumber { get; set; }
@@ -31,7 +28,8 @@ namespace Model
         public int PlaceId { get; set; }
         public Place Place { get; set; }
 
-        public ICollection<Gallery> Galleries { get; set; }
+        public List<Gallery> Galleries { get; set; }
+
         //Comodidades
         //Reservas
     }

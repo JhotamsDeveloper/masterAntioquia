@@ -26,6 +26,7 @@ namespace GestionAntioquia.Controllers
             _galleryService = galleryService;
         }
 
+        #region "BackEnd"
         // GET: Products
         public async Task<IActionResult> Index()
         {
@@ -92,7 +93,7 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-           var _product = await _productService.GetById(id);
+            var _product = await _productService.GetById(id);
 
             //var product = await _context.Products.FindAsync(id)
             if (_product == null)
@@ -133,7 +134,7 @@ namespace GestionAntioquia.Controllers
             {
                 return NotFound();
             }
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -204,5 +205,28 @@ namespace GestionAntioquia.Controllers
         {
             return _productService.ProductExists(id);
         }
+        #endregion
+
+        #region "FrontEnd"
+
+        // GET: Products
+        public async Task<IActionResult> Product(string productUrl)
+        {
+            if (productUrl == null)
+            {
+                return NotFound();
+            }
+
+            var _detalleHotel = await _productService.ProductUrl(productUrl);
+
+            if (_detalleHotel == null)
+            {
+                return NotFound();
+            }
+
+            return View(_detalleHotel);
+
+        }
+        #endregion
     }
 }

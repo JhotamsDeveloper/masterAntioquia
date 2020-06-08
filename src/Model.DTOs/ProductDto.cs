@@ -13,8 +13,9 @@ namespace Model.DTOs
 
         [DisplayName("Nombre")]
         [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(150)]
-
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑáéíóúáéíóúÁÉÍÓÚ ]{1,150}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
+        public string ProductUrl { get; set; }
         public string CoverPage { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
@@ -23,6 +24,7 @@ namespace Model.DTOs
         public int LowPrice { get; set; }
         public int Discounts { get; set; }
         public bool Statud { get; set; }
+        public int AmountSupported { get; set; }
         public int PersonNumber { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
@@ -40,7 +42,10 @@ namespace Model.DTOs
 
         [DisplayName("Nombre")]
         [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(150)]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑáéíóúáéíóúÁÉÍÓÚ ]{1,150}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
+
+        public string ProductUrl { get; set; }
 
         [DisplayName("Portada")]
         [Required(ErrorMessage = "La portada es requerido.")]
@@ -77,6 +82,10 @@ namespace Model.DTOs
         public IEnumerable<IFormFile> Gallery { get; set; }
         public bool Statud { get; set; }
 
+        [DisplayName("Cantidad Soportada")]
+        [Required(ErrorMessage = "La cantidad soportada es requerido.")]
+        public int AmountSupported { get; set; }
+
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
 
@@ -91,7 +100,11 @@ namespace Model.DTOs
     {
 
         public int ProductId { get; set; }
+        [DisplayName("Nombre")]
+        [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(150)]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑáéíóúáéíóúÁÉÍÓÚ ]{1,150}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
+        public string ProductUrl { get; set; }
         public IFormFile CoverPage { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
@@ -99,6 +112,7 @@ namespace Model.DTOs
         public int HalfPrice { get; set; }
         public int LowPrice { get; set; }
         public int Discounts { get; set; }
+        public int AmountSupported { get; set; }
         public int PersonNumber { get; set; }
         public IEnumerable<IFormFile> Gallery { get; set; }
         public bool Statud { get; set; }

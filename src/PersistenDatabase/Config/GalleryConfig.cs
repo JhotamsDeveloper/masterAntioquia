@@ -11,8 +11,10 @@ namespace Persisten.Database.Config
         public GalleryConfig(EntityTypeBuilder<Gallery> entityBuilder)
         {
             entityBuilder.HasKey(x => x.GalleryId);
+
             entityBuilder.HasOne(x => x.Products)
-                .WithMany(x => x.Galleries);
+                .WithMany(x => x.Galleries)
+                .HasForeignKey(x => x.ProducId);
         }
     }
 }

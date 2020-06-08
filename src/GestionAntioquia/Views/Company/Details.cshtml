@@ -64,7 +64,7 @@
                                     <div class="accordion_panel">
 
                                         <div class="card">
-                                            <a href="">
+                                            <a asp-controller="Products" asp-action="Product" asp-route-productUrl="@product.ProductUrl">
                                                 <img src="~/images/Places/@product.CoverPage" class="card-img-top" alt="...">
                                             </a>
                                             <div class="card-body justify-content-center">
@@ -131,39 +131,6 @@
                     <div class="reviews">
                         <div class="section_title"><h1>2 Comentarios</h1></div>
                         <div class="reviews_container">
-                            <!-- Review -->
-                            <div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start">
-                                <div class="review_user_container">
-                                    <div>
-                                        <div class="review_user d-flex flex-lg-column flex-row align-items-center justify-content-start">
-                                            <div class="review_user_image">
-                                                <img src="~/images/user_3.jpg" alt="" />
-                                            </div>
-                                            <div class="text-lg-center">
-                                                <div class="review_user_name">
-                                                    <a href="#">Maria Smith</a>
-                                                </div>
-                                                <div class="review_count">
-                                                    <a href="#">5 reviews</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="review_content">
-                                    <div class="review_title_container d-flex flex-row align-items-start justify-content-start">
-                                        <div class="review_title">"I love it there"</div>
-                                        <div class="review_rating ml-auto">4,5</div>
-                                    </div>
-                                    <div class="review_text">
-                                        <p>
-                                            Great place to visit, the food is awesome, I
-                                            really love it. I would recommend it to other
-                                            people.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
 
                             <!-- Review -->
                             <div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start">

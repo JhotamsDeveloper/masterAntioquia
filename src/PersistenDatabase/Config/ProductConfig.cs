@@ -11,6 +11,7 @@ namespace Persisten.Database.Config
         public ProductConfig(EntityTypeBuilder<Product> entityBuilder)
         {
             entityBuilder.HasKey(x => x.ProductId);
+
         }
     }
 }

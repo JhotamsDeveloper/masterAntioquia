@@ -64,6 +64,25 @@ namespace GestionAntioquia.Controllers
             return View(_detalleHotel);
         }
 
+        // GET: hotel/Details/5
+        public async Task<ActionResult> Products(string urlName)
+        {
+
+            if (urlName == null)
+            {
+                return NotFound();
+            }
+
+            var _detalleHotel = await _companyService.Details(urlName);
+
+            if (_detalleHotel == null)
+            {
+                return NotFound();
+            }
+
+            return View(_detalleHotel);
+        }
+
         // GET: hotel/Create
         public ActionResult Create()
         {

@@ -20,6 +20,7 @@ namespace Service
         Task<ProductDto> GetById(int? id);
         Task Edit(int id, ProductEditDto model);
         Task DeleteConfirmed(int _id, string _cover);
+        Task<ProductDto> ProductUrl(string productUrl);
         bool ProductExists(int id);
     }
 
@@ -77,10 +78,12 @@ namespace Service
 
                     var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
                     var _fechaActual = DateTime.Now;
+                    var _url = FormatString(model.Name);
 
                     var _product = new Product
                     {
                         Name = model.Name,
+                        ProductUrl = _url,
                         CoverPage = _coverPage,
                         Description = model.Description,
                         Price = model.Price.ToString().Trim(),
@@ -88,6 +91,7 @@ namespace Service
                         HalfPrice = model.HalfPrice,
                         LowPrice = model.LowPrice,
                         Discounts = model.Discounts,
+                        AmountSupported = model.AmountSupported,
                         PersonNumber = model.PersonNumber,
                         Statud = model.Statud,
                         PlaceId = model.PlaceId,
@@ -166,6 +170,7 @@ namespace Service
                     _product.Discounts = model.Discounts;
                     _product.PersonNumber = model.PersonNumber;
                     _product.Statud = model.Statud;
+                    _product.AmountSupported = model.AmountSupported;
                     _product.PlaceId = model.PlaceId;
                     _product.UpdateDate = DateTime.Now;
 
@@ -272,6 +277,19 @@ namespace Service
             }
         }
 
+        public async Task<ProductDto> ProductUrl(string productUrl)
+        {
+            var _productUrl = _mapper.Map<ProductDto>(
+                    await _context.Products
+                    .Include(g=>g.Galleries)
+                    .Where(s => s.Statud == true)
+                    .FirstOrDefaultAsync(m => m.ProductUrl == productUrl)
+
+                );
+
+            return _mapper.Map<ProductDto>(_productUrl);
+        }
+
         public bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ProductId == id);
@@ -295,6 +313,23 @@ namespace Service
 
                 }
             }
+        }
+
+        private String FormatString(String texto)
+        {
+            var original = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ ";
+            // Cadena de caracteres ASCII que reemplazarán los originales.
+            var ascii = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYBaaaaaaaceeeeiiiionoooooouuuuyy-";
+            var output = texto;
+            for (int i = 0; i < original.Length; i++)
+            {
+                // Reemplazamos los caracteres especiales.
+
+                output = output.Replace(original[i], ascii[i]);
+
+            }
+
+            return output;
         }
     }
 }
