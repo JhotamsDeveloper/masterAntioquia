@@ -281,6 +281,7 @@ namespace Service
         {
             var _productUrl = _mapper.Map<ProductDto>(
                     await _context.Products
+                    .Include(p=>p.Place)
                     .Include(g=>g.Galleries)
                     .Where(s => s.Statud == true)
                     .FirstOrDefaultAsync(m => m.ProductUrl == productUrl)
