@@ -27,7 +27,7 @@ namespace Service
         Task DeleteConfirmed(int id, string _cover, string _logo, string _squareCover);
         bool CategoryExists(int id);
         Task<IEnumerable<Place>> GetAliados();
-        Task<PlaceDto> DetalleHotel(string nameHotel);
+        Task<IEnumerable<Place>> Restaurant();
 
         Boolean DuplicaName(string name);
 
@@ -196,19 +196,14 @@ namespace Service
             return (await _listAliados.ToListAsync());
         }
 
-        public async Task<PlaceDto> DetalleHotel(string nameHotel)
+        public async Task<IEnumerable<Place>> Restaurant()
         {
-            var _place = _mapper.Map<PlaceDto>(
-                    await _context.Places
-                    .Include(c => c.Category)
-                    .Where(s=>s.State == true)
-                    .FirstOrDefaultAsync(m => m.Name == nameHotel)
-                    
-                );
 
-            return _mapper.Map<PlaceDto>(_place);
+            var _GetAllRestaurante = _context.Places
+                .Include(x => x.Category)
+                .Where(r=>r.State == true && r.Category.Name == "restaurant");
+            return (await _GetAllRestaurante.ToListAsync());
         }
-
 
         private String FormatString(String texto)
         {

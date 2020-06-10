@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Model.DTOs.PlacesRestaurantDto>
+
+@{
+    ViewData["Title"] = "Restaurantes, ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content("~/images/blog.jpg");
+}
+
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">Restaurantes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <!-- Blog -->
+
+    <div class="blog">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="blog_posts_container">
+                        <div class="blog_posts">
+
+                            @foreach (var _aliados in Model)
+                            {
+
+                                <!-- Blog Post -->
+                                <div class="blog_post">
+                                    <div class="blog_post_container">
+
+                                        @if (_aliados.SquareCover == null)
+                                        {
+                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@_aliados.Name"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="blog_post_image"><a href=""><img src="~/images/Places/@_aliados.SquareCover" asp-append-version="true"></a></div>
+                                        }
+
+                                        <div class="blog_post_content">
+
+                                            @if (_aliados.DataCreate <= DateTime.Now)
+                                            {
+                                                <div class="blog_post_date"><a href="#">Acreditado</a></div>
+                                            }
+                                            else
+                                            {
+                                                <div class="blog_post_date"><a href="#">Nuevo</a></div>
+                                            }
+                                            <div class="blog_post_title">
+                                                <h3>
+                                                    @Html.ActionLink(_aliados.Name, _aliados.UrlName, "hotel")
+                                                </h3>
+                                            </div>
+                                            <div class="blog_post_tags">
+                                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                                    <li><a href="#">@_aliados.Contract</a></li>
+                                                    <li><a href="#">Santa Fe de Antioquia</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="blog_post_text">
+                                                <p>@_aliados.Description ...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="blog_posts_more">
+                        <div class="button load_more_button ml-auto mr-auto"><a href="#">Load More</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}else{
+<h1>En el momento no hay restaurantes disponisbles</h1>
+}
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ScriptPlacesAliados");}
+}

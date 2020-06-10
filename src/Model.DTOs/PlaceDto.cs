@@ -220,4 +220,15 @@ namespace Model.DTOs
         public string New { get; set; }
     }
 
+    public class PlacesRestaurantDto
+    {
+        public int PlaceId { get; set; }
+        public string Name { get; set; }
+        public string UrlName { get; set; }
+        public string SquareCover { get; set; }
+        public string Contract { get; set; }
+        public string Description { get; set; }
+        public DateTime DataCreate { get; set; }
+        public string New { get; set; }
+    }
 }

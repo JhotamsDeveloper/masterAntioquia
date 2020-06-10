@@ -31,6 +31,8 @@ namespace GestionAntioquia.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        #region "BackEnd"
+
         // GET: Places
         public async Task<IActionResult> Index()
         {
@@ -218,7 +220,7 @@ namespace GestionAntioquia.Controllers
             catch (DbUpdateException /* ex */)
             {
                 //Log the error (uncomment ex variable name and write a log.)
-                return RedirectToAction(nameof(Delete), new {id = id, saveChangesError = true });
+                return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
             }
 
         }
@@ -227,6 +229,35 @@ namespace GestionAntioquia.Controllers
         {
             return _placeService.CategoryExists(id);
         }
+
+        #endregion
+
+        #region "FrontEnd"
+        public async Task<IActionResult> Restaurant()
+        {
+            var _restaurant = await _placeService.Restaurant();
+
+            var _nuevo = DateTime.Now.AddMonths(1);
+
+            var _viewAliados = (from a in _restaurant
+                                select new PlacesRestaurantDto
+                                {
+                                    PlaceId = a.PlaceId,
+                                    Name = a.Name,
+                                    UrlName = a.NameUrl,
+                                    Contract = a.Contract,
+                                    SquareCover = a.SquareCover,
+                                    Description = a.Description.Substring(0, 20),
+                                    DataCreate = DateTime.Parse(a.CreationDate).AddMonths(1),
+                                    New = "nuevo"
+                                });
+
+            return View(_viewAliados);
+
+        }   
+        #endregion
+
+
 
     }
 }
