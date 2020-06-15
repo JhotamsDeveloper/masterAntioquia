@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -27,8 +28,6 @@ namespace GestionAntioquia.Controllers
         {
             var _aliados = await _companyService.GetAll();
 
-            var _nuevo = DateTime.Now.AddMonths(1);
-
             var _viewAliados = (from a in _aliados
                                 select new PlacesAlliesDto
                                 {
@@ -39,8 +38,9 @@ namespace GestionAntioquia.Controllers
                                     SquareCover = a.SquareCover,
                                     Description = a.Description.Substring(0, 20),
                                     DataCreate = DateTime.Parse(a.CreationDate).AddMonths(1),
-                                    New = "nuevo"
-                                });
+                                    New = "nuevo",
+                                    NameCategory = a.Category.Name
+                                }) ;
 
             return View(_viewAliados);
         }

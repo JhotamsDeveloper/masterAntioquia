@@ -21,6 +21,8 @@ namespace Service
         Task Edit(int id, ProductEditDto model);
         Task DeleteConfirmed(int _id, string _cover);
         Task<ProductDto> ProductUrl(string productUrl);
+        Task<IEnumerable<Product>> WhereToSleep();
+        Task<IEnumerable<Product>> Filigree();
         bool ProductExists(int id);
     }
 
@@ -86,10 +88,7 @@ namespace Service
                         ProductUrl = _url,
                         CoverPage = _coverPage,
                         Description = model.Description,
-                        Price = model.Price.ToString().Trim(),
-                        HighPrice = model.HighPrice,
-                        HalfPrice = model.HalfPrice,
-                        LowPrice = model.LowPrice,
+                        Price = model.Price,
                         Discounts = model.Discounts,
                         AmountSupported = model.AmountSupported,
                         PersonNumber = model.PersonNumber,
@@ -154,6 +153,7 @@ namespace Service
                     DateTime _dateUpdate = DateTime.Now;
                     var _product = await _context.Products.SingleAsync(x => x.ProductId == id);
                     var _coverPage = _uploadedFile.UploadedFileImage(_product.CoverPage, model.CoverPage);
+                    var _squareCover = _uploadedFile.UploadedFileImage(_product.SquareCover, model.SquareCover);
 
                     if (_coverPage == null)
                     {
@@ -162,11 +162,9 @@ namespace Service
 
                     _product.Name = model.Name;
                     _product.CoverPage = _coverPage;
+                    _product.SquareCover = _squareCover;
                     _product.Description = model.Description;
-                    _product.Price = model.Price.ToString();
-                    _product.HighPrice = model.HighPrice;
-                    _product.HalfPrice = model.HighPrice;
-                    _product.LowPrice = model.LowPrice;
+                    _product.Price = model.Price;
                     _product.Discounts = model.Discounts;
                     _product.PersonNumber = model.PersonNumber;
                     _product.Statud = model.Statud;
@@ -294,6 +292,26 @@ namespace Service
         public bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ProductId == id);
+        }
+
+        public async Task<IEnumerable<Product>> WhereToSleep()
+        {
+            var _getAll = _context.Products
+                .Include(p => p.Place)
+                .ThenInclude(c => c.Category)
+                .Where(x => x.Statud == true && x.Place.Category.Name == "Hotel");
+
+            return (await _getAll.ToListAsync());
+        }
+
+        public async Task<IEnumerable<Product>> Filigree()
+        {
+            var _getAll = _context.Products
+                .Include(p => p.Place)
+                .ThenInclude(c => c.Category)
+                .Where(x => x.Statud == true && x.Place.Category.Name == "Filigrana");
+
+            return (await _getAll.ToListAsync());
         }
 
         private async Task DeleteGalleries(int id)

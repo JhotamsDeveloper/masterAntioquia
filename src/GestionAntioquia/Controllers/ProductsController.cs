@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -108,9 +109,6 @@ namespace GestionAntioquia.Controllers
                 Name = _product.Name,
                 Description = _product.Description,
                 Price = _product.Price,
-                HighPrice = _product.HighPrice,
-                HalfPrice = _product.HalfPrice,
-                LowPrice = _product.LowPrice,
                 Discounts = _product.Discounts,
                 PersonNumber = _product.PersonNumber,
                 Statud = _product.Statud,
@@ -225,6 +223,68 @@ namespace GestionAntioquia.Controllers
             }
 
             return View(_detalleHotel);
+
+        }
+
+        //GET: WhereToSleep
+        public async Task<IActionResult> WhereToSleep()
+        {
+
+            var _whereToSleep = await _productService.WhereToSleep();
+
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
+            var _whereToSleepView = (from a in _whereToSleep
+                                     select new ProductViewDto {
+
+                                         ProductId = a.ProductId,
+                                         Name = a.Name,
+                                         ProductUrl = a.ProductUrl,
+                                         CoverPage = a.CoverPage,
+                                         SquareCover = a.SquareCover,
+                                         Description = a.Description,
+                                         Price = string.Format(nfi, "{0:C0}", a.Price),
+                                         Discounts = a.Discounts,
+                                         Statud = a.Statud,
+                                         PersonNumber = a.PersonNumber,
+                                         Place = a.Place
+
+                                     });
+
+            return View(_whereToSleepView);
+
+        }
+
+        //GET: Filigree
+        public async Task<IActionResult> Filigree()
+        {
+
+            var _filigree = await _productService.Filigree();
+
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
+            var _filigreeView = (from a in _filigree
+                                 select new FiligreeDto
+                                 {
+
+                                         ProductId = a.ProductId,
+                                         Name = a.Name,
+                                         ProductUrl = a.ProductUrl,
+                                         CoverPage = a.CoverPage,
+                                         SquareCover = a.SquareCover,
+                                         Description = a.Description,
+                                         Price = string.Format(nfi, "{0:C0}", a.Price),
+                                         Discounts = a.Discounts,
+                                         Statud = a.Statud,
+                                         Place = a.Place
+
+                                     });
+
+            return View(_filigreeView);
 
         }
         #endregion

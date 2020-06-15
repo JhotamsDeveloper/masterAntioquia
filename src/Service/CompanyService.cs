@@ -33,7 +33,10 @@ namespace Service
 
         public async Task<IEnumerable<Place>> GetAll()
         {
-            var _listAliados = _context.Places.Where(X => X.State == true);
+            var _listAliados = _context.Places
+                .AsNoTracking()
+                .Include(p=>p.Category)
+                .Where(x => x.State == true);
             return (await _listAliados.ToListAsync());
         }
 

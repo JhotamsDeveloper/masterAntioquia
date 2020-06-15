@@ -20,10 +20,10 @@
 12. Clients
 13. Footer
 14. Blog
-15. Listing
+15. Accordions
 16. Sidebar
 17. Carousel
-
+18. WhereToSleep
 
 ******************************/
 
@@ -829,11 +829,18 @@ section
 	padding-left: 2px;
 }
 
-	.listing_title h1 {
-		font-size: 48px;
-		font-weight: 500;
-		color: #FFFFFF;
-	}
+.listing_title a {
+	font-size: 24px;
+	font-weight: 500;
+	color: #000000;
+	line-height: 1.2;
+}
+
+.listing_title h1 {
+	font-size: 48px;
+	font-weight: 500;
+	color: #FFFFFF;
+}
 
 .listing_info_container {
 	display: inline-block;
@@ -859,26 +866,6 @@ section
 	text-align: center;
 	border-radius: 5px;
 	margin-right: 21px;
-}
-
-.listing_price, .listing_divider, .listing_type, .listing_status {
-	font-size: 14px;
-	font-weight: 500;
-	color: #4e4e4e;
-}
-
-.listing_info > div:not(:last-child)::after {
-	display: inline-block;
-	content: '|';
-	font-size: 14px;
-	font-weight: 500;
-	color: #4e4e4e;
-	margin-left: 23px;
-	margin-right: 23px;
-}
-
-.listing_status {
-	color: #ff005a;
 }
 
 .listing_info_button {
@@ -1631,37 +1618,8 @@ section
 	}
 
 /*********************************
-6. Listing
+15. Accordions
 *********************************/
-
-.listing {
-	background: #FFFFFF;
-	padding-top: 94px;
-	padding-bottom: 96px;
-	border-bottom: solid 2px #e1ecf4;
-}
-
-.listing_icon {
-	position: absolute;
-	top: 15px;
-	left: 23px;
-	width: 52px;
-	height: 35px;
-	background: #49237d;
-	border-radius: 5px;
-	text-align: center;
-	line-height: 35px;
-}
-
-.listing_icon a {
-	display: block;
-	width: 100%;
-	height: 100%;
-}
-
-.listing_text {
-	margin-top: 52px;
-}
 
 .accordions {
 	margin-top: 45px;
@@ -1960,7 +1918,7 @@ section
 	position: absolute;
 	top: 23px;
 	left: 27px;
-	width: 52px;
+	width: 120px;
 	height: 35px;
 	background: #49237d;
 	border-radius: 5px;
@@ -2419,3 +2377,69 @@ section
 .hotel-reservation--area button {
 	border-radius: 30px !important;
 }
+
+/*********************************
+18. WhereToSleep
+*********************************/
+
+.listing_title_container {
+	padding-left: 23px;
+	padding-top: 22px;
+	padding-bottom: 16px;
+	padding-right: 34px;
+	border-bottom: solid 1px #FFFFFF;
+}
+
+.listing_info {
+	margin-top: 5px;
+}
+
+.listing_rating {
+	width: 49px;
+	height: 35px;
+	background: #ffb400;
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 35px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.listing {
+	background: #FFFFFF;
+	padding-top: 94px;
+	padding-bottom: 96px;
+	border-bottom: solid 2px #e1ecf4;
+}
+
+.listing_status {
+	color: #ff005a;
+}
+
+.listing_testimonial {
+	padding-left: 22px;
+	padding-top: 22px;
+	padding-bottom: 28px;
+	padding-right: 15px;
+}
+
+.testimonial_image {
+	width: 41px;
+	height: 41px;
+	border-radius: 50%;
+	overflow: hidden;
+	-webkit-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.testimonial_text {
+	padding-left: 8px;
+}
+
+	.testimonial_text p {
+		font-size: 14px;
+		font-weight: 400;
+		color: #9d9d9d;
+		line-height: 1.715;
+	}

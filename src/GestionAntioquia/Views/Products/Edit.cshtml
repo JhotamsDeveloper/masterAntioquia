@@ -41,22 +41,10 @@
                     <div class="row">
 
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="md-form">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" class="form-control" readonly />
-                            </div>
-                        </div>
-
-                        <!--Grid column-->
-                        <div class="col-md-6">
-                            <div class="md-form">
-                                <label asp-for="CoverPage" class="control-label"></label>
-                                <div class="custom-file">
-                                    <input asp-for="CoverPage" class="custom-file-input" id="customFile">
-                                    <label class="custom-file-label" for="customFile">Selecione la portada</label>
-                                </div>
-                                <span asp-validation-for="CoverPage" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -88,18 +76,24 @@
                         <!--Grid column-->
                         <div class="col-md-4">
                             <div class="md-form">
-                                <label asp-for="HighPrice" class="control-label"></label>
-                                <input asp-for="HighPrice" class="form-control" />
-                                <span asp-validation-for="HighPrice" class="text-danger"></span>
+                                <label asp-for="CoverPage" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="CoverPage" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Selecione la portada</label>
+                                </div>
+                                <span asp-validation-for="CoverPage" class="text-danger"></span>
                             </div>
                         </div>
 
                         <!--Grid column-->
                         <div class="col-md-4">
                             <div class="md-form">
-                                <label asp-for="HalfPrice" class="control-label"></label>
-                                <input asp-for="HalfPrice" class="form-control" />
-                                <span asp-validation-for="HalfPrice" class="text-danger"></span>
+                                <label asp-for="SquareCover" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="SquareCover" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Selecione la portada</label>
+                                </div>
+                                <span asp-validation-for="SquareCover" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -108,16 +102,7 @@
                     <div class="row mt-2">
 
                         <!--Grid column-->
-                        <div class="col-md-4">
-                            <div class="md-form">
-                                <label asp-for="LowPrice" class="control-label"></label>
-                                <input asp-for="LowPrice" class="form-control" />
-                                <span asp-validation-for="LowPrice" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <!--Grid column-->
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="md-form">
                                 <label asp-for="Discounts" class="control-label"></label>
                                 <input asp-for="Discounts" class="form-control" />
@@ -126,7 +111,7 @@
                         </div>
 
                         <!--Grid column-->
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="md-form form-check">
                                 <label class="form-check-label mt-4">
                                     <input class="form-check-input" asp-for="Statud" /> @Html.DisplayNameFor(model => model.Statud)

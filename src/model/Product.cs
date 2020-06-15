@@ -10,11 +10,10 @@ namespace Model
         public string Name { get; set; }
         public string ProductUrl { get; set; }
         public string CoverPage { get; set; }
+        public string SquareCover { get; set; }
         public string Description { get; set; }
-        public string Price { get; set; }
-        public float HighPrice { get; set; }
-        public float HalfPrice { get; set; }
-        public float LowPrice { get; set; }
+        public float Price { get; set; }
+        public int Increments { get; set; }
         public int Discounts { get; set; }
         public int AmountSupported { get; set; }
         public bool Statud { get; set; }

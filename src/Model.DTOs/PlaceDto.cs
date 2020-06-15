@@ -218,6 +218,9 @@ namespace Model.DTOs
         public string Description { get; set; }
         public DateTime DataCreate { get; set; }
         public string New { get; set; }
+        public string NameCategory { get; set; }
+
+        public Category Category { get; set; }
     }
 
     public class PlacesRestaurantDto
@@ -230,5 +233,7 @@ namespace Model.DTOs
         public string Description { get; set; }
         public DateTime DataCreate { get; set; }
         public string New { get; set; }
+        public Category Category { get; set; }
     }
+
 }

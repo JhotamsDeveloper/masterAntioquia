@@ -51,6 +51,10 @@ namespace Model.DTOs
         [Required(ErrorMessage = "La portada es requerido.")]
         public IFormFile CoverPage { get; set; }
 
+        [DisplayName("Imagen Cuadrada")]
+        [Required(ErrorMessage = "La portada es requerido.")]
+        public IFormFile SquareCover { get; set; }
+
         [DisplayName("Descripción")]
         [Required(ErrorMessage = "La descripción es requerido.")]
 
@@ -59,18 +63,6 @@ namespace Model.DTOs
         [DisplayName("Precio enbruto")]
         [Required(ErrorMessage = "El precio enbruto es requerido.")]
         public float Price { get; set; }
-
-        [DisplayName("Temporada alta")]
-        [Required(ErrorMessage = "El precio de temporada alta es requerido.")]
-        public float HighPrice { get; set; }
-
-        [DisplayName("Temporada media")]
-        [Required(ErrorMessage = "El precio de temporada media es requerido.")]
-        public float HalfPrice { get; set; }
-
-        [DisplayName("Temporada baja")]
-        [Required(ErrorMessage = "El precio de temporada baja es requerido.")]
-        public float LowPrice { get; set; }
 
         [DisplayName("Descuento")]
         public int Discounts { get; set; }
@@ -106,11 +98,9 @@ namespace Model.DTOs
         public string Name { get; set; }
         public string ProductUrl { get; set; }
         public IFormFile CoverPage { get; set; }
+        public IFormFile SquareCover { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
-        public int HighPrice { get; set; }
-        public int HalfPrice { get; set; }
-        public int LowPrice { get; set; }
+        public float Price { get; set; }
         public int Discounts { get; set; }
         public int AmountSupported { get; set; }
         public int PersonNumber { get; set; }
@@ -123,5 +113,42 @@ namespace Model.DTOs
         //public Place Place { get; set; }
 
         public ICollection<Gallery> Galleries { get; set; }
+    }
+
+    public class ProductViewDto
+    {
+        public int ProductId { get; set; }
+
+        public string Name { get; set; }
+        public string ProductUrl { get; set; }
+        public string CoverPage { get; set; }
+        public string SquareCover { get; set; }
+        public string Description { get; set; }
+        public string Price { get; set; }
+        public int Discounts { get; set; }
+        public bool Statud { get; set; }
+        public int PersonNumber { get; set; }
+
+        //Claves foreanas
+        public Place Place { get; set; }
+
+    }
+
+    public class FiligreeDto
+    {
+        public int ProductId { get; set; }
+
+        public string Name { get; set; }
+        public string ProductUrl { get; set; }
+        public string CoverPage { get; set; }
+        public string SquareCover { get; set; }
+        public string Description { get; set; }
+        public string Price { get; set; }
+        public int Discounts { get; set; }
+        public bool Statud { get; set; }
+
+        //Claves foreanas
+        public Place Place { get; set; }
+
     }
 }
