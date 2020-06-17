@@ -257,36 +257,6 @@ namespace GestionAntioquia.Controllers
 
         }
 
-        //GET: Filigree
-        public async Task<IActionResult> Filigree()
-        {
-
-            var _filigree = await _productService.Filigree();
-
-            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
-            nfi = (NumberFormatInfo)nfi.Clone();
-            nfi.CurrencySymbol = "$";
-
-            var _filigreeView = (from a in _filigree
-                                 select new FiligreeDto
-                                 {
-
-                                         ProductId = a.ProductId,
-                                         Name = a.Name,
-                                         ProductUrl = a.ProductUrl,
-                                         CoverPage = a.CoverPage,
-                                         SquareCover = a.SquareCover,
-                                         Description = a.Description,
-                                         Price = string.Format(nfi, "{0:C0}", a.Price),
-                                         Discounts = a.Discounts,
-                                         Statud = a.Statud,
-                                         Place = a.Place
-
-                                     });
-
-            return View(_filigreeView);
-
-        }
         #endregion
     }
 }

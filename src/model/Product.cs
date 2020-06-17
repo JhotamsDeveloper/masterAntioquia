@@ -13,7 +13,8 @@ namespace Model
         public string SquareCover { get; set; }
         public string Description { get; set; }
         public float Price { get; set; }
-        public int Increments { get; set; }
+        public float Increments { get; set; }
+        public float ShippingValue { get; set; }
         public int Discounts { get; set; }
         public int AmountSupported { get; set; }
         public bool Statud { get; set; }

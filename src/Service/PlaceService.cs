@@ -201,7 +201,7 @@ namespace Service
 
             var _GetAllRestaurante = _context.Places
                 .Include(x => x.Category)
-                .Where(r=>r.State == true && r.Category.Name == "restaurant");
+                .Where(r=>r.State == true && r.Category.Name == "Restaurante");
             return (await _GetAllRestaurante.ToListAsync());
         }
 

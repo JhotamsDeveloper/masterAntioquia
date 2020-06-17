@@ -22,7 +22,6 @@ namespace Service
         Task DeleteConfirmed(int _id, string _cover);
         Task<ProductDto> ProductUrl(string productUrl);
         Task<IEnumerable<Product>> WhereToSleep();
-        Task<IEnumerable<Product>> Filigree();
         bool ProductExists(int id);
     }
 
@@ -303,17 +302,7 @@ namespace Service
 
             return (await _getAll.ToListAsync());
         }
-
-        public async Task<IEnumerable<Product>> Filigree()
-        {
-            var _getAll = _context.Products
-                .Include(p => p.Place)
-                .ThenInclude(c => c.Category)
-                .Where(x => x.Statud == true && x.Place.Category.Name == "Filigrana");
-
-            return (await _getAll.ToListAsync());
-        }
-
+        
         private async Task DeleteGalleries(int id)
         {
             var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();

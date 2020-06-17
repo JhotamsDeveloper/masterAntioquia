@@ -14,7 +14,7 @@ namespace Service.Config
 
             entityBuilder.Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(20);
             
             entityBuilder.Property(x => x.Stated)
                 .IsRequired();

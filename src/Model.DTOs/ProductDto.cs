@@ -134,7 +134,7 @@ namespace Model.DTOs
 
     }
 
-    public class FiligreeDto
+    public class StoreProductsDto
     {
         public int ProductId { get; set; }
 
