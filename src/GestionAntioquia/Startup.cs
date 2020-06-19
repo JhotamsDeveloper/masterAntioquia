@@ -42,6 +42,7 @@ namespace GestionAntioquia
             services.AddTransient<IStoreService, StoreService>();
 
             services.AddTransient<IUploadedFile, UploadedFile>();
+            services.AddTransient<IFormatString, FormatString>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

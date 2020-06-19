@@ -29,19 +29,23 @@ namespace Service
     {
         //Variables
         private readonly ApplicationDbContext _context;
-        private readonly IUploadedFile _uploadedFile;
-        private readonly IGalleryService _galleryService;
         private readonly IMapper _mapper;
+        private readonly IGalleryService _galleryService;
+        private readonly IUploadedFile _uploadedFile;
+        private readonly IFormatString _formatString;
 
-        public ProductService(ApplicationDbContext context,
-            IUploadedFile uploadedFile,
+        public ProductService(
+            ApplicationDbContext context,
+            IMapper mapper,
             IGalleryService galleryService,
-            IMapper mapper)
+            IUploadedFile uploadedFile,
+            IFormatString formatString)
         {
             _context = context;
-            _uploadedFile = uploadedFile;
-            _galleryService = galleryService;
             _mapper = mapper;
+            _galleryService = galleryService;
+            _uploadedFile = uploadedFile;
+            _formatString = formatString;
         }
 
 
@@ -79,7 +83,7 @@ namespace Service
 
                     var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
                     var _fechaActual = DateTime.Now;
-                    var _url = FormatString(model.Name);
+                    var _url = _formatString.FormatUrl(model.Name);
 
                     var _product = new Product
                     {
@@ -323,21 +327,5 @@ namespace Service
             }
         }
 
-        private String FormatString(String texto)
-        {
-            var original = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ ";
-            // Cadena de caracteres ASCII que reemplazarán los originales.
-            var ascii = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYBaaaaaaaceeeeiiiionoooooouuuuyy-";
-            var output = texto;
-            for (int i = 0; i < original.Length; i++)
-            {
-                // Reemplazamos los caracteres especiales.
-
-                output = output.Replace(original[i], ascii[i]);
-
-            }
-
-            return output;
-        }
     }
 }

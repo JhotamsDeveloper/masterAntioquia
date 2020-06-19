@@ -24,13 +24,10 @@ namespace Service.Commons
     public class UploadedFile : IUploadedFile
     {
         private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly ApplicationDbContext _context;
 
-        public UploadedFile(IHostingEnvironment hostingEnvironment,
-                    ApplicationDbContext context)
+        public UploadedFile(IHostingEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
-            _context = context;
         }
 
         public string UploadedFileImage(IFormFile file)
