@@ -17,6 +17,7 @@ namespace Model.DTOs
         public string Name { get; set; }
         public string ProductUrl { get; set; }
         public string CoverPage { get; set; }
+        public string SquareCover { get; set; }
         public string Description { get; set; }
         public float Price { get; set; }
         public float Increments { get; set; }

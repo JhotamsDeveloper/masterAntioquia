@@ -16,10 +16,12 @@ namespace Service
     public interface IStoreService
     {
         Task<IEnumerable<Product>> GetAll();
+        Task<StoreDto> Details(int? id);
         Task<StoreDto> Create(StoreCreateDto model);
         Task<StoreDto> GetById(int? id);
         Task Edit(int id, StoreEditDto model);
         bool ProductExists(int id);
+        Task DeleteConfirmed(int _id, string _cover);
         Task<IEnumerable<Product>> StoreProducts();
     }
 
@@ -57,6 +59,18 @@ namespace Service
                 .Where(x=>x.Statud == true && x.Place.Category.Name == "Tienda");
                 return (await _getAll.ToListAsync());
             }
+
+        public async Task<StoreDto> Details(int? id)
+        {
+
+            var _products = _mapper.Map<StoreDto>(
+                    await _context.Products
+                    .Include(p => p.Place)
+                    .FirstOrDefaultAsync(m => m.ProductId == id)
+                );
+
+            return _mapper.Map<StoreDto>(_products);
+        }
 
         public async Task<StoreDto> Create(StoreCreateDto model)
         {
@@ -234,13 +248,7 @@ namespace Service
                     var _idsGalleries = _getGalleries.Select(x => x.GalleryId).ToList();
                     var _galleries = _uploadedFile.UploadedMultipleFileImage(_getGalleries.Select(x => x.NameImage).ToList());
 
-                    _context.Remove(new Product
-                    {
-                        ProductId = _id
-
-                    });
-                    await _context.SaveChangesAsync();
-
+                    
                     if (_idsGalleries.Count > 0)
                     {
                         foreach (var item in _idsGalleries)
@@ -255,6 +263,13 @@ namespace Service
 
                         }
                     }
+
+                    _context.Remove(new Product
+                    {
+                        ProductId = _id
+
+                    });
+                    await _context.SaveChangesAsync();
 
                     //_context.Remove(new Place
                     //{

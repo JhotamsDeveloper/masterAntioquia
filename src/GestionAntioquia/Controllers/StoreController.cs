@@ -37,6 +37,29 @@ namespace GestionAntioquia.Controllers
 
         }
 
+        // GET: Products/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var _product = await _storeService.Details(id);
+
+            //var product = await _context.Products
+            //    .Include(p => p.Place)
+            //    .FirstOrDefaultAsync(m => m.ProductId == id);
+
+            if (_product == null)
+            {
+                return NotFound();
+            }
+
+            return View(_product);
+        }
+
+
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -146,6 +169,47 @@ namespace GestionAntioquia.Controllers
         private bool ProductExists(int id)
         {
             return _storeService.ProductExists(id);
+        }
+
+        // GET: Products/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //var _product = await _context.Products
+            //    .Include(p => p.Place)
+            //    .FirstOrDefaultAsync(m => m.ProductId == id);
+
+            var _storeProduct = await _storeService.GetById(id);
+
+            if (_storeProduct == null)
+            {
+                return NotFound();
+            }
+
+            return View(_storeProduct);
+        }
+
+        // POST: Products/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var _storeProduct = await _storeService.GetById(id);
+
+            var _id = _storeProduct.ProductId;
+            var _cove = _storeProduct.CoverPage;
+
+            await _storeService.DeleteConfirmed(_id, _cove);
+
+            //var product = await _context.Products.FindAsync(id);
+            //_context.Products.Remove(product);
+            //await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         #endregion
