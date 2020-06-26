@@ -12,6 +12,7 @@ namespace Model
         public string CoverPage { get; set; }
         public string SquareCover { get; set; }
         public string Description { get; set; }
+        public string Mineral { get; set; }
         public float Price { get; set; }
         public float Increments { get; set; }
         public float ShippingValue { get; set; }

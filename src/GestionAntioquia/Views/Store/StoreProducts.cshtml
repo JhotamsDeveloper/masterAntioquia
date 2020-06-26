@@ -22,6 +22,8 @@
     </div>
 </div>
 
+@*<div style="width:100%; height:150px; background-color:forestgreen"></div>*@
+
 @if (Model.Any())
 {
     <!-- Blog -->
@@ -33,7 +35,7 @@
                     <div class="blog_posts_container">
                         <div class="blog_posts">
 
-                            @foreach (var filigree in Model)
+                            @foreach (var product in Model)
                             {
 
                                 <!-- Blog Post -->
@@ -41,28 +43,28 @@
                                     <div class="blog_post_container">
 
                                         <div class="location_icon">
-                                            <span> <strong> @filigree.Price Col</strong></span>
+                                            <span> <strong> @product.Price Col</strong></span>
                                         </div>
 
-                                        @if (filigree.CoverPage == null)
+                                        @if (product.CoverPage == null)
                                         {
-                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@filigree.Name"></div>
+                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@product.Name"></div>
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@filigree.ProductUrl"><img src="~/images/Places/@filigree.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a asp-controller="Store" asp-action="ShopProducts" asp-route-productUrl="@product.ProductUrl"><img src="~/images/Places/@product.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">
 
-                                            <div class="blog_post_date"><a href="#">@filigree.Place.City</a></div>
+                                            <div class="blog_post_date"><a href="#">@product.Place.City</a></div>
 
                                             <div class="blog_post_title">
-                                                <h3>@filigree.Name</h3>
+                                                <h3>@product.Name</h3>
                                             </div>
                                             <div class="blog_post_tags">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                    <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@filigree.Place.NameUrl">@filigree.Place.Name, </a></li>
+                                                    <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@product.Place.NameUrl">@product.Place.Name, </a></li>
                                                     <li><a href="#">Urbano</a></li>
                                                 </ul>
                                             </div>

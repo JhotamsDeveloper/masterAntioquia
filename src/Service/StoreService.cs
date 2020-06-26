@@ -23,6 +23,7 @@ namespace Service
         bool ProductExists(int id);
         Task DeleteConfirmed(int _id, string _cover);
         Task<IEnumerable<Product>> StoreProducts();
+        Task<StoreDto> ProductUrl(string productUrl);
     }
 
     public class StoreService : IStoreService
@@ -298,6 +299,19 @@ namespace Service
                 .Where(x => x.Statud == true && x.Place.Category.Name == "Tienda");
 
             return (await _getAll.ToListAsync());
+        }
+        public async Task<StoreDto> ProductUrl(string productUrl)
+        {
+            var _productUrl = _mapper.Map<StoreDto>(
+                    await _context.Products
+                    .Include(p => p.Place)
+                    .Include(g => g.Galleries)
+                    .Where(s => s.Statud == true)
+                    .FirstOrDefaultAsync(m => m.ProductUrl == productUrl)
+
+                );
+
+            return _mapper.Map<StoreDto>(_productUrl);
         }
 
         #endregion

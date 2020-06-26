@@ -1,0 +1,142 @@
+﻿@model Model.DTOs.StoreDto
+
+@{
+    ViewData["Title"] = Model.Name.Substring(0, 10) + "...";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content($"~/images/places/{Model.CoverPage}");
+}
+
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">@Model.Name</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rooms Area Start -->
+<div class="roberto-rooms-area section-padding-100-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <!-- Single Room Details Area -->
+                <div class="single-room-details-area mb-50">
+                    <!-- Room Thumbnail Slides -->
+                    <div class="room-thumbnail-slides mb-50">
+                        <div id="room-thumbnail--slide" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+
+                                @{
+
+                                    @foreach (var galleries in Model.Galleries)
+                                    {
+                                        string active = "";
+
+                                        if (galleries == Model.Galleries.First())
+                                        {
+                                            active += "active";
+                                        }
+
+                                        <div class="carousel-item @active">
+                                            <img src="~/images/Places/@galleries.NameImage" class="d-block w-100" alt="">
+                                        </div>
+                                    }
+                                }
+
+
+                            </div>
+
+                            <ol class="carousel-indicators">
+
+                                @{
+                                    int count = 0;
+
+                                    foreach (var gallery in Model.Galleries)
+                                    {
+                                        string active = "";
+                                        count = count + 1;
+
+                                        if (gallery == Model.Galleries.First())
+                                        {
+                                            active += "active";
+                                        }
+                                        <li data-target="#room-thumbnail--slide" data-slide-to="@count-1" class="@active">
+                                            <img src="~/images/Places/@gallery.NameImage" class="d-block w-100" alt="">
+                                        </li>
+                                    }
+                                }
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Room Features -->
+                    <div class="room-features-area d-flex flex-wrap mb-50">
+                        <h6>Tienda: <span>@Model.Place.Name</span></h6>
+
+                        <h6>Valor: <span>@Model.Price COL</span></h6>
+                        <h6>
+                            Mineral: <span>Plata</span>
+                        </h6>
+                        <h6>Peso aprox: <span>250 grm</span></h6>
+                    </div>
+
+                    <h4>Descripción del Plan</h4>
+                    <p class="text-justify">@Model.Description</p>
+
+                    @*<ul>
+                            <li><i class="fa fa-check"></i> Mauris molestie lectus in irdiet auctor.</li>
+                            <li><i class="fa fa-check"></i> Dictum purus at blandit molestie.</li>
+                            <li><i class="fa fa-check"></i> Neque non fermentum suscipit.</li>
+                            <li><i class="fa fa-check"></i> Donec id dui ac massa malesuada.</li>
+                            <li><i class="fa fa-check"></i> In sit amet sapien quis orci maximus.</li>
+                            <li><i class="fa fa-check"></i> Vestibulum rutrum diam vel eros tristique.</li>
+                        </ul>*@
+
+                    <h4>Descripción del @Model.Place.Name</h4>
+                    <p class="text-justify">@Model.Place.Description</p>
+                </div>
+
+                <!-- Room Service -->
+                @*<div class="room-service mb-50">
+                        <h4>Room Services</h4>
+
+                        <ul>
+                            <li><img src="~/images/icon1.png" alt=""> Air Conditioning</li>
+                            <li><img src="~/images/icon2.png" alt=""> Free drinks</li>
+                            <li><img src="~/images/icon3.png" alt=""> Restaurant quality</li>
+                            <li><img src="~/images/icon4.png" alt=""> Cable TV</li>
+                            <li><img src="~/images/icon5.png" alt=""> Unlimited Wifi</li>
+                            <li><img src="~/images/icon6.png" alt=""> Service 24/24</li>
+                        </ul>
+                    </div>*@
+
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div>
+                    <p class="text-justify">
+                        Es posible que este producto no se encuentre disponible en nuestras tiendas escribamos antes de hacer la compra, nuestros artesanos y orfebres estarán dispuestos ayudarte.
+                    </p>
+                    <div class="blog_posts_more">
+                        <div class="button load_more_button" style="width:100%"><a href="#">Ver disponibilidad</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Rooms Area End -->
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ScriptProductsProduct");}
+
+}

@@ -214,7 +214,7 @@ namespace GestionAntioquia.Controllers
 
         #endregion
 
-        //GET: Filigree
+        //GET: Store Products
         public async Task<IActionResult> StoreProducts()
         {
 
@@ -242,6 +242,25 @@ namespace GestionAntioquia.Controllers
                                  });
 
             return View(_filigreeView);
+
+        }
+
+        // GET: Products
+        public async Task<IActionResult> ShopProducts(string productUrl)
+        {
+            if (productUrl == null)
+            {
+                return NotFound();
+            }
+
+            var _detailProduct = await _storeService.ProductUrl(productUrl);
+
+            if (_detailProduct == null)
+            {
+                return NotFound();
+            }
+
+            return View(_detailProduct);
 
         }
     }
