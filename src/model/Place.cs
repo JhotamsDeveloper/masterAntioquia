@@ -32,5 +32,7 @@ namespace Model
         public Category Category { get; set; }
 
         public List<Product> Products { get; set; }
+        public List<Event> Events { get; set; }
+
     }
 }

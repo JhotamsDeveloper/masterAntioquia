@@ -86,9 +86,9 @@
                         <!--Grid column-->
                         <div class="col-md-4">
                             <div class="md-form">
-                                <label asp-for="ShippingValue" class="control-label"></label>
-                                <input asp-for="ShippingValue" class="form-control" />
-                                <span asp-validation-for="ShippingValue" class="text-danger"></span>
+                                <label asp-for="Mineral" class="control-label"></label>
+                                <input asp-for="Mineral" class="form-control" />
+                                <span asp-validation-for="Mineral" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -168,7 +168,16 @@
                     <div class="row mt-2">
 
                         <!--Grid column-->
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <label asp-for="ShippingValue" class="control-label"></label>
+                                <input asp-for="ShippingValue" class="form-control" />
+                                <span asp-validation-for="ShippingValue" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
                             <div class="md-form">
                                 <label asp-for="PlaceId" class="control-label"></label>
                                 <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.Name"></select>

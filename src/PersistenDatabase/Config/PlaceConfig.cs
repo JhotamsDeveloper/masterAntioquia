@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Service.Config
 {
-    class PlaceConfig
+    public class PlaceConfig
     {
         public PlaceConfig(EntityTypeBuilder<Place> entityBuilder) 
         {
@@ -52,6 +52,7 @@ namespace Service.Config
             //entityBuilder.Property(x => x.CreationDate)
             //.IsRequired();
 
+            //DE UNO A MUCHOS
             entityBuilder.HasOne(x => x.Category)
                 .WithMany(x => x.Places)
                 .HasForeignKey(x => x.CategoryId);

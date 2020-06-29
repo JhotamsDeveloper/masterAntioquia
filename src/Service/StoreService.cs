@@ -94,6 +94,7 @@ namespace Service
                         CoverPage = _coverPage,
                         SquareCover = _SquareCover,
                         Description = model.Description,
+                        Mineral = model.Mineral,
                         Price = model.Price,
                         Increments = model.Increments,
                         Discounts = model.Discounts,
@@ -171,6 +172,7 @@ namespace Service
                     _producStoreEditDto.CoverPage = _coverPage;
                     _producStoreEditDto.SquareCover = _squareCover;
                     _producStoreEditDto.Description = model.Description;
+                    _producStoreEditDto.Mineral = model.Mineral;
                     _producStoreEditDto.Price = model.Price;
                     _producStoreEditDto.ShippingValue = model.ShippingValue;
                     _producStoreEditDto.Discounts = model.Discounts;

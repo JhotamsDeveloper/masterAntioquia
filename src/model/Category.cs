@@ -19,5 +19,6 @@ namespace Model
         
         public bool Stated { get; set; }
         public List<Place> Places { get; set; }
+        public List<Event> Events { get; set; }
     }
 }

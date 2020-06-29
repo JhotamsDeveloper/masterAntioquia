@@ -115,6 +115,7 @@ namespace GestionAntioquia.Controllers
                 ProductId = _storeProdStore.ProductId,
                 Name = _storeProdStore.Name,
                 Description = _storeProdStore.Description,
+                Mineral = _storeProdStore.Mineral,
                 Price = _storeProdStore.Price,
                 ShippingValue = _storeProdStore.ShippingValue,
                 Discounts = _storeProdStore.Discounts,
@@ -124,7 +125,11 @@ namespace GestionAntioquia.Controllers
                 PlaceId = _storeProdStore.PlaceId
             };
 
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", _storeProdStore.PlaceId);
+            ViewData["PlaceId"] = new SelectList(_context
+                                    .Places
+                                    .Where(x => x.State == true
+                                    && x.Category.Name == "Tienda"), "PlaceId", "Name");
+
             ViewData["CoverPage"] = _storeProdStore.CoverPage;
             return View(_producStoreEditDto);
         }

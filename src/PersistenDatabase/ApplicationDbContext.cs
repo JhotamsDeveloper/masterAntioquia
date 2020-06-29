@@ -20,6 +20,7 @@ namespace Persisten.Database
         }
 
         public DbSet<Place> Places { get; set; }
+        public DbSet<Event> Events { get; set; }
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Gallery> Galleries { get; set; }
@@ -34,6 +35,7 @@ namespace Persisten.Database
 
             new CategoryConfig(builder.Entity<Category>());
             new PlaceConfig(builder.Entity<Place>());
+            new EventConfig(builder.Entity<Event>());
             new ProductConfig(builder.Entity<Product>());
             new GalleryConfig(builder.Entity<Gallery>());
         }

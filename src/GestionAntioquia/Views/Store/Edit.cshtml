@@ -35,16 +35,17 @@
 
             <div class="col-md-8 col-xl-9">
 
-                <form enctype="multipart/form-data" asp-action="Edit">
+                <form enctype="multipart/form-data" asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="ProductId" />
+
                     <div class="row">
 
                         <!--Grid column-->
                         <div class="col-md-12">
                             <div class="md-form">
                                 <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" readonly />
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -72,6 +73,27 @@
                                 <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
                         </div>
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="Increments" class="control-label"></label>
+                                <input asp-for="Increments" class="form-control" />
+                                <span asp-validation-for="Increments" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <label asp-for="Mineral" class="control-label"></label>
+                                <input asp-for="Mineral" class="form-control" />
+                                <span asp-validation-for="Mineral" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2">
 
                         <!--Grid column-->
                         <div class="col-md-4">
@@ -97,25 +119,15 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="row mt-2">
-
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form">
-                                <label asp-for="Discounts" class="control-label"></label>
-                                <input asp-for="Discounts" class="form-control" />
-                                <span asp-validation-for="Discounts" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <!--Grid column-->
-                        <div class="col-md-6">
-                            <div class="md-form form-check">
-                                <label class="form-check-label mt-4">
-                                    <input class="form-check-input" asp-for="Statud" /> @Html.DisplayNameFor(model => model.Statud)
-                                </label>
+                                <label asp-for="Gallery" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="Gallery" multiple class="custom-file-input" id="customFile1">
+                                    <label class="custom-file-label" for="customFile1">Selecionar Galleria</label>
+                                </div>
+                                <span asp-validation-for="Gallery" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -126,9 +138,9 @@
                         <!--Grid column-->
                         <div class="col-md-4">
                             <div class="md-form">
-                                <label asp-for="Increments" class="control-label"></label>
-                                <input asp-for="Increments" class="form-control" />
-                                <span asp-validation-for="Increments" class="text-danger"></span>
+                                <label asp-for="Discounts" class="control-label"></label>
+                                <input asp-for="Discounts" class="form-control" />
+                                <span asp-validation-for="Discounts" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -143,9 +155,10 @@
 
                         <!--Grid column-->
                         <div class="col-md-4">
-                            <div class="md-form">
-                                <label asp-for="PlaceId" class="control-label"></label>
-                                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.PlaceId"></select>
+                            <div class="md-form form-check">
+                                <label class="form-check-label mt-4">
+                                    <input class="form-check-input" asp-for="Statud" /> @Html.DisplayNameFor(model => model.Statud)
+                                </label>
                             </div>
                         </div>
 
@@ -154,19 +167,23 @@
                     <div class="row mt-2">
 
                         <!--Grid column-->
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="md-form">
-                                <label asp-for="Gallery" class="control-label"></label>
-                                <div class="custom-file">
-                                    <input asp-for="Gallery" multiple class="custom-file-input" id="customFile1">
-                                    <label class="custom-file-label" for="customFile1">Selecionar Galleria</label>
-                                </div>
-                                <span asp-validation-for="Gallery" class="text-danger"></span>
+                                <label asp-for="ShippingValue" class="control-label"></label>
+                                <input asp-for="ShippingValue" class="form-control" />
+                                <span asp-validation-for="ShippingValue" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <label asp-for="PlaceId" class="control-label"></label>
+                                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.PlaceId"></select>
                             </div>
                         </div>
 
                     </div>
-
 
                     <br />
 
@@ -192,6 +209,7 @@
     </section>
 
 </div>
+
 
 
 @section Scripts {
