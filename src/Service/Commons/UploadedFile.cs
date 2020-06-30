@@ -33,7 +33,7 @@ namespace Service.Commons
         public string UploadedFileImage(IFormFile file)
         {
 
-            string uniqueFileName = null;
+            string uniqueFileName;
 
             string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
             uniqueFileName = "Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1);
@@ -60,10 +60,8 @@ namespace Service.Commons
                 string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
                 uniqueFileName = "Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1);
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                file.CopyTo(fileStream);
 
             }
             return uniqueFileName;

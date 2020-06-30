@@ -8,7 +8,9 @@ namespace Model
     {
         public int EventId { get; set; }
         public string Name { get; set; }
+        public string EventUrl { get; set; }
         public string Description { get; set; }
+        public string Author { get; set; }
         public string CoverPage { get; set; }
         public string SquareCover { get; set; }
 

@@ -55,11 +55,6 @@ namespace Service
             return (await _getAll.ToListAsync());
         }
 
-        public IEnumerable<Product> GetAllTest()
-        {
-            return _context.Products.ToList();
-        }
-
         public async Task<ProductDto> Details(int? id)
         {
 
@@ -305,26 +300,6 @@ namespace Service
                 .Where(x => x.Statud == true && x.Place.Category.Name == "Hotel");
 
             return (await _getAll.ToListAsync());
-        }
-        
-        private async Task DeleteGalleries(int id)
-        {
-            var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
-            var _idsGalleries = _getGalleries.Select(x => x.GalleryId).ToList();
-
-            if (_idsGalleries.Count > 0)
-            {
-                foreach (var item in _idsGalleries)
-                {
-
-                    _context.Remove(new Gallery
-                    {
-                        GalleryId = item
-                    });
-                    await _context.SaveChangesAsync();
-
-                }
-            }
         }
 
     }

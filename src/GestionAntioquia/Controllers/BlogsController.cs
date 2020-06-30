@@ -6,24 +6,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.DTOs;
 using Persisten.Database;
+using Service;
 
 namespace GestionAntioquia.Controllers
 {
     public class BlogsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IBlogService _blogService;
 
-        public BlogsController(ApplicationDbContext context)
+        public BlogsController(
+            ApplicationDbContext context,
+            IBlogService blogService)
         {
             _context = context;
+            _blogService = blogService;
         }
 
+    #region "BackEnd"
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
-            var _blog = _context.Events;
-            return View(await _blog.ToListAsync());
+            var _blog = _blogService.GetAll();
+            return View(await _blog);
         }
 
         // GET: Blogs/Details/5
@@ -34,22 +41,20 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
-                .FirstOrDefaultAsync(m => m.EventId == id);
+            var _event = await _blogService.Details(id);
 
-            if (@event == null)
+            if (_event == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            ViewData["CoverPage"] = _event.CoverPage;
+            return View(_event);
         }
 
         // GET: Blogs/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono");
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId");
             return View();
         }
 
@@ -58,17 +63,14 @@ namespace GestionAntioquia.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,Name,Description,CoverPage,SquareCover,EventsDate,CreationDate,UpdateDate,State,CategoryId,PlaceId")] Event @event)
+        public async Task<IActionResult> Create(BlogCreateDto model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
-                await _context.SaveChangesAsync();
+                await _blogService.Create(model);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", @event.CategoryId);
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", @event.PlaceId);
-            return View(@event);
+            return View(model);
         }
 
         // GET: Blogs/Edit/5
@@ -79,14 +81,24 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            var _event = await _blogService.GetById(id);
+            if (_event == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", @event.CategoryId);
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", @event.PlaceId);
-            return View(@event);
+
+            var _blog = new BlogEditDto
+            {
+                EventId = _event.EventId,
+                Name = _event.Name,
+                Description = _event.Description,
+                Author = _event.Author,
+                UpdateDate = _event.UpdateDate,
+                State = _event.State
+            };
+
+            ViewData["CoverPage"] = _event.CoverPage;
+            return View(_blog);
         }
 
         // POST: Blogs/Edit/5
@@ -94,9 +106,9 @@ namespace GestionAntioquia.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,Name,Description,CoverPage,SquareCover,EventsDate,CreationDate,UpdateDate,State,CategoryId,PlaceId")] Event @event)
+        public async Task<IActionResult> Edit(int id, BlogEditDto _model)
         {
-            if (id != @event.EventId)
+            if (id != _model.EventId)
             {
                 return NotFound();
             }
@@ -105,12 +117,11 @@ namespace GestionAntioquia.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
-                    await _context.SaveChangesAsync();
+                    await _blogService.Edit(id, _model);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.EventId))
+                    if (!EventExists(_model.EventId))
                     {
                         return NotFound();
                     }
@@ -121,9 +132,9 @@ namespace GestionAntioquia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", @event.CategoryId);
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "PlaceId", @event.PlaceId);
-            return View(@event);
+
+            return View(_model);
+
         }
 
         // GET: Blogs/Delete/5
@@ -134,17 +145,14 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
-                .Include(x=>x.Category)
-                .Include(x => x.Place)
-                .FirstOrDefaultAsync(m => m.EventId == id);
+            var _event = await _blogService.GetById(id);
 
-            if (@event == null)
+            if (_event == null)
             {
                 return NotFound();
             }
-
-            return View(@event);
+            ViewData["CoverPage"] = _event.CoverPage;
+            return View(_event);
         }
 
         // POST: Blogs/Delete/5
@@ -152,15 +160,30 @@ namespace GestionAntioquia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Events.FindAsync(id);
-            _context.Events.Remove(@event);
-            await _context.SaveChangesAsync();
+            var _event = await _blogService.GetById(id);
+
+            var _id = _event.EventId;
+            var _squareCover = _event.SquareCover;
+            var _cove = _event.CoverPage;
+
+            await _blogService.DeleteConfirmed(_id, _squareCover, _cove);
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool EventExists(int? id)
         {
-            return _context.Events.Any(e => e.EventId == id);
+            return _blogService.BlogExists(id);
         }
+
+    #endregion
+
+    #region "FrontEnd"
+    public async Task<IActionResult> Blog()
+    {
+        var _blog = _blogService.Blog();
+        return View(await _blog);
+    }
+        #endregion
     }
 }

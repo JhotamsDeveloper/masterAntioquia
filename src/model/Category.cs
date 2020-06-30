@@ -15,8 +15,6 @@ namespace Model
         [Required(ErrorMessage = "El Icono es requerido")]
         public string Icono { get; set; }
 
-        public string Subcategory { get; set; }
-        
         public bool Stated { get; set; }
         public List<Place> Places { get; set; }
         public List<Event> Events { get; set; }
