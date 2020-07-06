@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.DTOs;
+using Model.DTOs.CustomValidations;
 using Persisten.Database;
 using Service.Commons;
 using System;
@@ -14,7 +15,6 @@ namespace Service
 {
     public interface IBlogService 
     {
-        Task<IEnumerable<Event>> GetAll();
         Task<BlogDto> Details(int? id);
         Task<BlogDto> Create(BlogCreateDto model);
         Task<BlogDto> GetById(int? id);
@@ -22,7 +22,7 @@ namespace Service
         Task DeleteConfirmed(int _id, string _squareCover, string _cover);
         Task<BlogDto> BlogUrl(string _blogUrl);
         bool BlogExists(int? id);
-        Task<IEnumerable<Event>> Blog();
+        Task<IEnumerable<BlogDto>> Blog();
     }
     public class BlogService : IBlogService
     {
@@ -48,13 +48,6 @@ namespace Service
         }
 
         #region "BackEnd"
-        public async Task<IEnumerable<Event>> GetAll()
-        {
-            var _getAll = _context
-                .Events
-                .Include(p => p.Place);
-            return (await _getAll.ToListAsync());
-        }
 
         public async Task<BlogDto> Details(int? id)
         {
@@ -185,17 +178,32 @@ namespace Service
         {
             return _context.Events.Any(e => e.EventId == id);
         }
-
+        
         #endregion
 
         #region "FrontEnd"
-        public async Task<IEnumerable<Event>> Blog()
+        public async Task<IEnumerable<BlogDto>> Blog()
         {
-            var _getAll = _context.Events
-                .Include(x => x.Category)
-                .Where(x => x.State == true && x.Category.Name == "Blog");
 
-            return (await _getAll.ToListAsync());
+            var _getAll = _context
+                .Events.Include(c=>c.Category)
+                .Where(x=>x.Category.Name == "Blog" && x.State == true);
+
+            var _modelo = from b in _getAll
+                          select new BlogDto
+                          {
+                              EventId = b.EventId,
+                              Name = b.Name,
+                              BlogUrl = b.EventUrl,
+                              Description = b.Description,
+                              Author = b.Author,
+                              CoverPage = b.CoverPage,
+                              SquareCover = b.SquareCover,
+                              UpdateDate = b.UpdateDate,
+                              State = b.State
+                          };
+
+            return (await _modelo.ToListAsync());
         }
         #endregion
     }

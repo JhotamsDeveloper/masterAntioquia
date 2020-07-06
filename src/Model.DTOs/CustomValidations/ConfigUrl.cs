@@ -20,4 +20,12 @@ namespace Model.DTOs.CustomValidations
             return true;
         }
     }
+
+
+    public class VerifyUrl
+    {
+        public string Name { get; set; }
+
+    }
+
 }

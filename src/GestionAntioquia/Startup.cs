@@ -86,9 +86,17 @@ namespace GestionAntioquia
                 defaults: new { Controller = "Company", action = "Details" });
 
                 endpoints.MapControllerRoute(
+                name: "Blob",
+                pattern: "blog",
+                defaults: new { Controller = "blogs", action = "blog" });
+
+
+                endpoints.MapControllerRoute(
                 name: "hoteles",
                 pattern: "hoteles",
                 defaults: new { Controller = "company", action = "Allies" });
+
+                
             });
 
         }

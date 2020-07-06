@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Web.Mvc;
 
 namespace Model.DTOs
 {
@@ -18,6 +19,8 @@ namespace Model.DTOs
         public string SquareCover { get; set; }
 
         public DateTime CreationDate { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime UpdateDate { get; set; }
 
         public Boolean State { get; set; }

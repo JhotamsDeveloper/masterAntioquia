@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GestionAntioquia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -27,10 +28,62 @@ namespace GestionAntioquia.Controllers
 
     #region "BackEnd"
         // GET: Blogs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string sortOrder, 
+            string searchString,
+            string currentFilter,
+            int? pageNumber)
         {
-            var _blog = _blogService.GetAll();
-            return View(await _blog);
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var _query = from q in _context.Events
+                         .Where(x=>x.Category.Name == "Blog")
+                         select q;
+
+            //Para la busqueda
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                _query = _query.Where(s => s.Name.ToUpper().Contains(searchString.ToUpper())
+                                       || s.Author.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    _query = _query
+                        .OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    _query = _query
+                        .OrderBy(s => s.Author);
+                    break;
+                case "date_desc":
+                    _query = _query
+                        .OrderByDescending(s => s.UpdateDate);
+                    break;
+                default:
+                    _query = _query
+                        .OrderBy(s => s.Name);
+                    break;
+            }
+
+            int pageSize = 10;
+            return View(await PaginatedList<Event>.CreateAsync(_query.AsNoTracking(), pageNumber ?? 1, pageSize));
+
         }
 
         // GET: Blogs/Details/5
@@ -176,13 +229,15 @@ namespace GestionAntioquia.Controllers
             return _blogService.BlogExists(id);
         }
 
-    #endregion
 
-    #region "FrontEnd"
-    public async Task<IActionResult> Blog()
+        #endregion
+
+        #region "FrontEnd"
+        public async Task<IActionResult> Blog(string sortOrder)
     {
-        var _blog = _blogService.Blog();
-        return View(await _blog);
+         var _blog = _blogService.Blog();
+
+            return View(await _blog);
     }
         #endregion
     }

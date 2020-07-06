@@ -1,102 +1,101 @@
-﻿@model IEnumerable<Model.Event>
+﻿@model IEnumerable<Model.DTOs.BlogDto>
 
 @{
-    ViewData["Title"] = "Blog";
+    ViewData["Title"] = "Blog, ";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content("~/images/blog.jpg");
 }
 
-<h1>Blog</h1>
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">Blog</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CoverPage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SquareCover)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventsDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Place)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoverPage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SquareCover)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventsDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Icono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Place.PlaceId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
-            </td>
-        </tr>
+@*<div style="width:100%; height:150px; background-color:forestgreen"></div>*@
+
+@if (Model.Any())
+{
+    <!-- Blog -->
+
+    <div class="blog">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="blog_posts_container marginTop">
+                        <div class="blog_posts">
+
+                            @foreach (var item in Model)
+                            {
+
+                                <!-- Blog Post -->
+                                <div class="blog_post">
+                                    <div class="blog_post_container">
+
+                                        <div class="location_icon">
+                                            <span> <strong> @item.UpdateDate.ToString("dd-MM-yyyy") </strong></span>
+                                        </div>
+
+                                        @if (item.CoverPage == null)
+                                        {
+                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@item.Name"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="blog_post_image"><a asp-controller="Store" asp-action="Shopitems" asp-route-itemUrl="@item.BlogUrl"><img src="~/images/Places/@item.SquareCover" asp-append-version="true"></a></div>
+                                        }
+
+                                        <div class="blog_post_content">
+
+                                            <div class="blog_post_title">
+                                                <h3>@item.Name</h3>
+                                            </div>
+                                            <div class="blog_post_tags">
+                                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                                    <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@item.BlogUrl">@item.Name </a></li>
+                                                    <li><a href="#">Urbano</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="blog_posts_more">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 }
-    </tbody>
-</table>
+else
+{
+
+    <h1>En el momento no hay registros</h1>
+}
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ScriptPlacesAliados");}
+}
