@@ -23,41 +23,72 @@
 </div>
 
 <div class="container">
-    <a class="btn button_2 btn-lg btn-block m-5" asp-action="Create">
-        <h3 style="color:aliceblue">Crear un nuevo lugar</h3>
-    </a>
+
+    <div class="row justify-content-md-center">
+
+        <div class="col-md-12">
+            <div class="md-form">
+                <a class="btn button_2 btn-lg btn-block mt-5" asp-action="Create">
+                    <h3 style="color:aliceblue">Crear un nuevo lugar</h3>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
 
     <form asp-action="Index" method="get">
-        <div class="form-actions no-color">
-            <p>
-                Encuentra por nombre: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-                <input type="submit" value="Search" class="btn btn-default" /> |
-                <a asp-action="Index">Volver a la lista completa</a>
-            </p>
+        <div class="row align-items-center">
+
+            <div class="col-md-4 mt-2">
+
+                <div class="md-form">
+                    <input type="text" class="form-control" name="SearchString" id="search" placeholder="Haga la busquéda por nombre" value="@ViewData["currentFilter"]" aria-describedby="searchHelp">
+                </div>
+
+            </div>
+            <div class="col-md-4 mt-2">
+
+                <div class="md-form">
+                    <input type="submit" value="buscar" class="btn button button_2 btn-block" style="color:aliceblue" />
+                </div>
+
+            </div>
+            <div class="col-md-4 mt-2">
+
+                <div class="md-form">
+                    <input type="submit" value="Volver a la lista completa" class="btn button button_3 btn-block" />
+                </div>
+
+            </div>
         </div>
     </form>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Nombre</a>
-                </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Autor</a>
-                </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Fecha</a>
-                </th>
-                <th>
-                    Estado
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
+</div>
 
-                foreach (var item in Model)
+<div class="container mt-5">
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr class="m-2">
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Nombre</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Autor</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Fecha</a>
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
@@ -79,9 +110,11 @@
                         </td>
                     </tr>
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+
+
 
     <div class="text-center">
 
