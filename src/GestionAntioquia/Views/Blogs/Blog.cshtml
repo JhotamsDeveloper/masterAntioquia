@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Model.DTOs.BlogDto>
+﻿@*@model IEnumerable<Model.DTOs.BlogDto>*@
+@model PaginatedList<Model.Event>
 
 @{
     ViewData["Title"] = "Blog, ";
@@ -52,7 +53,7 @@
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a asp-controller="Store" asp-action="Shopitems" asp-route-itemUrl="@item.BlogUrl"><img src="~/images/Places/@item.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a href="@Url.Content("blog/" + item.EventUrl)"><img src="~/images/Places/@item.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">
@@ -62,7 +63,7 @@
                                             </div>
                                             <div class="blog_post_tags">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                    <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@item.BlogUrl">@item.Name </a></li>
+                                                    <li><a asp-action="Details" asp-route-name="@item.EventUrl">@item.Name </a></li>
                                                     <li><a href="#">Urbano</a></li>
                                                 </ul>
                                             </div>
@@ -75,9 +76,29 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-top:-60px">
                 <div class="col">
-                    <div class="blog_posts_more">
+                    <div class="blog_posts_more text-center" >
+
+                        @{
+                            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                        }
+
+                        <a asp-action="Blog"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-pag="@(Model.PageIndex - 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           class="btn button_3 @prevDisabled">
+                            <h4 style="color:gray">Anterior</h4>
+                        </a>
+                        <a asp-action="Blog"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-pag="@(Model.PageIndex + 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           class="btn button_3 @nextDisabled">
+                            <h4 style="color:gray">Siguiente</h4>
+                        </a>
 
                     </div>
                 </div>

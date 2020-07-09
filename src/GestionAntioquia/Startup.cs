@@ -86,8 +86,8 @@ namespace GestionAntioquia
                 defaults: new { Controller = "Company", action = "Details" });
 
                 endpoints.MapControllerRoute(
-                name: "Blob",
-                pattern: "blog",
+                name: "blog",
+                pattern: "blog/{name}",
                 defaults: new { Controller = "blogs", action = "blog" });
 
 

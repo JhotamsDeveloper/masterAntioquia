@@ -16,6 +16,7 @@ namespace Service
     public interface IBlogService 
     {
         Task<BlogDto> Details(int? id);
+        Task<BlogDto> Details(string name);
         Task<BlogDto> Create(BlogCreateDto model);
         Task<BlogDto> GetById(int? id);
         Task Edit(int id, BlogEditDto model);
@@ -60,7 +61,17 @@ namespace Service
 
             return _mapper.Map<BlogDto>(_blog);
         }
+        public async Task<BlogDto> Details(string name)
+        {
 
+            var _blog = _mapper.Map<BlogDto>(
+                    await _context.Events
+                    .Include(p => p.Place)
+                    .FirstOrDefaultAsync(m => m.Name == name && m.State==true)
+                );
+
+            return _mapper.Map<BlogDto>(_blog);
+        }
         public async Task<BlogDto> Create(BlogCreateDto model)
         {
 

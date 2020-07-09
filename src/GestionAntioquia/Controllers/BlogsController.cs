@@ -233,12 +233,55 @@ namespace GestionAntioquia.Controllers
         #endregion
 
         #region "FrontEnd"
-        public async Task<IActionResult> Blog(string sortOrder)
+        [Route("/blog/")]
+        public async Task<IActionResult> Blog(
+            string currentFilter,
+            string searchString,
+            int? pag)
     {
-         var _blog = _blogService.Blog();
+            if (searchString != null)
+            {
+                pag = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
-            return View(await _blog);
-    }
+            ViewData["CurrentFilter"] = searchString;
+
+            var _query = from q in _context.Events
+             .Where(x =>x.State == true && x.Category.Name == "Blog")
+                         select q;
+
+            int pageSize = 9;
+            return View(await PaginatedList<Event>.CreateAsync(_query.AsNoTracking(), pag ?? 1, pageSize));
+
+            //var _blog = _blogService.Blog();
+
+            //   return View(await _blog);
+        }
+
+        // GET: Blogs/Details/5
+        [Route("/blog/{name}")]
+        public async Task<IActionResult> Details(string name)
+        {
+            if (name == null)
+            {
+                return NotFound();
+            }
+
+            var _event = await _blogService.Details(name);
+
+            if (_event == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["CoverPage"] = _event.CoverPage;
+            return View(_event);
+        }
+
         #endregion
     }
 }

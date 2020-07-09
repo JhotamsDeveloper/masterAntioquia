@@ -37,7 +37,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">¿Quiénes somos?</a></li>
                     <li><a asp-area="" asp-controller="company" asp-action="Allies">Aliados</a></li>
                     <li><a asp-area="" asp-controller="store" asp-action="StoreProducts">Tienda Virtual</a></li>
-                    <li><a asp-area="" asp-controller="blogs" asp-action="blog">Blog</a></li>
+                    <li><a href="@Url.Content("blog")">Blog</a></li>
                 </ul>
             </nav>
             <div class="menu_link">
@@ -70,7 +70,7 @@
                             <li><a asp-area="" asp-controller="Home" asp-action="About">¿Quiénes somos?</a></li>
                             <li><a href="@Url.RouteUrl("hoteles")">Aliados</a></li>
                             <li><a asp-area="" asp-controller="store" asp-action="StoreProducts">Tienda Virtual</a></li>
-                            <li><a asp-area="" asp-controller="blogs" asp-action="blog">Blog</a></li>
+                            <li><a href="@Url.Content("blog")">Blog</a></li>
                         </ul>
                     </nav>
                     <div class="add_listing text-center trans_200">
