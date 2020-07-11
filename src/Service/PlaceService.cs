@@ -31,6 +31,7 @@ namespace Service
 
         Boolean DuplicaName(string name);
 
+
     }
     public class PlaceService : IPlaceService
     {
@@ -230,5 +231,6 @@ namespace Service
 
             return urlName.Any();
         }
+
     }
 }

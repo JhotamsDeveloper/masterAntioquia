@@ -302,5 +302,7 @@ namespace Service
             return (await _getAll.ToListAsync());
         }
 
+        //Este método es llamado desde la vista Details de BLOG
+
     }
 }

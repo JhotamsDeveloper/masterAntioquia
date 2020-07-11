@@ -28,7 +28,7 @@ namespace GestionAntioquia.Controllers
         {
             var _aliados = await _companyService.GetAll();
 
-            var _viewAliados = (from a in _aliados
+            var _viewAliados = from a in _aliados
                                 select new PlacesAlliesDto
                                 {
                                     PlaceId = a.PlaceId,
@@ -40,7 +40,7 @@ namespace GestionAntioquia.Controllers
                                     DataCreate = DateTime.Parse(a.CreationDate).AddMonths(1),
                                     New = "nuevo",
                                     NameCategory = a.Category.Name
-                                }) ;
+                                };
 
             return View(_viewAliados);
         }

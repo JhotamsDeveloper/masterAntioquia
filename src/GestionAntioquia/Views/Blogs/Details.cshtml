@@ -14,7 +14,7 @@
                 <div class="col">
                     <div class="home_content">
                         <div class="home_title">
-                            <h2 class="section-heading text-center h1 pt-4">Centro de noticias</h2>
+                            <h2 class="section-heading text-center h1 pt-4">Blog</h2>
                         </div>
                     </div>
                 </div>
@@ -23,48 +23,88 @@
     </div>
 </div>
 
-<div class="container">
-    <div>
+<!-- Listing -->
 
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10 text-justify">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
+<div class="listing">
+    <div class="container" style="margin-top:-40px">
+        <div class="row">
+            <!-- Listing Content -->
+            <div class="col-lg-8">
+                <div class="listing_content">
+                    <div class="section_title"><h1>@Model.Name</h1></div>
+                    <div class="blog_post_tags mt-3">
+                        <ul class="d-flex flex-row align-items-start justify-content-start">
+                            <li>
+                                <div class="sidebar_info_content">
+                                    <span>Fecha de publicación: </span> @Model.UpdateDate.ToString("dd-MM-yyyy")
+                                </div>
+                            </li>
+                            <li>
+                                <div class="sidebar_info_content">
+                                    <span>Autor: </span> @Model.Author
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <br />
+                    <div class="listing_text">
+                        <p class="text-justify">
+                            @Model.Description
+                        </p>
+                    </div>
 
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CreationDate)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.UpdateDate)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.State)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.State)
-            </dd>
-        </dl>
+                    <!-- Esta reservado para crear comentarios o las opciones de compartir -->
+                    <div class="reviews">
 
-    </div>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
-        <a asp-action="Index">Back to List</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listing Sidebar -->
+            <div class="col-lg-4">
+                <div class="section_title text-center"><h4>Descansa ¡te lo mereces!</h4></div>
+
+                @foreach (var whereToSleep in Model.Products)
+                {
+
+                    <!-- Blog Post -->
+                    <div class="m-3">
+                        <div class="blog_post_container">
+
+                            <div class="location_icon">
+                                <span> <strong> @whereToSleep.Price Col</strong></span>
+                            </div>
+
+                            @if (whereToSleep.CoverPage == null)
+                            {
+                                <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@whereToSleep.Name"></div>
+                            }
+                            else
+                            {
+                                <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="~/images/Places/@whereToSleep.SquareCover" asp-append-version="true"></a></div>
+                            }
+
+                            <div class="blog_post_content">
+
+                                <div class="blog_post_date"><a href="#">@whereToSleep.Place.City</a></div>
+
+                                <div class="blog_post_title">
+                                    <h3>@whereToSleep.Name</h3>
+                                </div>
+                                <div class="blog_post_tags">
+                                    <ul class="d-flex flex-row align-items-start justify-content-start">
+                                        <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@whereToSleep.Place.NameUrl">@whereToSleep.Place.Name, </a></li>
+                                        <li><a href="#">Urbano</a></li>
+                                    </ul>
+                                </div>
+                                <p class="text-center"><span>Plan para @whereToSleep.PersonNumber personas</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
     </div>
 </div>
 

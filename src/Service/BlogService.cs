@@ -31,6 +31,8 @@ namespace Service
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IGalleryService _galleryService;
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
         private readonly IUploadedFile _uploadedFile;
         private readonly IFormatString _formatString;
 
@@ -38,12 +40,16 @@ namespace Service
             ApplicationDbContext context,
             IMapper mapper,
             IGalleryService galleryService,
+            IProductService productService,
+            ICategoryService categoryService,
             IUploadedFile uploadedFile,
             IFormatString formatString)
         {
             _context = context;
             _mapper = mapper;
             _galleryService = galleryService;
+            _productService = productService;
+            _categoryService = categoryService;
             _uploadedFile = uploadedFile;
             _formatString = formatString;
         }
@@ -61,16 +67,42 @@ namespace Service
 
             return _mapper.Map<BlogDto>(_blog);
         }
+
         public async Task<BlogDto> Details(string name)
         {
+            
 
-            var _blog = _mapper.Map<BlogDto>(
-                    await _context.Events
-                    .Include(p => p.Place)
-                    .FirstOrDefaultAsync(m => m.Name == name && m.State==true)
-                );
+            var _producGuid = await _context.Products
+                .AsNoTracking()
+                .Include(a => a.Place)
+                .ThenInclude(b => b.Category)
+                .Where(c =>    c.Statud == true
+                            && c.Place.Category.Name == "Hotel"
+                            && c.Place.State == true)
+                .OrderBy(d => Guid.NewGuid())
+                .Take(5)
+                .ToListAsync();
 
-            return _mapper.Map<BlogDto>(_blog);
+            var _blog = await _context.Events
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Name == name && m.State == true);
+
+            var _modelo = new BlogDto
+                {
+                    EventId = _blog.EventId,
+                    Name = _blog.Name,
+                    BlogUrl = _blog.EventUrl,
+                    Description = _blog.Description,
+                    Author = _blog.Author,
+                    CoverPage = _blog.CoverPage,
+                    SquareCover = _blog.SquareCover,
+                    UpdateDate = _blog.UpdateDate,
+                    State = _blog.State,
+                    Products = _producGuid
+            };
+
+
+            return _mapper.Map<BlogDto>(_modelo);
         }
         public async Task<BlogDto> Create(BlogCreateDto model)
         {
@@ -217,5 +249,6 @@ namespace Service
             return (await _modelo.ToListAsync());
         }
         #endregion
+
     }
 }

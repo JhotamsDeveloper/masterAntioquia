@@ -229,7 +229,6 @@ namespace GestionAntioquia.Controllers
             return _blogService.BlogExists(id);
         }
 
-
         #endregion
 
         #region "FrontEnd"
@@ -270,7 +269,7 @@ namespace GestionAntioquia.Controllers
             {
                 return NotFound();
             }
-
+            
             var _event = await _blogService.Details(name);
 
             if (_event == null)
