@@ -1,8 +1,10 @@
-﻿@{
+﻿@model IEnumerable<Model.DTOs.BlogDto>
+
+@{
     ViewData["Title"] = "Santa Fe de Antioquia,";
 }
 
-    <!-- Home -->
+<!-- Home -->
 
 <div class="home_carousel">
 
@@ -150,7 +152,7 @@
                         <a href="listings.html">
                             <div class="d-flex flex-md-column flex-row align-items-md-center align-items-md-start align-items-center justify-content-start">
                                 <div class="cat_icon"><img src="~/images/icon_5.svg" class="svg" alt="https://www.flaticon.com/authors/monkik"></div>
-                                <div class="cat_title">Cultura</div>
+                                <div class="cat_title">Tour</div>
                             </div>
                         </a>
                     </div>
@@ -161,80 +163,74 @@
     </div>
 </div>
 
-<div class="food container_custom">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section_title text-center"><h1>Planes y Servicios Recomendados</h1></div>
-                <div class="grid_container grid">
 
-                    <!-- Grid Item -->
-                    <div class="grid-item grid_large">
-                        <div class="food_item">
-                            <div class="food_item_tag"><a href="#">Fusion</a></div>
-                            <div class="background_image" style="background-image:url(images/food_1.jpg)"></div>
-                        </div>
-                    </div>
+@if (Model.Any())
+{
+    <!-- Blog -->
 
-                    <!-- Grid Item -->
-                    <div class="grid-item grid_small">
-                        <div class="food_item">
-                            <div class="food_item_tag"><a href="#">Asian</a></div>
-                            <div class="background_image" style="background-image:url(images/food_2.jpg)"></div>
-                        </div>
-                    </div>
+    <div class="blog">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="blog_posts_container marginTop">
+                        <div class="blog_posts">
 
-                    <!-- Grid Item -->
-                    <div class="grid-item grid_medium">
-                        <div>
-                            <div class="grid_half">
-                                <div class="food_item">
-                                    <div class="food_item_tag"><a href="#">Breakfast</a></div>
-                                    <div class="background_image" style="background-image:url(images/food_3.jpg)"></div>
+                            @foreach (var item in Model)
+                            {
+
+                                <!-- Blog Post -->
+                                <div class="blog_post">
+                                    <div class="blog_post_container">
+
+                                        <div class="location_icon">
+                                            <span> <strong> @item.UpdateDate.ToString("dd-MM-yyyy") </strong></span>
+                                        </div>
+
+                                        @if (item.CoverPage == null)
+                                        {
+                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@item.Name"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="blog_post_image"><a href="@Url.Content("blog/" + item.BlogUrl)"><img src="~/images/Places/@item.SquareCover" asp-append-version="true"></a></div>
+                                        }
+
+                                        <div class="blog_post_content">
+
+                                            <div class="blog_post_title">
+                                                <h3>@item.Name</h3>
+                                            </div>
+                                            <div class="blog_post_tags">
+                                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                                    <li><a asp-action="Details" asp-route-name="@item.BlogUrl">@item.Name </a></li>
+                                                    <li><a href="#">Urbano</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="grid_half">
-                                <div class="food_item">
-                                    <div class="food_item_tag"><a href="#">Pizza</a></div>
-                                    <div class="background_image" style="background-image:url(images/food_4.jpg)"></div>
-                                </div>
-                            </div>
+                            }
+
                         </div>
                     </div>
-
-                    <!-- Grid Item -->
-                    <div class="grid-item grid_medium">
-                        <div class="food_item">
-                            <div class="food_item_tag"><a href="#">Vine & Dine</a></div>
-                            <div class="background_image" style="background-image:url(images/food_5.jpg)"></div>
-                        </div>
-                    </div>
-
-                    <!-- Grid Item -->
-                    <div class="grid-item grid_small">
-                        <div class="food_item">
-                            <div class="food_item_tag"><a href="#">Coffee</a></div>
-                            <div class="background_image" style="background-image:url(images/food_6.jpg)"></div>
-                        </div>
-                    </div>
-
-                    <!-- Grid Item -->
-                    <div class="grid-item grid_large">
-                        <div class="food_item">
-                            <div class="food_item_tag"><a href="#">Fine Dine</a></div>
-                            <div class="background_image" style="background-image:url(images/food_7.jpg)"></div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
-</div>
 
+
+
+}
+else
+{
+
+    <h1>En el momento no hay registros</h1>
+}
 
 
 @section Scripts {
 
     @{await Html.RenderPartialAsync("_ScriptsHomeIndexPartial");}
+    @{await Html.RenderPartialAsync("_ScriptPlacesAliados");}
+
 }

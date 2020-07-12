@@ -6,7 +6,6 @@
 
 1. Vars and Inits
 2. Set Header
-3. Init Menu
 4. Init Home SLider
 5. Init SVG
 6. Init Isotope
@@ -45,7 +44,6 @@ $(document).ready(function()
 		setHeader();
 	});
 
-	initMenu();
 	initHomeSlider();
 	initSvg();
 	initIsotope();
@@ -70,53 +68,6 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
-
-	3. Init Menu
-
-	*/
-
-	function initMenu()
-	{
-		if($('.menu').length)
-		{
-			var header = $('.header');
-			var hOverlay = $('.header_overlay');
-			var menu = $('.menu');
-			var hamb = $('.hamburger');
-			var sup = $('.super_container_inner');
-			var close = $('.menu_close');
-			var overlay = $('.super_overlay');
-
-			hamb.on('click', function()
-			{
-				header.toggleClass('active');
-				sup.toggleClass('active');
-				menu.toggleClass('active');
-			});
-
-			close.on('click', function()
-			{
-				header.toggleClass('active');
-				sup.toggleClass('active');
-				menu.toggleClass('active');
-			});
-
-			overlay.on('click', function()
-			{
-				header.toggleClass('active');
-				sup.toggleClass('active');
-				menu.toggleClass('active');
-			});
-
-			hOverlay.on('click', function()
-			{
-				header.toggleClass('active');
-				sup.toggleClass('active');
-				menu.toggleClass('active');
-			});
-		}
-	}
 
 	/* 
 

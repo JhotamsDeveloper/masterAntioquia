@@ -24,6 +24,7 @@ namespace Service
         Task<BlogDto> BlogUrl(string _blogUrl);
         bool BlogExists(int? id);
         Task<IEnumerable<BlogDto>> Blog();
+        Task<IEnumerable<BlogDto>> Blog(int quantity);
     }
     public class BlogService : IBlogService
     {
@@ -231,6 +232,31 @@ namespace Service
             var _getAll = _context
                 .Events.Include(c=>c.Category)
                 .Where(x=>x.Category.Name == "Blog" && x.State == true);
+
+            var _modelo = from b in _getAll
+                          select new BlogDto
+                          {
+                              EventId = b.EventId,
+                              Name = b.Name,
+                              BlogUrl = b.EventUrl,
+                              Description = b.Description,
+                              Author = b.Author,
+                              CoverPage = b.CoverPage,
+                              SquareCover = b.SquareCover,
+                              UpdateDate = b.UpdateDate,
+                              State = b.State
+                          };
+
+            return (await _modelo.ToListAsync());
+        }
+
+        public async Task<IEnumerable<BlogDto>> Blog(int quantity)
+        {
+
+            var _getAll = _context
+                .Events.Include(c => c.Category)
+                .Where(x => x.Category.Name == "Blog" && x.State == true)
+                .Take(quantity);
 
             var _modelo = from b in _getAll
                           select new BlogDto

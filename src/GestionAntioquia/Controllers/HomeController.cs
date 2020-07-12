@@ -6,25 +6,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using GestionAntioquia.Models;
+using Service;
 
 namespace GestionAntioquia.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IBlogService _blogService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IBlogService blogService)
         {
-            _logger = logger;
+            _blogService = blogService;
         }
 
-        [Route("")]
-        [Route("Home")]
-        [Route("Home/Index")]
-        [Route("Home/Index/{id?}")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _blogService.Blog(6));
         }
 
         public IActionResult Privacy()
