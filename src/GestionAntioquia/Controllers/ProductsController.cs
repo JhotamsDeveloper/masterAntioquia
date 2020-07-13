@@ -102,13 +102,17 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
             var _galleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
             var _productEditDto = new ProductEditDto
             {
                 ProductId = _product.ProductId,
                 Name = _product.Name,
                 Description = _product.Description,
-                Price = _product.Price,
+                Price = string.Format(nfi, "{0:C0}", _product.Price),
                 Discounts = _product.Discounts,
                 PersonNumber = _product.PersonNumber,
                 Statud = _product.Statud,

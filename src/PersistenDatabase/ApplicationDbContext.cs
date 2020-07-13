@@ -38,6 +38,7 @@ namespace Persisten.Database
             new EventConfig(builder.Entity<Event>());
             new ProductConfig(builder.Entity<Product>());
             new GalleryConfig(builder.Entity<Gallery>());
+
         }
     }
 }

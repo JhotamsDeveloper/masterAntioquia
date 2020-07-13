@@ -24,6 +24,7 @@
 16. Sidebar
 17. Carousel
 18. WhereToSleep
+19. Listings
 
 ******************************/
 
@@ -2448,3 +2449,315 @@ section
 		color: #9d9d9d;
 		line-height: 1.715;
 	}
+
+/*********************************
+19. Listings
+*********************************/
+.addColorWallpaper {
+	background: #492a5b;
+}
+
+.listings {
+	background: #FFFFFF;
+	padding-top: 128px;
+}
+
+.listings_content {
+	padding-top: 67px;
+	padding-left: 52px;
+	padding-right: 52px;
+}
+
+.search_form {
+	display: block;
+}
+
+	.search_form > div > div:first-child {
+		width: calc((100% - 18px) * 0.62);
+		margin-right: 18px;
+	}
+
+	.search_form > div > div:last-child {
+		width: calc((100% - 18px) * 0.38);
+	}
+
+.search_input {
+	display: block;
+	width: 100%;
+	height: 57px;
+	border: solid 1px #e1ecf4;
+	outline: none;
+	padding-left: 27px;
+	border-radius: 5px;
+	font-size: 16px;
+	font-weight: 400;
+	color: #000000;
+}
+
+	.search_input::-webkit-input-placeholder {
+		font-size: 16px !important;
+		font-weight: 400 !important;
+		color: #b9b9b9 !important;
+	}
+
+	.search_input:-moz-placeholder {
+		font-size: 16px !important;
+		font-weight: 400 !important;
+		color: #b9b9b9 !important;
+	}
+
+	.search_input::-moz-placeholder {
+		font-size: 16px !important;
+		font-weight: 400 !important;
+		color: #b9b9b9 !important;
+	}
+
+	.search_input:-ms-input-placeholder {
+		font-size: 16px !important;
+		font-weight: 400 !important;
+		color: #b9b9b9 !important;
+	}
+
+	.search_input::input-placeholder {
+		font-size: 16px !important;
+		font-weight: 400 !important;
+		color: #b9b9b9 !important;
+	}
+
+.search_button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 196px;
+	height: 57px;
+	border: none;
+	outline: none;
+	background: #ffb400;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 500;
+	color: #FFFFFF;
+}
+
+.listing_filter {
+	margin-top: 82px;
+}
+
+.listing_filter_container {
+	margin-top: 30px;
+}
+
+.listing_checkbox {
+	width: 25%;
+	margin-bottom: 16px;
+}
+
+	.listing_checkbox label {
+		display: block;
+		position: relative;
+		cursor: pointer;
+		padding-left: 39px;
+		line-height: 26px;
+		font-size: 14px;
+		font-weight: 500;
+		color: #000000;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	.listing_checkbox input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
+
+.checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 26px;
+	width: 26px;
+	border: solid 1px #cad8e2;
+	border-radius: 5px;
+	background-color: transparent;
+}
+
+	.checkmark::after {
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		-moz-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		-o-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		width: 12px;
+		height: 12px;
+		background: #ffb400;
+		border-radius: 50%;
+		content: '';
+		visibility: hidden;
+		opacity: 0;
+		-webkit-transition: all 200ms ease;
+		-moz-transition: all 200ms ease;
+		-ms-transition: all 200ms ease;
+		-o-transition: all 200ms ease;
+		transition: all 200ms ease;
+	}
+
+.listing_checkbox input:checked ~ .checkmark::after {
+	visibility: visible;
+	opacity: 1;
+}
+
+.listing_checkbox:hover .checkmark::after {
+	visibility: visible;
+	opacity: 0.5;
+}
+
+.results_container {
+	margin-top: 34px;
+	padding-right: 65px;
+}
+
+.results {
+	width: calc(100% + 38px);
+	left: -19px;
+	margin-top: 30px;
+}
+
+.result {
+	width: 50%;
+	margin-bottom: 37px;
+	padding-left: 19px;
+	padding-right: 19px;
+}
+
+.listing {
+	background: #e1ecf4;
+}
+
+.listing_icon {
+	position: absolute;
+	top: 15px;
+	left: 23px;
+	width: 52px;
+	height: 35px;
+	background: #49237d;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 35px;
+}
+
+	.listing_icon a {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+.listing_title_container {
+	padding-left: 23px;
+	padding-top: 22px;
+	padding-bottom: 16px;
+	padding-right: 34px;
+	border-bottom: solid 1px #FFFFFF;
+}
+
+.listing_title {
+	margin-left: -1px;
+}
+
+	.listing_title a {
+		font-size: 24px;
+		font-weight: 500;
+		color: #000000;
+		line-height: 1.2;
+	}
+
+.listing_info {
+	margin-top: 5px;
+}
+
+.listing_rating {
+	width: 49px;
+	height: 35px;
+	background: #ffb400;
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 35px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.listing_price,
+.listing_divider,
+.listing_type,
+.listing_status {
+	font-size: 14px;
+	font-weight: 500;
+	color: #4e4e4e;
+}
+
+.listing_status {
+	color: #ff005a;
+}
+
+.listing_testimonial {
+	padding-left: 22px;
+	padding-top: 22px;
+	padding-bottom: 28px;
+	padding-right: 15px;
+}
+
+.testimonial_image {
+	width: 41px;
+	height: 41px;
+	border-radius: 50%;
+	overflow: hidden;
+	-webkit-flex: 0 0 auto;
+	flex: 0 0 auto;
+}
+
+.testimonial_text {
+	padding-left: 8px;
+}
+
+	.testimonial_text p {
+		font-size: 14px;
+		font-weight: 400;
+		color: #9d9d9d;
+		line-height: 1.715;
+	}
+
+.listings_map {
+	height: 100%;
+	padding-bottom: 37px;
+}
+
+.map {
+	width: 100%;
+	height: 100%;
+}
+
+.google_map {
+	width: 100%;
+	height: 100%;
+}
+
+.map_container {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+#map {
+	width: 100%;
+	height: calc(100% + 30px);
+}

@@ -41,6 +41,7 @@ namespace GestionAntioquia
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<IStoreService, StoreService>();
             services.AddTransient<IBlogService, BlogService>();
+            services.AddTransient<IGenericServicio, GenericServicio>();
 
             services.AddTransient<IUploadedFile, UploadedFile>();
             services.AddTransient<IFormatString, FormatString>();

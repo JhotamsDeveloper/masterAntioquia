@@ -9,6 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Service
 {
@@ -80,13 +81,17 @@ namespace Service
                     var _fechaActual = DateTime.Now;
                     var _url = _formatString.FormatUrl(model.Name);
 
+                    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+                    nfi = (NumberFormatInfo)nfi.Clone();
+                    nfi.CurrencySymbol = "$";
+
                     var _product = new Product
                     {
                         Name = model.Name,
                         ProductUrl = _url,
                         CoverPage = _coverPage,
                         Description = model.Description,
-                        Price = model.Price,
+                        Price = string.Format(nfi, "{0:C0}", model.Price),
                         Discounts = model.Discounts,
                         AmountSupported = model.AmountSupported,
                         PersonNumber = model.PersonNumber,
@@ -153,6 +158,10 @@ namespace Service
                     var _coverPage = _uploadedFile.UploadedFileImage(_product.CoverPage, model.CoverPage);
                     var _squareCover = _uploadedFile.UploadedFileImage(_product.SquareCover, model.SquareCover);
 
+                    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+                    nfi = (NumberFormatInfo)nfi.Clone();
+                    nfi.CurrencySymbol = "$";
+
                     if (_coverPage == null)
                     {
                         _coverPage = _product.CoverPage;
@@ -162,7 +171,7 @@ namespace Service
                     _product.CoverPage = _coverPage;
                     _product.SquareCover = _squareCover;
                     _product.Description = model.Description;
-                    _product.Price = model.Price;
+                    _product.Price = string.Format(nfi, "{0:C0}", model.Price);
                     _product.Discounts = model.Discounts;
                     _product.PersonNumber = model.PersonNumber;
                     _product.Statud = model.Statud;

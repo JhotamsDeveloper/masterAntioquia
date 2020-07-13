@@ -34,6 +34,7 @@ namespace Service
         private readonly IGalleryService _galleryService;
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IGenericServicio _genericServicio;
         private readonly IUploadedFile _uploadedFile;
         private readonly IFormatString _formatString;
 
@@ -43,6 +44,7 @@ namespace Service
             IGalleryService galleryService,
             IProductService productService,
             ICategoryService categoryService,
+            IGenericServicio genericServicio,
             IUploadedFile uploadedFile,
             IFormatString formatString)
         {
@@ -51,6 +53,7 @@ namespace Service
             _galleryService = galleryService;
             _productService = productService;
             _categoryService = categoryService;
+            _genericServicio = genericServicio;
             _uploadedFile = uploadedFile;
             _formatString = formatString;
         }
@@ -71,18 +74,9 @@ namespace Service
 
         public async Task<BlogDto> Details(string name)
         {
-            
 
-            var _producGuid = await _context.Products
-                .AsNoTracking()
-                .Include(a => a.Place)
-                .ThenInclude(b => b.Category)
-                .Where(c =>    c.Statud == true
-                            && c.Place.Category.Name == "Hotel"
-                            && c.Place.State == true)
-                .OrderBy(d => Guid.NewGuid())
-                .Take(5)
-                .ToListAsync();
+
+            var _producGuid = await _genericServicio.NewsList(5);
 
             var _blog = await _context.Events
                 .AsNoTracking()
@@ -99,7 +93,7 @@ namespace Service
                     SquareCover = _blog.SquareCover,
                     UpdateDate = _blog.UpdateDate,
                     State = _blog.State,
-                    Products = _producGuid
+                    Products = _producGuid.ToList()
             };
 
 

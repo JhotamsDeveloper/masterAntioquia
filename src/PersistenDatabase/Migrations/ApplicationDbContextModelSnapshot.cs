@@ -502,8 +502,8 @@ namespace Persisten.Database.Migrations
                     b.Property<int>("PlaceId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductUrl")
                         .HasColumnType("nvarchar(max)");

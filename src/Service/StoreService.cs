@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Service.Commons;
 using Model.DTOs;
+using System.Globalization;
 
 namespace Service
 {
@@ -87,6 +88,10 @@ namespace Service
                     var _fechaActual = DateTime.Now;
                     var _url = _formatString.FormatUrl(model.Name);
 
+                    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+                    nfi = (NumberFormatInfo)nfi.Clone();
+                    nfi.CurrencySymbol = "$";
+
                     var _product = new Product
                     {
                         Name = model.Name,
@@ -95,7 +100,7 @@ namespace Service
                         SquareCover = _SquareCover,
                         Description = model.Description,
                         Mineral = model.Mineral,
-                        Price = model.Price,
+                        Price = string.Format(nfi, "{0:C0}", model.Price),
                         Increments = model.Increments,
                         Discounts = model.Discounts,
                         AmountSupported = model.AmountSupported,
@@ -163,6 +168,10 @@ namespace Service
                     var _coverPage = _uploadedFile.UploadedFileImage(_producStoreEditDto.CoverPage, model.CoverPage);
                     var _squareCover = _uploadedFile.UploadedFileImage(_producStoreEditDto.SquareCover, model.SquareCover);
 
+                    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+                    nfi = (NumberFormatInfo)nfi.Clone();
+                    nfi.CurrencySymbol = "$";
+
                     if (_coverPage == null)
                     {
                         _coverPage = _producStoreEditDto.CoverPage;
@@ -173,7 +182,7 @@ namespace Service
                     _producStoreEditDto.SquareCover = _squareCover;
                     _producStoreEditDto.Description = model.Description;
                     _producStoreEditDto.Mineral = model.Mineral;
-                    _producStoreEditDto.Price = model.Price;
+                    _producStoreEditDto.Price = string.Format(nfi, "{0:C0}", model.Price);
                     _producStoreEditDto.ShippingValue = model.ShippingValue;
                     _producStoreEditDto.Discounts = model.Discounts;
                     _producStoreEditDto.Increments = model.Increments;
