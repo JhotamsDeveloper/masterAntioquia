@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Model.DTOs.BlogDto>
 
+
 @{
     ViewData["Title"] = "Santa Fe de Antioquia,";
 }
@@ -15,73 +16,19 @@
             <!-- Slide -->
             <div class="slide">
                 <div class="background_image" style="background-image:url(../images/alcaldia.jpg)"></div>
-                <div class="home_container">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-8 offset-xl-2">
-                                <div class="home_content text-center">
-                                    <div class="home_title"><h1>¡Ven y disfruta!</h1></div>
-                                    <div class="search_form_container">
-                                        <form action="#" class="search_form" id="search_form">
-                                            <div class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-sm-between">
-                                                <input type="text" class="search_input" placeholder="¿Qué estás buscando?" required="required">
-                                                <button class="search_button">Buscar</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <partial name="_Search" />
             </div>
 
             <!-- Slide -->
             <div class="slide">
                 <div class="background_image" style="background-image:url(../images/Flor.jpg)"></div>
-                <div class="home_container">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-8 offset-xl-2">
-                                <div class="home_content text-center">
-                                    <div class="home_title"><h1>¡Ven y disfruta!</h1></div>
-                                    <div class="search_form_container">
-                                        <form action="#" class="search_form" id="search_form">
-                                            <div class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-sm-between">
-                                                <input type="text" class="search_input" placeholder="¿Qué estás buscando?" required="required">
-                                                <button class="search_button">Buscar</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <partial name="_Search" />
             </div>
 
             <!-- Slide -->
             <div class="slide">
                 <div class="background_image" style="background-image:url(../images/santa.jpg)"></div>
-                <div class="home_container">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-8 offset-xl-2">
-                                <div class="home_content text-center">
-                                    <div class="home_title"><h1>¡Ven y disfruta!</h1></div>
-                                    <div class="search_form_container">
-                                        <form action="#" class="search_form" id="search_form">
-                                            <div class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-sm-between">
-                                                <input type="text" class="search_input" placeholder="¿Qué estás buscando?" required="required">
-                                                <button class="search_button">Buscar</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <partial name="_Search" />
             </div>
 
         </div>
@@ -96,6 +43,76 @@
             </ul>
         </div>
 
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                @if (Model.Any())
+                {
+                    <!-- Blog -->
+
+                    @foreach (var item in Model)
+                    {
+
+                        <div class="card m-2">
+                            <div class="card-body blog_post_container">
+                                <div class="container">
+                                    <div class="row">
+                                        
+                                        <!--Grid column-->
+                                        <div class="col-md-12">
+                                            <a href="@Url.Content("blog/" + item.BlogUrl)">
+                                                <h4>@item.Name</h4>
+                                            </a>
+                                            <hr />
+                                            <p>@{
+                                                if (item.Description.Length > 255)
+                                                {
+                                                    @item.Description.Substring(0, 255);
+                                                }
+                                                else {
+                                                    @item.Description
+                                                }
+                                            }</p>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+
+                    }
+
+
+
+
+                }
+                else
+                {
+
+                    <h1>En el momento no hay registros</h1>
+                }
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -226,7 +243,6 @@ else
 
     <h1>En el momento no hay registros</h1>
 }
-
 
 @section Scripts {
 

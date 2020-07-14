@@ -7,15 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using GestionAntioquia.Models;
 using Service;
+using Persisten.Database;
+using Microsoft.EntityFrameworkCore;
+using Model;
 
 namespace GestionAntioquia.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly IBlogService _blogService;
 
-        public HomeController(IBlogService blogService)
+        public HomeController(ApplicationDbContext context,
+                IBlogService blogService)
         {
+            _context = context;
             _blogService = blogService;
         }
 
@@ -24,7 +30,7 @@ namespace GestionAntioquia.Controllers
             return View(await _blogService.Blog(6));
         }
 
-        public IActionResult Privacy()
+            public IActionResult Privacy()
         {
             return View();
         }
