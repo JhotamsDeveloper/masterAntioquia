@@ -1,19 +1,14 @@
-﻿
-<div class="home_container">
+﻿<div class="home_container">
     <div class="container">
         <div class="row">
             <div class="col-xl-8 offset-xl-2">
                 <div class="home_content text-center">
                     <div class="home_title"><h1>¡Ven y disfruta!</h1></div>
                     <div class="search_form_container">
-                        <form action="#" class="search_form" id="search_form">
+                        <form asp-action="Search" method="get" class="search_form" id="search_form">
                             <div class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-sm-between">
-                                <input type="text" class="search_input" placeholder="¿Qué estás buscando?">
-
-                                <!-- Button trigger modal -->
-                                <button type="button" class="search_button" data-toggle="modal" data-target="#staticBackdrop">
-                                    Buscar
-                                </button>
+                                <input type="text" name="SearchString" id="search" class="search_input" placeholder="¿Qué estás buscando?" value="@ViewData["currentFilter"]" aria-describedby="searchHelp" required="required">
+                                <input type="submit" value="Buscar" class="search_button" style="color:aliceblue" />
                             </div>
                         </form>
                     </div>

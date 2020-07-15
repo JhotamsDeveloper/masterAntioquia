@@ -30,7 +30,40 @@ namespace GestionAntioquia.Controllers
             return View(await _blogService.Blog(6));
         }
 
-            public IActionResult Privacy()
+        public async Task<IActionResult> Search(
+        string searchString,
+        string currentFilter,
+        int? pag)
+        {
+
+            if (searchString != null)
+            {
+                pag = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var _query = from a in _context.Events
+                         .Where(x => x.Category.Name == "Blog")
+                         select a;
+
+            //Para la busqueda
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                _query = _query.Where(s => s.Name.ToUpper().Contains(searchString.ToUpper())
+                                       || s.Author.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            int pageSize = 6;
+            return PartialView(await PaginatedList<Event>.CreateAsync(_query.AsNoTracking(), pag ?? 1, pageSize));
+
+        }
+
+        public IActionResult Privacy()
         {
             return View();
         }

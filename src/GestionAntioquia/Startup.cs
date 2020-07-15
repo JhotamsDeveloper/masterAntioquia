@@ -74,13 +74,8 @@ namespace GestionAntioquia
 
             app.UseEndpoints(endpoints =>
             {
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-
                 endpoints.MapRazorPages();
-
+                
                 endpoints.MapControllerRoute(
                 name: "company",
                 pattern: "hotel/{urlName}",
@@ -97,7 +92,10 @@ namespace GestionAntioquia
                 pattern: "hoteles",
                 defaults: new { Controller = "company", action = "Allies" });
 
-                
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
             });
 
         }
