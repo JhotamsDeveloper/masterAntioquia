@@ -1,4 +1,4 @@
-﻿@model PaginatedList<Model.Event>
+﻿@model PaginatedList<Model.DTOs.SearchProductDto>
 
 @{
     ViewData["Title"] = ", busqueda ";
@@ -37,34 +37,26 @@
 
                             @foreach (var item in Model)
                             {
-
                                 <!-- Blog Post -->
                                 <div class="blog_post">
                                     <div class="blog_post_container">
-
                                         <div class="location_icon">
-                                            <span> <strong> @item.UpdateDate.ToString("dd-MM-yyyy") </strong></span>
+                                            <span> <strong> @item.SearchDate.ToString("dd-MM-yyyy") </strong></span>
                                         </div>
 
-                                        @if (item.CoverPage == null)
+                                        @if (item.SquareCover == null)
                                         {
                                             <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@item.Name"></div>
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a href="@Url.Content("blog/" + item.EventUrl)"><img src="~/images/Places/@item.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a href="@Url.Content("blog/" + item.NameUrl)"><img src="~/images/Places/@item.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">
 
                                             <div class="blog_post_title">
                                                 <h3>@item.Name</h3>
-                                            </div>
-                                            <div class="blog_post_tags">
-                                                <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                    <li><a asp-action="Details" asp-route-name="@item.EventUrl">@item.Name </a></li>
-                                                    <li><a href="#">Urbano</a></li>
-                                                </ul>
                                             </div>
                                         </div>
                                     </div>
