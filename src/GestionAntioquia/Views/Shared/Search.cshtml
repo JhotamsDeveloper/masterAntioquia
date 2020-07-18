@@ -1,4 +1,4 @@
-﻿@model PaginatedList<Model.DTOs.SearchProductDto>
+﻿@model PaginatedList<Model.DTOs.SearchDto>
 
 @{
     ViewData["Title"] = ", busqueda ";
@@ -77,14 +77,14 @@
                         }
 
                         <a asp-action="Search"
-                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-stringSelect="@ViewData["stringSelect"]"
                            asp-route-pag="@(Model.PageIndex - 1)"
                            asp-route-currentFilter="@ViewData["CurrentFilter"]"
                            class="btn button_3 @prevDisabled">
                             <h4 style="color:gray">Anterior</h4>
                         </a>
                         <a asp-action="Search"
-                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-stringSelect="@ViewData["stringSelect"]"
                            asp-route-pag="@(Model.PageIndex + 1)"
                            asp-route-currentFilter="@ViewData["CurrentFilter"]"
                            class="btn button_3 @nextDisabled">

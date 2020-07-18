@@ -24,6 +24,7 @@ namespace Service
         Task<Category> GetById(int? id);
         Task DeleteConfirmed(int id);
         bool CategoryExists(int id);
+        Task<IEnumerable<Category>> CategorySelectGetAll();
     }
     public class CategoryService:ICategoryService
     {
@@ -111,5 +112,15 @@ namespace Service
         {
             return _context.Categorys.Any(e => e.CategoryId == id);
         }
+
+        public async Task<IEnumerable<Category>> CategorySelectGetAll()
+        {
+            var _modelo = await _context.Categorys
+                .Where(x => x.Stated == true)
+                .ToListAsync();
+
+            return (_modelo);
+        }
+
     }
 }
