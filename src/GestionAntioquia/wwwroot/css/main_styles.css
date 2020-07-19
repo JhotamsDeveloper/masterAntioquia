@@ -2525,11 +2525,7 @@ section
 	}
 
 .search_button {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 196px;
-	height: 57px;
+	height: 40px;
 	border: none;
 	outline: none;
 	background: #ffb400;

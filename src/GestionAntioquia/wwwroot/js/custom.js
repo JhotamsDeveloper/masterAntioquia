@@ -86,7 +86,8 @@ $(document).ready(function()
 				animateOut: 'slideOutDown',
 				animateIn: 'fadeIn',
 				loop:true,
-				autoplay:true,
+				autoplay: true,
+				autoplayTimeout:60000,
 				nav:false,
 				mouseDrag:false,
 				smartSpeed:1200

@@ -7,16 +7,24 @@
                     <div class="home_title"><h1>¡Ven y disfruta!</h1></div>
                     <div class="search_form_container">
                         <form asp-action="Search" method="get" class="search_form" id="search_form">
-                            <div class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-sm-between">
-                                <div>
-                                    <select class="form-control" name="stringSelect" asp-items="ViewBag.Categories" required>
-                                        <option value="">Selecione la categoria</option>
-                                    </select>
 
-                                </div>
-                                <input type="text" name="SearchString" id="search" class="search_input" placeholder="¿Qué estás buscando?" value="@ViewData["currentFilter"]" aria-describedby="searchHelp" required="required">
-                                <input type="submit" value="Buscar" class="search_button" style="color:aliceblue" />
+                            <div class="col-md-12 m-2">
+                                <select class="custom-select custom-select-lg d-block" id="search" name="stringSelect" asp-items="ViewBag.Categories" required>
+                                    <option value="">Selecione la categoria</option>
+                                </select>
                             </div>
+
+                            <div class="col-md-12 m-2">
+                                <input type="text" name="SearchString" id="search" class="search_input d-block" placeholder="¿Qué estás buscando?" value="@ViewData["currentFilter"]" aria-describedby="searchHelp" required="required">
+                            </div>
+
+
+                            <div class="col-md-12 m-2">
+                                <input type="submit" value="Buscar" class="search_button btn-sm btn-block" style="color:aliceblue" />
+                            </div>
+
+
+
                         </form>
                     </div>
                 </div>
