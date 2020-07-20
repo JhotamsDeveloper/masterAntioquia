@@ -930,10 +930,22 @@ section
 	padding-right: 19px;
 }
 
+.container-login {
+	/*IMPORTANTE*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-content {
+	width: 400px;
+	border-radius:20px;
+}
+
+
 /*********************************
 6.1 Buttons
 *********************************/
-
 .buttons_container {
 	margin-top: 38px;
 }
@@ -960,18 +972,20 @@ section
 
 .button_3 {
 	background: #cad8e2;
+	color: #a9a9a9;
 }
 
 .button_3:hover {
 	background: #ffb400;
+	color: #a9a9a9 !important;
 }
 
 .button_3 a {
-	color: #000000;
+	color: #a9a9a9;
 }
 
 .button_3:hover a {
-	color: #000000 !important;
+	color: #a9a9a9 !important;
 }
 
 /*********************************

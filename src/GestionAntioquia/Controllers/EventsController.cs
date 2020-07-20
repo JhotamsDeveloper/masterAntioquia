@@ -7,11 +7,11 @@ using Service;
 
 namespace GestionAntioquia.Controllers
 {
-    public class WhatToDoController : Controller
+    public class EventsController : Controller
     {
         private readonly IGenericServicio _genericServicio;
 
-        public WhatToDoController(IGenericServicio genericServicio)
+        public EventsController(IGenericServicio genericServicio)
         {
             _genericServicio = genericServicio;
         }

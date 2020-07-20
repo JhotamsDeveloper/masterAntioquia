@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Perfil";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
+}
+
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">@ViewData["Title"]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container m-4">
+
+    <div class="row">
+
+        <!--Grid column-->
+        <div class="col-md-4 col-xl-5">
+            <div class="section_title text-center"><h4>Perfil</h4></div>
+            <div class="m-2 text-center">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="#">Actualizar tus datos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Cambiar tu contraseña</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Descargar tu información</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Send message</a>
+
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!--Grid column-->
+        <div class="col-md-8 col-xl-7">
+            <p>Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo "Contenido aquí, contenido aquí". Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como </p>
+        </div>
+        <!--Grid column-->
+
+    </div>
+</div>
