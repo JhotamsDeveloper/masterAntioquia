@@ -1480,7 +1480,7 @@ section
 
 .clients
 {
-	background: #49237d;
+	/*background: #49237d;*/
 }
 .clients_slider_container
 {
@@ -1535,8 +1535,8 @@ section
 .blog {
 	background: #FFFFFF;
 	padding-top: 132px;
-	padding-bottom: 93px;
-	border-bottom: solid 2px #e1ecf4;
+	/*padding-bottom: 93px;*/
+	/*border-bottom: solid 2px #e1ecf4;*/
 }
 
 .blog_posts_container {

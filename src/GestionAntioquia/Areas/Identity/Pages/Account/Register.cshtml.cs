@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Service.Commons;
 
 namespace GestionAntioquia.Areas.Identity.Pages.Account
 {
@@ -22,18 +23,18 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        //private readonly IEmailSender _emailSender;
+        private readonly IEmailSendGrid _emailSendGrid;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger)
-            //IEmailSender emailSender)
+            ILogger<RegisterModel> logger,
+            IEmailSendGrid emailSendGrid)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            //_emailSender = emailSender;
+            _emailSendGrid = emailSendGrid;
         }
 
         [BindProperty]
@@ -79,7 +80,7 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { 
+                var user = new IdentityUser {
                     UserName = Input.Email,
                     PhoneNumber = Input.PhoneNumber,
                     Email = Input.Email 
@@ -91,6 +92,20 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("El usuario creó una nueva cuenta con contraseña.");
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code },
+                        protocol: Request.Scheme);
+
+                    string body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
+
+                    await _emailSendGrid.Execute("Confirmación de cuenta", body, user.Email);
+
+
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -105,7 +120,8 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
+                        return RedirectToAction("index", "home");
+                        //return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                     }
                     else
                     {

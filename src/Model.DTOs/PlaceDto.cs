@@ -236,4 +236,9 @@ namespace Model.DTOs
         public Category Category { get; set; }
     }
 
+    public class LogosDto
+    {
+        public string LogoName { get; set; }
+        public string UrlName { get; set; }
+    }
 }

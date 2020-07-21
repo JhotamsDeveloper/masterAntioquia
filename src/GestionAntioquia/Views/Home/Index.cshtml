@@ -185,30 +185,13 @@ else
                 <div class="clients_slider_container">
                     <div class="owl-carousel owl-theme clients_slider">
 
-                        <!-- Slide -->
-                        <div class="slide">
-                            <div class="client_image"><a href="#"><img src="images/client_1.jpg" alt=""></a></div>
-                        </div>
-
-                        <!-- Slide -->
-                        <div class="slide">
-                            <div class="client_image"><a href="#"><img src="images/client_2.jpg" alt=""></a></div>
-                        </div>
-
-                        <!-- Slide -->
-                        <div class="slide">
-                            <div class="client_image"><a href="#"><img src="images/client_3.jpg" alt=""></a></div>
-                        </div>
-
-                        <!-- Slide -->
-                        <div class="slide">
-                            <div class="client_image"><a href="#"><img src="images/client_4.jpg" alt=""></a></div>
-                        </div>
-
-                        <!-- Slide -->
-                        <div class="slide">
-                            <div class="client_image"><a href="#"><img src="images/client_5.jpg" alt=""></a></div>
-                        </div>
+                        @foreach (var item in (IEnumerable<Model.DTOs.LogosDto>)ViewData["Logos"])
+                        {
+                            <!-- Slide -->
+                            <div class="slide">
+                                <div class="client_image"><a href="/hotel/@item.UrlName"><img src="~/images/Places/@item.LogoName"></a></div>
+                            </div>
+                        }
 
                     </div>
                 </div>

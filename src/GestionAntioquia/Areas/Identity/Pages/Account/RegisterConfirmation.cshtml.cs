@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Service.Commons;
 
 namespace GestionAntioquia.Areas.Identity.Pages.Account
 {
@@ -13,12 +14,12 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _sender;
+        private readonly IEmailSendGrid _emailSendGrid;
 
-        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSendGrid emailSendGrid)
         {
             _userManager = userManager;
-            _sender = sender;
+            _emailSendGrid = emailSendGrid;
         }
 
         public string Email { get; set; }
@@ -37,23 +38,31 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return NotFound($"Unable to load user with email '{email}'.");
+                return NotFound($"No se puede cargar al usuario con el correo electrónico '{email}'.");
             }
 
             Email = email;
-            // Once you add a real email sender, you should remove this code that lets you confirm the account
-            DisplayConfirmAccountLink = true;
-            if (DisplayConfirmAccountLink)
-            {
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                EmailConfirmationUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { area = "Identity", userId = userId, code = code },
-                    protocol: Request.Scheme);
-            }
+            // Una vez que agregue un remitente de correo electrónico real, debe eliminar este código que le permite confirmar la cuenta
+            //DisplayConfirmAccountLink = true;
+            //if (DisplayConfirmAccountLink)
+            //{
+            //    var userId = await _userManager.GetUserIdAsync(user);
+            //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            //    EmailConfirmationUrl = Url.Page(
+            //        "/Account/ConfirmEmail",
+            //        pageHandler: null,
+            //        values: new { area = "Identity", userId = userId, code = code },
+            //        protocol: Request.Scheme);
+            //}
+
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            string _body = $"Por favor haga clic en el siguiente enlace para activar la cuenta <a href='{code}'>Inicio</a>";
+
+            await _emailSendGrid.Execute("Confirmación de cuenta", _body, user.Email);
 
             return Page();
         }

@@ -23,13 +23,13 @@ namespace Service
         Task<PlaceDto> Details(int? id);
         Task<PlaceDto> Edit(int? id);
         Task Edit(int id, PlaceEditDto model);
-
         Task DeleteConfirmed(int id, string _cover, string _logo, string _squareCover);
         bool CategoryExists(int id);
         Task<IEnumerable<Place>> GetAliados();
         Task<IEnumerable<Place>> Restaurant();
 
         Boolean DuplicaName(string name);
+        Task<IEnumerable<LogosDto>> Logos();
 
 
     }
@@ -232,5 +232,18 @@ namespace Service
             return urlName.Any();
         }
 
+        public async Task<IEnumerable<LogosDto>> Logos()
+        {
+
+            var _logos = from p in _context.Places
+                         where p.State == true
+                         select new LogosDto
+                         {
+                             LogoName = p.Logo,
+                             UrlName = p.NameUrl
+                         };
+
+            return (await _logos.ToListAsync());
+        }
     }
 }

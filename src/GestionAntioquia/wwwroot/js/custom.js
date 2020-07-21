@@ -208,7 +208,7 @@ $(document).ready(function()
 				{
 					0:
 					{
-						items:1,
+						items:2,
 						margin:0
 					},
 					576:
@@ -223,7 +223,7 @@ $(document).ready(function()
 					},
 					992:
 					{
-						items:5,
+						items:6,
 						margin:80
 					}
 				}

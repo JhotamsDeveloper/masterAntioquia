@@ -22,21 +22,28 @@ namespace GestionAntioquia.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IBlogService _blogService;
         private readonly IGenericServicio _genericServicio;
+        private readonly IPlaceService _placeService;
 
         public HomeController(ApplicationDbContext context,
                 ICategoryService categoryService,
                 IBlogService blogService,
-                IGenericServicio genericServicio)
+                IGenericServicio genericServicio,
+                IPlaceService placeService)
         {
             _context = context;
             _categoryService = categoryService;
             _blogService = blogService;
             _genericServicio = genericServicio;
+            _placeService = placeService;
         }
 
         public async Task<IActionResult> Index()
         {
+            //Para buscar
             ViewData["Categories"] = new SelectList(await _categoryService.CategorySelectGetAll(), "CategoryId", "Name");
+
+            //Logos
+            ViewData["Logos"] = await _placeService.Logos();
 
             return View(await _blogService.Blog(6));
         }
