@@ -2,7 +2,20 @@
 @model ConfirmEmailModel
 @{
     ViewData["Title"] = "Confirm email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="container-login m-2">
+    <div class="login-content">
+        <div class="section_title text-center"><h1>@ViewData["Title"]</h1></div>
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $("header").last().addClass("addColorWallpaper");
+    </script>
+
+}

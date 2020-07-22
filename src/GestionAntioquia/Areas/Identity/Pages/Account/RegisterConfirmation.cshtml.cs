@@ -28,7 +28,7 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
 
         public string EmailConfirmationUrl { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string email)
+        public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
             if (email == null)
             {
@@ -42,27 +42,20 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
             }
 
             Email = email;
+            
             // Una vez que agregue un remitente de correo electrónico real, debe eliminar este código que le permite confirmar la cuenta
-            //DisplayConfirmAccountLink = true;
-            //if (DisplayConfirmAccountLink)
-            //{
-            //    var userId = await _userManager.GetUserIdAsync(user);
-            //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            //    EmailConfirmationUrl = Url.Page(
-            //        "/Account/ConfirmEmail",
-            //        pageHandler: null,
-            //        values: new { area = "Identity", userId = userId, code = code },
-            //        protocol: Request.Scheme);
-            //}
-
-
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-            string _body = $"Por favor haga clic en el siguiente enlace para activar la cuenta <a href='{code}'>Inicio</a>";
-
-            await _emailSendGrid.Execute("Confirmación de cuenta", _body, user.Email);
+            DisplayConfirmAccountLink = false;
+            if (DisplayConfirmAccountLink)
+            {
+                var userId = await _userManager.GetUserIdAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                EmailConfirmationUrl = Url.Page(
+                    "/Account/ConfirmEmail",
+                    pageHandler: null,
+                    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                    protocol: Request.Scheme);
+            }
 
             return Page();
         }

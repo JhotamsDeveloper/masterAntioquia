@@ -1,4 +1,5 @@
 using AutoMapper;
+using GestionAntioquia.Config.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,9 +32,15 @@ namespace GestionAntioquia
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<IdentityUser, IdentityRole>(
                 options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+               .AddEntityFrameworkStores<ApplicationDbContext>()
+               .AddDefaultTokenProviders();
+
+            //Cambiar todas las duraciones del token de protección de datos
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromDays(7));
 
             //Para más información visite https://docs.microsoft.com/es-es/dotnet/api/microsoft.aspnetcore.identity.identityoptions?view=aspnetcore-3.1
             services.Configure<IdentityOptions>(options =>
@@ -41,7 +48,7 @@ namespace GestionAntioquia
                 // Password settings.
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 4;
                 options.Password.RequiredUniqueChars = 0;
@@ -82,6 +89,7 @@ namespace GestionAntioquia
             services.AddTransient<IUploadedFile, UploadedFile>();
             services.AddTransient<IFormatString, FormatString>();
 
+            services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
             services.AddTransient<IEmailSendGrid, EmailSendGrid>();
 
             services.AddControllersWithViews();
