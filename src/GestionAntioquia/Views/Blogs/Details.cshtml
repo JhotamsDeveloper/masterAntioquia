@@ -7,7 +7,7 @@
 
 <!-- Home -->
 <div class="home">
-    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@Url.Content($"~/images/Places/{@ViewBag.CoverPage}")" data-speed="0.8"></div>
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@Url.Content(@ViewBag.CoverPage)" data-speed="0.8"></div>
     <div class="home_container">
         <div class="container">
             <div class="row">
@@ -81,7 +81,7 @@
                             }
                             else
                             {
-                                <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="~/images/Places/@whereToSleep.SquareCover" asp-append-version="true"></a></div>
+                                <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="@whereToSleep.SquareCover" asp-append-version="true"></a></div>
                             }
 
                             <div class="blog_post_content">

@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
     ViewData["Title"] = "Perfil";
 
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -47,35 +50,40 @@
             </div>
 
             <br />
-            <div class="section_title text-center"><h4>Administrador</h4></div>
-            <div class="m-2 text-center">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a asp-controller="places" asp-action="index">Donde Comer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="places" asp-action="index">Donde Dormir</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="whattodo" asp-action="index">Que hacer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="socialevents" asp-action="index">Eventos sociales</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="turistexcursions" asp-action="index">Tuors</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="products" asp-action="index">Productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="store" asp-action="index">Tienda Virtual</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="blogs" asp-action="index">Blog</a>
-                    </li>
-                </ul>
-            </div>
+
+            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+            {
+                <div class="section_title text-center"><h4>Administrador</h4></div>
+                <div class="m-2 text-center">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a asp-controller="places" asp-action="index">Donde Comer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="places" asp-action="index">Donde Dormir</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="whattodo" asp-action="index">Que hacer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="socialevents" asp-action="index">Eventos sociales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="turistexcursions" asp-action="index">Tuors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="products" asp-action="index">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="store" asp-action="index">Tienda Virtual</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="blogs" asp-action="index">Blog</a>
+                        </li>
+                    </ul>
+                </div>
+            }
+
         </div>
 
         <!--Grid column-->

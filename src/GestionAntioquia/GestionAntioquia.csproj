@@ -27,4 +27,9 @@
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Config\Resources\" />
+  </ItemGroup>
+
 </Project>

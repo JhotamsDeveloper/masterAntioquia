@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GestionAntioquia.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Model.DTOs;
+using Persisten.Database;
+using Service;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using GestionAntioquia.Models;
-using Service;
-using Persisten.Database;
-using Microsoft.EntityFrameworkCore;
-using Model;
-using Model.DTOs;
-
 
 namespace GestionAntioquia.Controllers
 {
@@ -228,6 +225,7 @@ namespace GestionAntioquia.Controllers
             return View();
         }
 
+        [Authorize(Roles = "UserApp, Admin")]
         public IActionResult Profile()
         {
             return View();

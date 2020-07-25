@@ -24,7 +24,7 @@ namespace Model.DTOs
         public DateTime UpdateDate { get; set; }
 
         public Boolean State { get; set; }
-        public ICollection<ProductDto> Products { get; set; }
+        public IList<ProductDto> Products { get; set; }
     }
 
     public class BlogCreateDto

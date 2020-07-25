@@ -1,15 +1,11 @@
 using AutoMapper;
-using GestionAntioquia.Config.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Model.DTOs.SendGrid;
 using Persisten.Database;
 using Service;
 using Service.Commons;
@@ -87,9 +83,9 @@ namespace GestionAntioquia
             services.AddTransient<IGenericServicio, GenericServicio>();
 
             services.AddTransient<IUploadedFile, UploadedFile>();
+            services.AddTransient<IUploadedFileAzure, UploadedFileAzure>();
             services.AddTransient<IFormatString, FormatString>();
 
-            services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
             services.AddTransient<IEmailSendGrid, EmailSendGrid>();
 
             services.AddControllersWithViews();
