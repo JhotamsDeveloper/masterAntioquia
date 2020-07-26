@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Service.Commons;
 
 namespace GestionAntioquia.Areas.Identity.Pages.Account
 {
@@ -17,12 +18,12 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSendGrid _emailSendGrid;
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSendGrid emailSendGrid)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
+            _emailSendGrid = emailSendGrid;
         }
 
         [BindProperty]
@@ -56,10 +57,9 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                string body = $"Por favor restablezca su contraseña por <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
+
+                await _emailSendGrid.Execute("Cambiar password", body, user.Email);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

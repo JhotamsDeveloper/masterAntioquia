@@ -52,7 +52,7 @@
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a asp-controller="Store" asp-action="ShopProducts" asp-route-productUrl="@product.ProductUrl"><img src="~/images/Places/@product.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a asp-controller="Store" asp-action="ShopProducts" asp-route-productUrl="@product.ProductUrl"><img src="@product.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">
@@ -78,13 +78,13 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            @*<div class="row">
                 <div class="col">
                     <div class="blog_posts_more">
                         <div class="button load_more_button ml-auto mr-auto"><a href="#">Load More</a></div>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 

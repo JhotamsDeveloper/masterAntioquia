@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = Model.Name + ", ";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["imagen"] = Url.Content($"~/images/places/{Model.CoverPage}");
+    ViewData["imagen"] = Url.Content($"{Model.CoverPage}");
 
 }
 
@@ -16,7 +16,7 @@
                 <div class="col">
                     <div class="home_content">
                         <div class="home_title">
-                            <img src="~/images/Places/@Model.Logo" class="rounded-circle" height="200" width="200" asp-append-version="true" />
+                            <img src="@Model.Logo" class="rounded-circle" height="200" width="200" asp-append-version="true" />
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
 
                                         <div class="card">
                                             <a asp-controller="Products" asp-action="Product" asp-route-productUrl="@product.ProductUrl">
-                                                <img src="~/images/Places/@product.CoverPage" class="card-img-top" alt="...">
+                                                <img src="@product.CoverPage" class="card-img-top">
                                             </a>
                                             <div class="card-body justify-content-center">
                                                 <dl class="row ">

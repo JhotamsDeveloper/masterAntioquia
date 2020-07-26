@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] se parte de la Ciudad</title>
+    <title>@ViewData["Title"] vive la historias de los pueblos</title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="~/images/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="~/css/bootstrap-4.1.2/bootstrap.min.css">
 
@@ -58,7 +60,8 @@
             <div class="header_content d-flex flex-row align-items-center justify-content-start">
                 <!-- Logo -->
                 <div class="logo">
-                    <a href="#">Pueblos.<span>Travel</span></a>
+                    @*<a href="#">Pueblos.<span>Travel</span></a>*@
+                    <a asp-controller="Home" asp-action="Index"><img src="~/images/Logo.png" alt="Pueblos Travel" width="150"></a>
                 </div>
 
                 <!-- Header Nav -->

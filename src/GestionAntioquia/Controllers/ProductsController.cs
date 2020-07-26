@@ -193,8 +193,9 @@ namespace GestionAntioquia.Controllers
 
             var _id = _product.ProductId;
             var _cove = _product.CoverPage;
+            var _squareCover = _product.SquareCover;
 
-            await _productService.DeleteConfirmed(_id, _cove);
+            await _productService.DeleteConfirmed(_id, _cove, _squareCover);
 
             //var product = await _context.Products.FindAsync(id);
             //_context.Products.Remove(product);

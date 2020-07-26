@@ -20,7 +20,7 @@
 
                     <!-- Results -->
                     <div class="results_container">
-                        <img class="align-content-md-center" src="~/images/Icono07.jpg" width="200">
+                        <img class="align-content-md-center" src="~/images/notfound.png" width="200">
                         <div class="section_title text-center"><h1><span>@ViewData["Gracias"]: </span>@ViewData["Details"]</h1></div>
                         <p class="text-center">Esperamos verte mas adelante</p>
                         <div class="results grid">
@@ -44,7 +44,7 @@
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="~/images/Places/@whereToSleep.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="@whereToSleep.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">

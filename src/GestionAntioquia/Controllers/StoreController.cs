@@ -110,13 +110,18 @@ namespace GestionAntioquia.Controllers
             }
 
             var _galleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
+
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
             var _producStoreEditDto = new StoreEditDto
             {
                 ProductId = _storeProdStore.ProductId,
                 Name = _storeProdStore.Name,
                 Description = _storeProdStore.Description,
                 Mineral = _storeProdStore.Mineral,
-                Price = _storeProdStore.Price,
+                Price = string.Format(nfi, "{0:C0}", _storeProdStore.Price),
                 ShippingValue = _storeProdStore.ShippingValue,
                 Discounts = _storeProdStore.Discounts,
                 Increments = _storeProdStore.Increments,
@@ -207,8 +212,9 @@ namespace GestionAntioquia.Controllers
 
             var _id = _storeProduct.ProductId;
             var _cove = _storeProduct.CoverPage;
+            var _squareCover = _storeProduct.SquareCover;
 
-            await _storeService.DeleteConfirmed(_id, _cove);
+            await _storeService.DeleteConfirmed(_id, _cove, _squareCover);
 
             //var product = await _context.Products.FindAsync(id);
             //_context.Products.Remove(product);
