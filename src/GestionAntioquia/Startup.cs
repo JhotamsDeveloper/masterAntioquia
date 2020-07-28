@@ -92,7 +92,7 @@ namespace GestionAntioquia
             services.AddRazorPages();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Este método es llamado por el tiempo de ejecución. Use este método para configurar la canalización de solicitudes HTTP.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

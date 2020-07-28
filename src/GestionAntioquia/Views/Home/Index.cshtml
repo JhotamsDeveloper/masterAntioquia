@@ -54,41 +54,31 @@
             <div class="col">
                 <div class="categories_container d-flex flex-md-row flex-column align-items-start justify-content-start">
 
-                    <!-- Category -->
-                    <div class="category text-center">
-                        <a asp-controller="Places" asp-action="Restaurant">
-                            <div class="d-flex flex-md-column flex-row align-items-md-center align-items-md-start align-items-center justify-content-start">
-                                <div class="cat_icon"><img src="~/images/icon_1.svg" class="svg" alt="https://www.flaticon.com/authors/monkik"></div>
-                                <div class="cat_title">Donde Comer</div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Category -->
+                    <!-- Donde dormir -->
                     <div class="category text-center">
                         <a asp-controller="Products" asp-action="WhereToSleep">
                             <div class="d-flex flex-md-column flex-row align-items-md-center align-items-md-start align-items-center justify-content-start">
-                                <div class="cat_icon"><img src="~/images/icon_2.svg" class="svg" alt="https://www.flaticon.com/authors/monkik"></div>
-                                <div class="cat_title">Donde Dormir</div>
+                                <div class="cat_icon"><img src="~/images/whereToSleep.png" class="svg"></div>
+                                <div class="cat_title">Dondo Dormir</div>
                             </div>
                         </a>
                     </div>
 
-                    <!-- Category -->
+                    <!-- Souvenir -->
                     <div class="category text-center">
-                        <a asp-controller="TouristExcursions" asp-action="Index">
+                        <a asp-controller="company" asp-action="allies">
                             <div class="d-flex flex-md-column flex-row align-items-md-center align-items-md-start align-items-center justify-content-start">
-                                <div class="cat_icon"><img src="~/images/icon_3.svg" class="svg" alt="https://www.flaticon.com/authors/monkik"></div>
-                                <div class="cat_title">Qué hacer</div>
+                                <div class="cat_icon"><img src="~/images/souvenir.png" class="svg"></div>
+                                <div class="cat_title">Sourvenir</div>
                             </div>
                         </a>
                     </div>
 
-                    <!-- Category -->
+                    <!-- Eventos -->
                     <div class="category text-center">
-                        <a asp-controller="Events" asp-action="Index">
+                        <a asp-controller="events" asp-action="Index">
                             <div class="d-flex flex-md-column flex-row align-items-md-center align-items-md-start align-items-center justify-content-start">
-                                <div class="cat_icon"><img src="~/images/calendar.svg" class="svg" alt="https://www.flaticon.com/free-icon/calendar_2693507?term=event&page=1&position=3"></div>
+                                <div class="cat_icon"><img src="~/images/event.png" class="svg"></div>
                                 <div class="cat_title">Eventos</div>
                             </div>
                         </a>
@@ -96,13 +86,23 @@
 
                     <!-- Category -->
                     <div class="category text-center">
+                        <a asp-controller="touristexcursions" asp-action="Index">
+                            <div class="d-flex flex-md-column flex-row align-items-md-center align-items-md-start align-items-center justify-content-start">
+                                <div class="cat_icon"><img src="~/images/tour.png" class="svg"></div>
+                                <div class="cat_title">Tours</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Category -->
+                    @*<div class="category text-center">
                         <a asp-controller="TouristExcursions" asp-action="Index">
                             <div class="d-flex flex-md-column flex-row align-items-md-center align-items-md-start align-items-center justify-content-start">
                                 <div class="cat_icon"><img src="~/images/icon_5.svg" class="svg" alt="https://www.flaticon.com/authors/monkik"></div>
                                 <div class="cat_title">Tour</div>
                             </div>
                         </a>
-                    </div>
+                    </div>*@
 
                 </div>
             </div>

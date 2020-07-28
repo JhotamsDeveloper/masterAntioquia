@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-GestionAntioquia-F70C80EB-0B82-4734-AFC1-99091B7B7F11</UserSecretsId>
+    <ApplicationIcon />
   </PropertyGroup>
 
 
