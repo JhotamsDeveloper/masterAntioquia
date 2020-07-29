@@ -1,4 +1,5 @@
 using AutoMapper;
+using GestionAntioquia.Config.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -88,7 +89,10 @@ namespace GestionAntioquia
 
             services.AddTransient<IEmailSendGrid, EmailSendGrid>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(option=> 
+            {
+                option.Filters.Add(typeof(ErrorFilter));
+            });
             services.AddRazorPages();
         }
 

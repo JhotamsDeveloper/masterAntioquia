@@ -30,7 +30,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Config\Resources\" />
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>
