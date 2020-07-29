@@ -1,0 +1,7 @@
+Jhot@MSIcetex1991
+
+Base de datos AZURE
+Nombre de la BD:pueblostravel_db
+Usuario:	pueblostravel
+Contraseña:	travelSql202*
+Nombre conexion:DefaultConnection
