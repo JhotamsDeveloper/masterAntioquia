@@ -1,4 +1,5 @@
-﻿using SendGrid;
+﻿using Microsoft.Extensions.Configuration;
+using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Threading.Tasks;
@@ -14,11 +15,18 @@ namespace Service.Commons
     //Para más información visite https://docs.microsoft.com/en-us/aspnet/core/security/authentication/accconfirm?view=aspnetcore-3.1&tabs=visual-studio
     public class EmailSendGrid : IEmailSendGrid
     {
+        private readonly string _configuration;
+
+        public EmailSendGrid(IConfiguration configuration)
+        {
+            _configuration = configuration.GetConnectionString("SendGrid_api_key");
+        }
 
         //Envio de mensaje simple
         public Task Execute(string subject, string message, string email)
         {
-            string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            //string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            string apiKey = _configuration;
 
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
