@@ -85,8 +85,9 @@ namespace GestionAntioquia.Areas.Identity.Pages.Account
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await _userManager.AddToRoleAsync(user, "UserApp");
 
+                await _userManager.AddToRoleAsync(user, "UserApp");
+                _logger.LogInformation("Se creo o se le asigno un rol");
 
                 if (result.Succeeded)
                 {

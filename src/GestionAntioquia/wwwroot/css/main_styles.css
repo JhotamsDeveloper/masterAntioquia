@@ -938,6 +938,7 @@ section
 }
 
 .login-content {
+	margin-top: 150px;
 	width: 400px;
 	border-radius:20px;
 }
