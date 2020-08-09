@@ -82,6 +82,7 @@ namespace GestionAntioquia
             services.AddTransient<IStoreService, StoreService>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IGenericServicio, GenericServicio>();
+            services.AddTransient<ITouristExcursionsService, TouristExcursionsService>();
 
             services.AddTransient<IUploadedFile, UploadedFile>();
             services.AddTransient<IUploadedFileAzure, UploadedFileAzure>();
@@ -134,8 +135,8 @@ namespace GestionAntioquia
 
 
                 endpoints.MapControllerRoute(
-                name: "hoteles",
-                pattern: "hoteles",
+                name: "empresas",
+                pattern: "empresas",
                 defaults: new { Controller = "company", action = "Allies" });
 
                 endpoints.MapControllerRoute(

@@ -23,7 +23,7 @@ namespace GestionAntioquia.Controllers
         }
         // GET: hotel
 
-        [Route("{hoteles}")]
+        [Route("empresas")]
         public async Task<IActionResult> Allies()
         {
             var _aliados = await _companyService.GetAll();

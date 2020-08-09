@@ -1,8 +1,91 @@
-﻿
+﻿@model IEnumerable<Model.DTOs.TouristExcursionsDto>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tour";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
 }
 
-<h1>Index</h1>
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">Panel Tour</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="container">
+
+    <a class="btn button_2 btn-lg btn-block m-5" asp-action="Create">
+        <h3 style="color:aliceblue">Crear un nuevo lugar</h3>
+    </a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Referencia
+                </th>
+                <th>
+                    Nombre del tour
+                </th>
+                <th>
+                    Url del tour
+                </th>
+                <th>
+                    Empresa
+                </th>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    Actualizado
+                </th>
+                <th>
+                    Estado
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reference)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TourUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Business)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PlaceId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PlaceId">Details</a> |
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@item.PlaceId">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

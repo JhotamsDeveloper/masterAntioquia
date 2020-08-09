@@ -14,15 +14,23 @@ namespace GestionAntioquia.Controllers
     {
         private readonly IGenericServicio _genericServicio;
         private readonly ICategoryService _categoryService;
+        private readonly ITouristExcursionsService _touristExcursionsService;
 
         public TouristExcursionsController(IGenericServicio genericServicio,
+                ITouristExcursionsService touristExcursionsService,
                 ICategoryService categoryService)
         {
+            _touristExcursionsService = touristExcursionsService;
             _genericServicio = genericServicio;
             _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            return View(await _touristExcursionsService.GetAll());
+        }
+
+        public IActionResult Create()
         {
             return RedirectToRoute(new { controller = "TouristExcursions", action = "StatedNotFound" });
         }
