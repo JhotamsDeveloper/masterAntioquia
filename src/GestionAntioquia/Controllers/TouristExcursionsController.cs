@@ -13,17 +13,21 @@ namespace GestionAntioquia.Controllers
 {
     public class TouristExcursionsController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly IGenericServicio _genericServicio;
         private readonly ICategoryService _categoryService;
         private readonly IPlaceService _placeService;
         private readonly ITouristExcursionsService _touristExcursionsService;
 
 
-        public TouristExcursionsController(IGenericServicio genericServicio,
+        public TouristExcursionsController(
+                ApplicationDbContext context,
+                IGenericServicio genericServicio,
                 ITouristExcursionsService touristExcursionsService,
                 ICategoryService categoryService,
                 IPlaceService placeService)
         {
+            _context = context;
             _touristExcursionsService = touristExcursionsService;
             _genericServicio = genericServicio;
             _categoryService = categoryService;
@@ -55,9 +59,13 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Tour/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            ViewData["TurismBusiness"] = new SelectList(await _placeService.GetAllTurismBusiness(), "PlaceId", "Name");
+            ViewData["TurismBusiness"] = new SelectList(_context
+                                    .Places
+                                    .Where(x => x.State == true
+                                    && x.Category.Name == "tour"), "PlaceId", "Name");
+
             return View();
         }
 
@@ -79,14 +87,21 @@ namespace GestionAntioquia.Controllers
                 if (_urlName)
                 {
                     ViewData["DuplicaName"] = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
-                    ViewData["TurismBusiness"] = new SelectList(await _placeService.GetAllTurismBusiness(), "PlaceId", "Name");
+                    ViewData["TurismBusiness"] = new SelectList(_context
+                                            .Places
+                                            .Where(x => x.State == true
+                                            && x.Category.Name == "tour"), "PlaceId", "Name");
 
                     return View(model);
                 }
                 await _touristExcursionsService.Create(model);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TurismBusiness"] = new SelectList(await _placeService.GetAllTurismBusiness(), "PlaceId", "Name");
+
+            ViewData["TurismBusiness"] = new SelectList(_context
+                                    .Places
+                                    .Where(x => x.State == true
+                                    && x.Category.Name == "tour"), "PlaceId", "Name");
             return View(model);
         }
 

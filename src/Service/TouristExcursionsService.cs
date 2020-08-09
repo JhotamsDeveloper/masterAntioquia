@@ -110,7 +110,7 @@ namespace Service
                         SquareCover = _squareCover,
                         Description = model.Description,
                         Statud = model.Statud,
-                        PlaceId = model.TouristExcursionsId,
+                        PlaceId = model.PlaceId,
 
                         CreationDate = _fechaActual
                     };

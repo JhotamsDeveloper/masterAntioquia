@@ -242,9 +242,4 @@ namespace Model.DTOs
         public string UrlName { get; set; }
     }
 
-    public class TourismBusinessDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
 }

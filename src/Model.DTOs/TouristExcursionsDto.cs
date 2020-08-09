@@ -51,8 +51,6 @@ namespace Model.DTOs
         [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
         public IFormFile SquareCover { get; set; }
 
-        [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
-        [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
         [DisplayName("Galeria de fotos")]
         public IEnumerable<IFormFile> Gallery { get; set; }
         public string Description { get; set; }
@@ -64,7 +62,7 @@ namespace Model.DTOs
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public int? PlaceId { get; set; }
+        public int PlaceId { get; set; }
         public Place Place { get; set; }
         public string City { get; set; }
         public string Business { get; set; }
