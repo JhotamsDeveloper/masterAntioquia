@@ -241,4 +241,10 @@ namespace Model.DTOs
         public string LogoName { get; set; }
         public string UrlName { get; set; }
     }
+
+    public class TourismBusinessDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

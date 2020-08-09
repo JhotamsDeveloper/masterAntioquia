@@ -30,6 +30,7 @@ namespace Service
 
         Boolean DuplicaName(string name);
         Task<IEnumerable<LogosDto>> Logos();
+        Task<IEnumerable<TourismBusinessDto>> GetAllTurismBusiness();
 
 
     }
@@ -289,6 +290,22 @@ namespace Service
                          };
 
             return (await _logos.ToListAsync());
+        }
+
+        public async Task<IEnumerable<TourismBusinessDto>> GetAllTurismBusiness()
+        {
+            var _getAll = _context.Places
+                .Include(a => a.Category)
+                .Where(c => c.Category.Name == "tour" && c.Category.Stated == true);
+
+            var _model = from b in _getAll
+                         select new TourismBusinessDto
+                         {
+                             Id = b.PlaceId,
+                             Name = b.Name
+                         };
+
+            return await _model.ToListAsync();
         }
     }
 }

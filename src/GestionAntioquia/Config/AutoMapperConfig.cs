@@ -17,9 +17,9 @@ namespace GestionAntioquia.Config
             CreateMap<Place, PlaceDto>();
             CreateMap<Product, ProductDto>();
             CreateMap<Product, StoreDto>();
+            CreateMap<Product, TouristExcursionsDto>();
             CreateMap<Gallery, GalleryDto>();
             CreateMap<Event, BlogDto>();
-            CreateMap<Event, TouristExcursionsDto>();
         }
     }
 }
