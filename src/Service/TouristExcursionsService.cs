@@ -18,6 +18,10 @@ namespace Service
         Task<IEnumerable<TouristExcursionsDto>> GetAll();
         Task<TouristExcursionsDto> Details(int? id);
         Task<ProductDto> Create(TouristExcursionsCreateDto model);
+        Task Edit(int id, TouristExcursionsEditDto model);
+        Task<TouristExcursionsDto> GetById(int? id);
+        Task DeleteConfirmed(int _id, string _cover, string _squareCover);
+        bool ProductExists(int id);
         Boolean DuplicaName(string name);
     }
 
@@ -60,6 +64,7 @@ namespace Service
             var _model = from t in _getAll
                          select new TouristExcursionsDto
                          {
+                             ProductId = t.ProductId,
                              Reference = t.Place.Nit,
                              Name = t.Name,
                              ProductUrl = t.ProductUrl,
@@ -69,7 +74,7 @@ namespace Service
                              SquareCover = t.SquareCover,
                              Business = t.Place.Name,
                              City = t.Place.City,
-                             State = t.Statud
+                             Status = t.Statud
                          };
 
             return await _model.ToListAsync();
@@ -109,7 +114,7 @@ namespace Service
                         CoverPage = _coverPage,
                         SquareCover = _squareCover,
                         Description = model.Description,
-                        Statud = model.Statud,
+                        Statud = model.Status,
                         PlaceId = model.PlaceId,
 
                         CreationDate = _fechaActual
@@ -159,9 +164,174 @@ namespace Service
 
         }
 
+        public async Task Edit(int id, TouristExcursionsEditDto model)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+
+            {
+                try
+                {
+                    DateTime _dateUpdate = DateTime.Now;
+                    var _tour = await _context.Products.SingleAsync(x => x.ProductId == id);
+                    var _coverPage = "";
+                    var _squareCover = "";
+                    
+                    if (model.CoverPage != null)
+                    {
+                        if (_tour.CoverPage != null)
+                        {
+                            await _uploadedFileAzure.DeleteFile(_tour.CoverPage, _account);
+                        }
+
+                        _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                    }
+                    else
+                    {
+                        _coverPage = _tour.CoverPage;
+                    }
+
+                    if (model.SquareCover != null)
+                    {
+                        if (_tour.SquareCover != null)
+                        {
+                            await _uploadedFileAzure.DeleteFile(_tour.SquareCover, _account);
+                        }
+
+                        _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                    }
+                    else
+                    {
+                        _squareCover = _tour.SquareCover;
+                    }
+
+
+                    _tour.Name = model.Name;
+                    _tour.CoverPage = _coverPage;
+                    _tour.SquareCover = _squareCover;
+                    _tour.Description = model.Description;
+                    _tour.PlaceId = model.PlaceId;
+                    _tour.UpdateDate = DateTime.Now;
+
+                    await _context.SaveChangesAsync();
+
+                    if (model.Gallery != null)
+                    {
+
+                        var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
+
+                        if (_getGalleries.Count > 0)
+                        {
+                            foreach (var item in _getGalleries)
+                            {
+                                await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+
+                                _context.Remove(new Gallery
+                                {
+                                    GalleryId = item.GalleryId
+                                });
+                                await _context.SaveChangesAsync();
+
+                            }
+                        }
+
+                        string[] _uploadGalleries = new string[model.Gallery.Count()];
+                        int _accountant = 0;
+
+                        foreach (var item in model.Gallery)
+                        {
+                            _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
+
+                            var _gallery = new Gallery
+                            {
+                                ProducId = _tour.ProductId,
+                                NameImage = _uploadGalleries[_accountant]
+                            };
+
+                            await _context.AddAsync(_gallery);
+                            await _context.SaveChangesAsync();
+                            _mapper.Map<GalleryDto>(_gallery);
+
+                            _accountant++;
+                        }
+
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
+
+        public async Task<TouristExcursionsDto> GetById(int? id)
+        {
+            return _mapper.Map<TouristExcursionsDto>(
+                await _context.Products
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ProductId == id)
+                );
+        }
+
+        public async Task DeleteConfirmed(int _id, string _cover, string _squareCover)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+
+                    var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == _id).ToList();
+
+                    if (_getGalleries.Count > 0)
+                    {
+                        foreach (var item in _getGalleries)
+                        {
+                            await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+
+                            _context.Remove(new Gallery
+                            {
+                                GalleryId = item.GalleryId
+                            });
+                            await _context.SaveChangesAsync();
+
+                        }
+                    }
+
+                    if (_cover != null)
+                    {
+                        await _uploadedFileAzure.DeleteFile(_cover, _account);
+                    }
+
+                    if (_squareCover != null)
+                    {
+                        await _uploadedFileAzure.DeleteFile(_cover, _account);
+                    }
+
+                    _context.Remove(new Product
+                    {
+                        ProductId = _id
+
+                    });
+                    await _context.SaveChangesAsync();
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+
+            }
+        }
+
+        public bool ProductExists(int id)
+        {
+            return _context.Products.Any(e => e.ProductId == id);
+        }
 
         #endregion
-        
+
         #region "FRONTEND"
         public bool CategoryExists(int id)
         {

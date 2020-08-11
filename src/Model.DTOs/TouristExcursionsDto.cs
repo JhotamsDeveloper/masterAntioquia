@@ -11,13 +11,12 @@ namespace Model.DTOs
     public class TouristExcursionsDto
     {
 
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         public string Name { get; set; }
         public string ProductUrl { get; set; }
         public string CoverPage { get; set; }
         public string SquareCover { get; set; }
         public string Description { get; set; }
-        public bool Statud { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
 
@@ -26,7 +25,7 @@ namespace Model.DTOs
         public string City { get; set; }
         public string Business { get; set; }
         public string Reference { get; set; }
-        public Boolean State { get; set; }
+        public Boolean Status { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
@@ -36,7 +35,7 @@ namespace Model.DTOs
     public class TouristExcursionsCreateDto
     {
 
-        public int TouristExcursionsId { get; set; }
+        public int ProductId { get; set; }
         public string Name { get; set; }
         public string ProductUrl { get; set; }
         [DisplayName("Portada")]
@@ -54,11 +53,10 @@ namespace Model.DTOs
         [DisplayName("Galeria de fotos")]
         public IEnumerable<IFormFile> Gallery { get; set; }
         public string Description { get; set; }
-        public bool Statud { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
 
-        public Boolean State { get; set; }
+        public Boolean Status { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
@@ -70,4 +68,33 @@ namespace Model.DTOs
         public List<Gallery> Galleries { get; set; }
     }
 
+    public class TouristExcursionsEditDto
+    {
+
+        public int ProductId { get; set; }
+        public string Name { get; set; }
+        public string ProductUrl { get; set; }
+        [DisplayName("Portada")]
+        public IFormFile CoverPage { get; set; }
+
+        [DisplayName("Portada Cuadrada")]
+        public IFormFile SquareCover { get; set; }
+
+        [DisplayName("Galeria de fotos")]
+        public IEnumerable<IFormFile> Gallery { get; set; }
+        public string Description { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime UpdateDate { get; set; }
+
+        public Boolean Status { get; set; }
+        public int? CategoryId { get; set; }
+        public Category Category { get; set; }
+
+        public int PlaceId { get; set; }
+        public Place Place { get; set; }
+        public string City { get; set; }
+        public string Business { get; set; }
+        public string Reference { get; set; }
+        public List<Gallery> Galleries { get; set; }
+    }
 }

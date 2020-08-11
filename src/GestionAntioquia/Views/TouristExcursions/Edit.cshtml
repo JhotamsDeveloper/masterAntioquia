@@ -1,14 +1,13 @@
-﻿@model Model.DTOs.TouristExcursionsCreateDto
+﻿@model Model.DTOs.TouristExcursionsEditDto
 
 @{
-    ViewData["Title"] = ", Creando tour";
+    ViewData["Title"] = ", Editando tour";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
 }
 
 <!-- Home -->
 <div class="home">
-    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@Url.Content(ViewBag.Coverpage)" data-speed="0.8"></div>
     <div class="home_container">
         <div class="container">
             <div class="row">
@@ -36,8 +35,9 @@
 
             <div class="col-md-8 col-xl-9">
 
-                <form enctype="multipart/form-data" asp-action="Create">
+                <form enctype="multipart/form-data" asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ProductId" />
 
                     <div class="row">
 
