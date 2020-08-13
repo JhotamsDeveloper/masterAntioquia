@@ -25,7 +25,7 @@ namespace Model.DTOs
         public string City { get; set; }
         public string Business { get; set; }
         public string Reference { get; set; }
-        public Boolean Status { get; set; }
+        public bool Statud { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
@@ -56,7 +56,7 @@ namespace Model.DTOs
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
 
-        public Boolean Status { get; set; }
+        public bool Statud { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
@@ -86,7 +86,7 @@ namespace Model.DTOs
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
 
-        public Boolean Status { get; set; }
+        public bool Statud { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 

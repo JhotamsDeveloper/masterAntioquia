@@ -128,7 +128,7 @@ namespace GestionAntioquia.Controllers
                 Name = _tour.Name,
                 ProductUrl = _tour.ProductUrl,
                 Description = _tour.Description,
-                Status = _tour.Status,
+                Statud = _tour.Statud,
                 CategoryId = _tour.CategoryId
             };
 
@@ -229,6 +229,13 @@ namespace GestionAntioquia.Controllers
 
 
         #region "FRONTEND"
+
+        // GET: Tour
+        public async Task<IActionResult> Tours()
+        {
+            return View(await _touristExcursionsService.Tours());
+        }
+
         public IActionResult PageNotFound()
         {
             return RedirectToRoute(new { controller = "TouristExcursions", action = "StatedNotFound" });

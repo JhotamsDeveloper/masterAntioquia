@@ -21,6 +21,7 @@ namespace Service
         Task Edit(int id, TouristExcursionsEditDto model);
         Task<TouristExcursionsDto> GetById(int? id);
         Task DeleteConfirmed(int _id, string _cover, string _squareCover);
+        Task<IEnumerable<TouristExcursionsDto>> Tours();
         bool ProductExists(int id);
         Boolean DuplicaName(string name);
     }
@@ -74,7 +75,7 @@ namespace Service
                              SquareCover = t.SquareCover,
                              Business = t.Place.Name,
                              City = t.Place.City,
-                             Status = t.Statud
+                             Statud = t.Statud
                          };
 
             return await _model.ToListAsync();
@@ -114,7 +115,7 @@ namespace Service
                         CoverPage = _coverPage,
                         SquareCover = _squareCover,
                         Description = model.Description,
-                        Statud = model.Status,
+                        Statud = model.Statud,
                         PlaceId = model.PlaceId,
 
                         CreationDate = _fechaActual
@@ -210,6 +211,7 @@ namespace Service
                     _tour.SquareCover = _squareCover;
                     _tour.Description = model.Description;
                     _tour.PlaceId = model.PlaceId;
+                    _tour.Statud = model.Statud;
                     _tour.UpdateDate = DateTime.Now;
 
                     await _context.SaveChangesAsync();
@@ -333,6 +335,38 @@ namespace Service
         #endregion
 
         #region "FRONTEND"
+        public async Task<IEnumerable<TouristExcursionsDto>> Tours()
+        {
+
+            var _getAll = _context.Products
+                .AsNoTracking()
+                .Include(a => a.Place)
+                .ThenInclude(b => b.Category)
+                .Where(c => c.Place.Category.Name == "tour" 
+                && c.Statud == true
+                && c.Place.State == true);
+
+            //Falta agregar un número de referencia
+            //Falta tambien agregar la fecha de partida (La tiene en la base de datos pero hay que hacerle una tabla a parte)
+            var _model = from t in _getAll
+                         select new TouristExcursionsDto
+                         {
+                             ProductId = t.ProductId,
+                             Reference = t.Place.Nit,
+                             Name = t.Name,
+                             ProductUrl = t.ProductUrl,
+                             Description = t.Description,
+                             CreationDate = t.CreationDate,
+                             UpdateDate = t.UpdateDate,
+                             SquareCover = t.SquareCover,
+                             Business = t.Place.Name,
+                             City = t.Place.City,
+                             Statud = t.Statud
+                         };
+
+            return await _model.ToListAsync();
+        }
+
         public bool CategoryExists(int id)
         {
 

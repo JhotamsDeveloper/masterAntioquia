@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Model.DTOs.TouristExcursionsDto>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Aliados";
+    ViewData["imagen"] = Url.Content("~/images/blog.jpg");
+}
+
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">Hoteles</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <!-- Blog -->
+
+    <div class="blog">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="blog_posts_container">
+                        <div class="blog_posts">
+
+                            @foreach (var _allies in Model)
+                            {
+
+
+                                <!-- Blog Post -->
+                                <div class="blog_post">
+                                    <div class="blog_post_container">
+
+                                        @if (_allies.SquareCover == null)
+                                        {
+                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@_allies.Name"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="blog_post_image"><a href="hotel/@_allies.ProductUrl"><img src="@_allies.SquareCover" asp-append-version="true"></a></div>
+                                        }
+
+                                        <div class="blog_post_content">
+
+                                            <div class="blog_post_date"><a href="#">@_allies.City</a></div>
+
+                                            <div class="blog_post_title">
+                                                <h3>
+                                                    @Html.ActionLink(_allies.Name, _allies.ProductUrl, "hotel")
+                                                </h3>
+                                            </div>
+                                            <div class="blog_post_tags">
+                                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                                    <li><a href="#">@_allies.Reference</a></li>
+                                                    <li><a href="#">@_allies.Business</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="blog_post_text">
+                                                <p>@_allies.Description ...</p>
+                                                <p>@_allies.Business</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="row">
+                    <div class="col">
+                        <div class="blog_posts_more">
+                            <div class="button load_more_button ml-auto mr-auto"><a href="#">Load More</a></div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+
+}
+else
+{
+
+    <h1>En el momento no hay registros</h1>
+}
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ScriptPlacesAliados");}
+}
