@@ -1,8 +1,9 @@
-﻿<!-- Home -->
+﻿@model Model.DTOs.AtributeContact
+
 @{
-ViewData["Title"] = "Create";
-Layout = "~/Views/Shared/_Layout.cshtml";
-ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
 }
 
 
@@ -37,47 +38,72 @@ ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
                 <div class="contact_content">
                     <div class="contact_form_container">
                         <div class="section_title"><h1>Ponerse en contacto</h1></div>
-                        <form action="#" class="contact_form" id="contact_form">
+
+                        <form asp-action="SendEmail" method="post" class="contact_form" id="contact_form">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
                                 <div class="col-lg-6 contact_form_col">
-                                    <input type="text" class="contact_input" placeholder="Tu nombre" required="required">
+
+                                    <div class="md-form">
+                                        <input asp-for="Name" class="form-control contact_input" placeholder="Tu nombre" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+
                                 </div>
                                 <div class="col-lg-6">
-                                    <input type="email" class="contact_input" placeholder="Tu e-mail" required="required">
+
+                                    <div class="md-form">
+                                        <input asp-for="Email" class="form-control contact_input" placeholder="E-Mail" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+
                                 </div>
                             </div>
                             <div>
-                                <input type="text" class="contact_input" placeholder="Asunto">
+                                <div class="md-form">
+                                    <input asp-for="Subject" class="form-control contact_input" placeholder="Asunto" />
+                                    <span asp-validation-for="Subject" class="text-danger"></span>
+                                </div>
+
                             </div>
                             <div>
-                                <textarea class="contact_input contact_textarea" placeholder="Message" required="required"></textarea>
+                                <div class="md-form">
+                                    <textarea asp-for="Message" class="form-control contact_input contact_textarea" placeholder="Mensaje" rows="5"></textarea>
+                                    <span asp-validation-for="Message" class="text-danger"></span>
+                                </div>
                             </div>
-                            <button class="btn btn-block contact_button trans_200">Enviar</button>
+
+                            <button type="submit" class="btn btn-block contact_button trans_200">Enviar</button>
                         </form>
+
+                        <partial name="_MessajeContact" />
+
                         <div class="contact_info">
                             <div class="section_title"><h1>Datos de contacto</h1></div>
 
-                            <dl class="row">
-                                <dt class="col-sm-2">
-                                    Dirección
-                                </dt>
-                                <dd class="col-sm-10">
-                                    Santa Fe de Antioquia, local 12 del Hotel Mariscal
-                                </dd>
-                                <dt class="col-sm-2">
-                                    Contacto
-                                </dt>
-                                <dd class="col-sm-10">
-                                    3105108287
-                                </dd>
-                                <dt class="col-sm-2">
-                                    E-mail
-                                </dt>
-                                <dd class="col-sm-10">
-                                    soporte@pueblostravel.com
-                                </dd>
+                            <div class="contact_info_list">
+                                <dl class="row">
+                                    <dt class="col-sm-2">
+                                        <span>Dirección: </span>
+                                    </dt>
+                                    <dd class="col-sm-10">
+                                        Santa Fe de Antioquia, local 12 del Hotel Mariscal
+                                    </dd>
+                                    <dt class="col-sm-2">
+                                        <span>Contacto: </span>
+                                    </dt>
+                                    <dd class="col-sm-10">
+                                        3105108287
+                                    </dd>
+                                    <dt class="col-sm-2">
+                                        <span>E-Mail: </span>
+                                    </dt>
+                                    <dd class="col-sm-10">
+                                        soporte@pueblostravel.com
+                                    </dd>
 
-                            </dl>
+                                </dl>
+                            </div>
 
                         </div>
                     </div>
@@ -88,30 +114,7 @@ ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
     </div>
 </div>
 
-<!-- Footer -->
+@section Scripts {
 
-<footer class="footer container_custom">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="footer_container d-flex flex-md-row flex-column align-items-center justify-content-md-start justify-content-center">
-                    <div class="copyright order-md-1 order-2">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                    <nav class="footer_nav ml-md-auto order-md-2 order-1">
-                        <ul class="d-flex flex-row align-items-center justify-content-start">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="#">About us</a></li>
-                            <li><a href="listings.html">Listings</a></li>
-                            <li><a href="blog.html">News</a></li>
-                            <li class="active"><a href="contact.html">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

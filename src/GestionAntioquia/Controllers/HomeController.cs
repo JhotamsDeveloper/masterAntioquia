@@ -18,15 +18,21 @@ namespace GestionAntioquia.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IBlogService _blogService;
         private readonly IPlaceService _placeService;
+        private readonly IGenericServicio _genericServicio;
+
+        [TempData]
+        public string _StatusMessaje { get; set; }
 
         public HomeController(
                 ApplicationDbContext context,
                 IBlogService blogService,
-                IPlaceService placeService)
+                IPlaceService placeService,
+                IGenericServicio genericServicio)
         {
             _context = context;
             _blogService = blogService;
             _placeService = placeService;
+            _genericServicio = genericServicio;
         }
 
         public async Task<IActionResult> Index()
@@ -53,9 +59,30 @@ namespace GestionAntioquia.Controllers
             return View();
         }
 
+        // GET: Contact
         public IActionResult Contact()
         {
+            if (_StatusMessaje != null)
+            {
+                ViewData["successful"] = "show";
+            }
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SendEmail(AtributeContact model)
+        {
+            var _message = $"Hola soy {model.Name} <br> {model.Message}";
+            
+            var _send = _genericServicio.Execute(model.Subject, _message, model.Email);
+
+            if (_send != null)
+            {
+                _StatusMessaje = "Hemos recibido tu mensaje";
+            }
+
+            return RedirectToAction(nameof(Contact));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

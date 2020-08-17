@@ -31,7 +31,7 @@ namespace Service.Commons
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("jhotams.developer@gmail.com", "JhotaMS"),
+                From = new EmailAddress("jhotams.developer@gmail.com", subject),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
@@ -44,6 +44,7 @@ namespace Service.Commons
 
             return client.SendEmailAsync(msg);
         }
+
     }
 
 }

@@ -1,0 +1,11 @@
+﻿@if (ViewBag.successful != "")
+{
+    <div class="col-xl-12">
+        <div class="alert alert-success alert-dismissible fade @ViewBag.successful m-3" role="alert">
+            <strong>Genial!</strong> El mensaje ha sido enviado.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+}
