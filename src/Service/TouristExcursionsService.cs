@@ -17,6 +17,7 @@ namespace Service
     {
         Task<IEnumerable<TouristExcursionsDto>> GetAll();
         Task<TouristExcursionsDto> Details(int? id);
+        Task<TouristExcursionsDto> Details(string urlName);
         Task<ProductDto> Create(TouristExcursionsCreateDto model);
         Task Edit(int id, TouristExcursionsEditDto model);
         Task<TouristExcursionsDto> GetById(int? id);
@@ -86,9 +87,23 @@ namespace Service
 
             var _tour = _mapper.Map<TouristExcursionsDto>(
                     await _context.Products
-                    .FirstOrDefaultAsync(m => m.PlaceId == id)
+                    .FirstOrDefaultAsync(m => m.ProductId == id)
                 );
 
+
+            return _mapper.Map<TouristExcursionsDto>(_tour);
+        }
+
+        public async Task<TouristExcursionsDto> Details(string urlName)
+        {
+            var _tour = _mapper.Map<TouristExcursionsDto>(
+                    await _context.Products
+                    .Include(p=>p.Place)
+                    .Include(i=>i.Galleries)
+                    .Where(s => s.Statud == true)
+                    .FirstOrDefaultAsync(m => m.ProductUrl == urlName)
+
+                );
 
             return _mapper.Map<TouristExcursionsDto>(_tour);
         }

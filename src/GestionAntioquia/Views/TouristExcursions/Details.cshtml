@@ -1,0 +1,77 @@
+﻿@model Model.DTOs.TouristExcursionsDto
+
+@{
+    ViewData["Title"] = "details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@Url.Content(ViewBag.Coverpage)" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">
+                            <h2 class="section-heading text-center h1 pt-4">@Model.Name</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CoverPage)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CoverPage)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Statud)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Statud)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreationDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UpdateDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UpdateDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Place)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Place.PlaceId)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

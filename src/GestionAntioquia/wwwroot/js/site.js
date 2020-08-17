@@ -9,7 +9,7 @@
 3. Init Menu
 4. Init Accordions
 5. Init Gallery
-6. Init Google Map
+
 
 
 ******************************/
@@ -43,7 +43,6 @@ $(document).ready(function () {
 	initMenu();
 	initAccordions();
 	initGallery();
-	initGoogleMap();
 
 	/* 
 
@@ -165,65 +164,14 @@ $(document).ready(function () {
 
 	function initGallery() {
 		if ($('.review_image').length) {
-			$('.colorbox').colorbox(
+			$('.galleriesTour').colorbox(
 				{
 					rel: 'colorbox',
 					photo: true,
+					opacity: 0.85,
 					maxWidth: '95%',
 					maxHeight: '95%'
 				});
 		}
 	}
-
-	/* 
-
-	6. Init Google Map
-
-	*/
-
-	function initGoogleMap() {
-		var myLatlng = new google.maps.LatLng(6.5564008, -75.8277746);
-		var mapOptions =
-		{
-			center: myLatlng,
-			zoom: 20,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			draggable: true,
-			scrollwheel: false,
-			zoomControl: true,
-			zoomControlOptions:
-			{
-				position: google.maps.ControlPosition.RIGHT_CENTER
-			},
-			mapTypeControl: false,
-			scaleControl: false,
-			streetViewControl: false,
-			rotateControl: false,
-			fullscreenControl: true,
-			styles:
-				[
-					{
-						"featureType": "road.highway",
-						"elementType": "geometry.fill",
-						"stylers": [
-							{
-								"color": "#ffeba1"
-							}
-						]
-					}
-				]
-		}
-
-		// Initialize a map with options
-		map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-		// Re-center map after window resize
-		google.maps.event.addDomListener(window, 'resize', function () {
-			setTimeout(function () {
-				google.maps.event.trigger(map, "resize");
-				map.setCenter(myLatlng);
-			}, 1400);
-		});
-	}
-
 });

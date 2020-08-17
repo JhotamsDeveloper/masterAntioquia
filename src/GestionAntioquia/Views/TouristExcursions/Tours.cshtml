@@ -47,7 +47,7 @@
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a href="hotel/@_allies.ProductUrl"><img src="@_allies.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a href="/tour/@_allies.ProductUrl"><img src="@_allies.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">
@@ -55,9 +55,7 @@
                                             <div class="blog_post_date"><a href="#">@_allies.City</a></div>
 
                                             <div class="blog_post_title">
-                                                <h3>
-                                                    @Html.ActionLink(_allies.Name, _allies.ProductUrl, "hotel")
-                                                </h3>
+                                                <a href="/tour/@_allies.ProductUrl"><h3>@_allies.Name</h3></a>
                                             </div>
                                             <div class="blog_post_tags">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">

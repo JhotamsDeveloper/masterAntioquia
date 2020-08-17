@@ -133,6 +133,10 @@ namespace GestionAntioquia
                 pattern: "blog/{name}",
                 defaults: new { Controller = "blogs", action = "blog" });
 
+                endpoints.MapControllerRoute(
+                name: "toursDetail",
+                pattern: "tour/{urlName}",
+                defaults: new { Controller = "TouristExcursions", action = "TourDetail" });
 
                 endpoints.MapControllerRoute(
                 name: "empresas",

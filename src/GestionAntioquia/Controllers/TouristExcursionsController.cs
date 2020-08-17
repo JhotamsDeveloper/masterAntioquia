@@ -49,13 +49,14 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var place = await _touristExcursionsService.Details(id);
-            if (place == null)
+            var _tour = await _touristExcursionsService.Details(id);
+            if (_tour == null)
             {
                 return NotFound();
             }
 
-            return View(place);
+            ViewData["CoverPage"] = _tour.CoverPage.ToString();
+            return View(_tour);
         }
 
         // GET: Tour/Create
@@ -234,6 +235,26 @@ namespace GestionAntioquia.Controllers
         public async Task<IActionResult> Tours()
         {
             return View(await _touristExcursionsService.Tours());
+        }
+
+        // GET: Tour/Details/5
+
+        [Route("tour/{urlName}")]
+        public async Task<IActionResult> TourDetail(string urlName)
+        {
+            if (urlName == "")
+            {
+                return NotFound();
+            }
+
+            var _tour = await _touristExcursionsService.Details(urlName);
+            if (_tour == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["CoverPage"] = _tour.CoverPage.ToString();
+            return View(_tour);
         }
 
         public IActionResult PageNotFound()

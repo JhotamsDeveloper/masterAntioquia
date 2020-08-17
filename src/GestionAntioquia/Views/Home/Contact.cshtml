@@ -1,0 +1,117 @@
+﻿<!-- Home -->
+@{
+ViewData["Title"] = "Create";
+Layout = "~/Views/Shared/_Layout.cshtml";
+ViewData["imagen"] = Url.Content("~/images/create_places.jpg");
+}
+
+
+<div class="super_overlay"></div>
+
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">
+                            <h2 class="section-heading text-center h1 pt-4">Creando un nuevo lugar</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact -->
+
+<div class="contact container_custom">
+    <div class="container">
+        <div class="row">
+
+            <!-- Contact Content -->
+            <div class="col-xl-12">
+                <div class="contact_content">
+                    <div class="contact_form_container">
+                        <div class="section_title"><h1>Ponerse en contacto</h1></div>
+                        <form action="#" class="contact_form" id="contact_form">
+                            <div class="row">
+                                <div class="col-lg-6 contact_form_col">
+                                    <input type="text" class="contact_input" placeholder="Tu nombre" required="required">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="contact_input" placeholder="Tu e-mail" required="required">
+                                </div>
+                            </div>
+                            <div>
+                                <input type="text" class="contact_input" placeholder="Asunto">
+                            </div>
+                            <div>
+                                <textarea class="contact_input contact_textarea" placeholder="Message" required="required"></textarea>
+                            </div>
+                            <button class="btn btn-block contact_button trans_200">Enviar</button>
+                        </form>
+                        <div class="contact_info">
+                            <div class="section_title"><h1>Datos de contacto</h1></div>
+
+                            <dl class="row">
+                                <dt class="col-sm-2">
+                                    Dirección
+                                </dt>
+                                <dd class="col-sm-10">
+                                    Santa Fe de Antioquia, local 12 del Hotel Mariscal
+                                </dd>
+                                <dt class="col-sm-2">
+                                    Contacto
+                                </dt>
+                                <dd class="col-sm-10">
+                                    3105108287
+                                </dd>
+                                <dt class="col-sm-2">
+                                    E-mail
+                                </dt>
+                                <dd class="col-sm-10">
+                                    soporte@pueblostravel.com
+                                </dd>
+
+                            </dl>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+
+<footer class="footer container_custom">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="footer_container d-flex flex-md-row flex-column align-items-center justify-content-md-start justify-content-center">
+                    <div class="copyright order-md-1 order-2">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                    <nav class="footer_nav ml-md-auto order-md-2 order-1">
+                        <ul class="d-flex flex-row align-items-center justify-content-start">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#">About us</a></li>
+                            <li><a href="listings.html">Listings</a></li>
+                            <li><a href="blog.html">News</a></li>
+                            <li class="active"><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
