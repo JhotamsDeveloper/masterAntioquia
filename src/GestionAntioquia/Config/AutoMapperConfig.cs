@@ -20,6 +20,7 @@ namespace GestionAntioquia.Config
             CreateMap<Product, TouristExcursionsDto>();
             CreateMap<Gallery, GalleryDto>();
             CreateMap<Event, BlogDto>();
+            CreateMap<Event, EventDto>();
         }
     }
 }

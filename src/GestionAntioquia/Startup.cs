@@ -81,6 +81,7 @@ namespace GestionAntioquia
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<IStoreService, StoreService>();
             services.AddTransient<IBlogService, BlogService>();
+            services.AddTransient<IEventService, EventService>();
             services.AddTransient<IGenericServicio, GenericServicio>();
             services.AddTransient<ITouristExcursionsService, TouristExcursionsService>();
 
