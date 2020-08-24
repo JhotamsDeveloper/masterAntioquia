@@ -35,8 +35,8 @@ namespace Service.Commons
 
             string uniqueFileName;
 
-            string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
-            uniqueFileName = "Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1);
+            string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\images");
+            uniqueFileName = "images-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1);
             string filePath = Path.Combine(uploadsFolder, uniqueFileName);
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
@@ -57,8 +57,8 @@ namespace Service.Commons
 
             if (file != null)
             {
-                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
-                uniqueFileName = "Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1);
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\images");
+                uniqueFileName = "images-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1);
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using var fileStream = new FileStream(filePath, FileMode.Create);
                 file.CopyTo(fileStream);
@@ -76,8 +76,8 @@ namespace Service.Commons
             foreach (var file in files)
             {
                 _contador++;
-                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
-                uniqueFileName.Add("Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1));
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\images");
+                uniqueFileName.Add("images-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1));
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName[_contador-1]);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -106,8 +106,8 @@ namespace Service.Commons
                 foreach (var file in files)
                 {
                     _contador++;
-                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places");
-                    uniqueFileName.Add("Place-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1));
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images\\images");
+                    uniqueFileName.Add("images-" + Guid.NewGuid().ToString() + "." + Path.GetExtension(file.FileName).Substring(1));
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName[_contador - 1]);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
@@ -127,7 +127,7 @@ namespace Service.Commons
         private Boolean DeleteUpload(string imgModel)
         {
 
-            imgModel = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places", imgModel);
+            imgModel = Path.Combine(_hostingEnvironment.WebRootPath, "images\\images", imgModel);
             FileInfo fileInfo = new FileInfo(imgModel);
 
             if (fileInfo != null)
@@ -147,7 +147,7 @@ namespace Service.Commons
         {
             for (int i = 0; i < imgModel.Count; i++)
             {
-                imgModel[i] = Path.Combine(_hostingEnvironment.WebRootPath, "images\\Places", imgModel[i]);
+                imgModel[i] = Path.Combine(_hostingEnvironment.WebRootPath, $"images\\images", imgModel[i]);
                 FileInfo fileInfo = new FileInfo(imgModel[i]);
 
                 if (fileInfo != null)

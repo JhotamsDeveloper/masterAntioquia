@@ -18,6 +18,7 @@ namespace Model.DTOs.CustomValidations
             var file = (IFormFile)value;
             var ext = Path.GetExtension(file.FileName).ToUpper().Replace(".", "");
             return _validExtensions.Contains(ext) && file.ContentType.Contains("image");
+
         }
     }
 }

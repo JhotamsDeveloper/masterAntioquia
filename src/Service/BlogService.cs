@@ -36,8 +36,10 @@ namespace Service
         private readonly ICategoryService _categoryService;
         private readonly IGenericServicio _genericServicio;
         private readonly IUploadedFile _uploadedFile;
-        private readonly IUploadedFileAzure _uploadedFileAzure;
         private readonly IFormatString _formatString;
+
+        //Variables para azure
+        private readonly IUploadedFileAzure _uploadedFileAzure;
         private readonly string _account = "blog";
 
         public BlogService(
@@ -106,11 +108,11 @@ namespace Service
         public async Task<BlogDto> Create(BlogCreateDto model)
         {
 
-            //var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
-            //var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
+            var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+            var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
 
-            var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
-            var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+            //var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+            //var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
 
             var _fechaActual = DateTime.Now;
             var _url = _formatString.FormatUrl(model.Name);
@@ -158,8 +160,8 @@ namespace Service
 
             if (model.CoverPage != null)
             {
-                //_coverPage = _uploadedFile.UploadedFileImage(_blog.CoverPage, model.CoverPage);
-                _coverPage = await _uploadedFileAzure.EditFileAzure(model.CoverPage, _blog.CoverPage, _account);
+                _coverPage = _uploadedFile.UploadedFileImage(_blog.CoverPage, model.CoverPage);
+                //_coverPage = await _uploadedFileAzure.EditFileAzure(model.CoverPage, _blog.CoverPage, _account);
             }
             else
             {
@@ -168,8 +170,8 @@ namespace Service
 
             if (model.SquareCover != null)
             {
-                //_squareCover = _uploadedFile.UploadedFileImage(_blog.SquareCover, model.SquareCover);
-                _squareCover = await _uploadedFileAzure.EditFileAzure(model.SquareCover, _blog.SquareCover, _account);
+                _squareCover = _uploadedFile.UploadedFileImage(_blog.SquareCover, model.SquareCover);
+                //_squareCover = await _uploadedFileAzure.EditFileAzure(model.SquareCover, _blog.SquareCover, _account);
             }
             else
             {
@@ -192,14 +194,14 @@ namespace Service
         {
             if (_cover != null)
             {
-                //_uploadedFile.DeleteConfirmed(_cover);
-                await _uploadedFileAzure.DeleteFile(_cover, _account);
+                _uploadedFile.DeleteConfirmed(_cover);
+                //await _uploadedFileAzure.DeleteFile(_cover, _account);
             }
 
             if (_squareCover != null)
             {
-                //_uploadedFile.DeleteConfirmed(_squareCover);
-                await _uploadedFileAzure.DeleteFile(_squareCover, _account);
+                _uploadedFile.DeleteConfirmed(_squareCover);
+                //await _uploadedFileAzure.DeleteFile(_squareCover, _account);
             }
 
             _context.Remove(new Event

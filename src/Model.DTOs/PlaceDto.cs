@@ -179,21 +179,12 @@ namespace Model.DTOs
         public string Description { get; set; }
 
         [DisplayName("Portada")]
-        [Required(ErrorMessage = "La portada es requerida.")]
-        [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
-        [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
         public IFormFile CoverPage { get; set; }
 
         [DisplayName("Portada Cuadrada")]
-        [Required(ErrorMessage = "La portada cuadrada es requerida.")]
-        [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
-        [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
         public IFormFile SquareCover { get; set; }
 
         [DisplayName("Logo")]
-        [Required(ErrorMessage = "La logo es requerida.")]
-        [ValidateExtensionImg(ErrorMessage = "Utilice archivos con extensiones JPG JPEG GIF PNG")]
-        [ImageSizes(ErrorMessage = "El tamaño no debe de ser superior a 2mb")]
         public IFormFile Logo { get; set; }
 
         [DisplayName("Contracto")]

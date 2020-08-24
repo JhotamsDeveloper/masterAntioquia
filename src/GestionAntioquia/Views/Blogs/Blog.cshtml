@@ -78,7 +78,7 @@
             </div>
             <div class="row" style="margin-top:-60px">
                 <div class="col">
-                    <div class="blog_posts_more text-center" >
+                    <div class="blog_posts_more text-center">
 
                         @{
                             var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
@@ -111,8 +111,7 @@
 }
 else
 {
-
-    <h1>En el momento no hay registros</h1>
+    <partial name="_MessageWithoutRegistration" />
 }
 
 

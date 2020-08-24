@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = Model.Name + ", ";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["imagen"] = Url.Content($"{Model.CoverPage}");
+    ViewData["imagen"] = Url.Content($"~/images/images/{Model.CoverPage}");
 
 }
 
@@ -16,7 +16,7 @@
                 <div class="col">
                     <div class="home_content">
                         <div class="home_title">
-                            <img src="@Model.Logo" class="rounded-circle" height="200" width="200" asp-append-version="true" />
+                            <img src="~/images/images/@Model.Logo" class="rounded-circle" height="200" width="200" asp-append-version="true" />
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
 
                                         <div class="card">
                                             <a asp-controller="Products" asp-action="Product" asp-route-productUrl="@product.ProductUrl">
-                                                <img src="@product.CoverPage" class="card-img-top">
+                                                <img src="~/images/images/@product.CoverPage" class="card-img-top">
                                             </a>
                                             <div class="card-body justify-content-center">
                                                 <dl class="row ">
@@ -121,7 +121,7 @@
                         }
                         else
                         {
-                            <h1>El hote @Model.Name no cuenta con planes en el momento</h1>
+                            <partial name="_MessageWithoutRegistration" />
                         }
 
 

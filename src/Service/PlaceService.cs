@@ -39,6 +39,8 @@ namespace Service
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUploadedFile _uploadedFile;
+
+        //Variables de Azure
         private readonly IUploadedFileAzure _uploadedFileAzure;
         private readonly string _account = "places";
 
@@ -77,13 +79,13 @@ namespace Service
         public async Task<PlaceDto> Create(PlaceCreateDto model)
         {
 
-            //var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
-            //var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
-            //var _logo = _uploadedFile.UploadedFileImage(model.Logo);
+            //var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+            //var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+            //var _logo = await _uploadedFileAzure.SaveFileAzure(model.Logo, _account);
 
-            var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
-            var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
-            var _logo = await _uploadedFileAzure.SaveFileAzure(model.Logo, _account);
+            var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+            var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
+            var _logo = _uploadedFile.UploadedFileImage(model.Logo);
 
             var _fechaActual = DateTime.Now;
             var _url = FormatString(model.Name);
@@ -130,38 +132,32 @@ namespace Service
 
             var _place = await _context.Places.SingleAsync(x => x.PlaceId == id);
 
-            //var _coverPage = _uploadedFile.UploadedFileImage(_place.CoverPage, model.CoverPage);
-            //var _squareCover = _uploadedFile.UploadedFileImage(_place.SquareCover, model.SquareCover);
-            //var _logo = _uploadedFile.UploadedFileImage(_place.Logo, model.Logo);
-
             if (model.CoverPage != null)
             {
-                if (_place.CoverPage != null)
-                {
-                    await _uploadedFileAzure.DeleteFile(_place.CoverPage, _account);
-                }
-
-                _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+            }
+            else
+            {
+                _coverPage = _place.CoverPage;
             }
 
             if (model.SquareCover != null)
             {
-                if (_place.SquareCover != null)
-                {
-                    await _uploadedFileAzure.DeleteFile(_place.SquareCover, _account);
-                }
-
-                _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                _squareCover = _uploadedFile.UploadedFileImage(_place.SquareCover, model.SquareCover);
+            }
+            else
+            {
+                _squareCover = _place.SquareCover;
             }
 
             if (model.Logo != null)
             {
-                if (_place.Logo != null)
-                {
-                    await _uploadedFileAzure.DeleteFile(_place.Logo, _account);
-                }
 
-                _logo = await _uploadedFileAzure.SaveFileAzure(model.Logo, _account);
+                _logo = _uploadedFile.UploadedFileImage(_place.Logo, model.Logo);
+            }
+            else 
+            { 
+                _logo = _place.Logo;
             }
 
             _place.Nit = model.Nit;
@@ -205,21 +201,21 @@ namespace Service
 
             if (_logo != null)
             {
-                //_uploadedFile.DeleteConfirmed(_logo);
-                await _uploadedFileAzure.DeleteFile(_logo, _account);
+                //await _uploadedFileAzure.DeleteFile(_logo, _account);
+                _uploadedFile.DeleteConfirmed(_logo);
 
             }
             
             if (_cover != null)
             {
-                //_uploadedFile.DeleteConfirmed(_cover);
-                await _uploadedFileAzure.DeleteFile(_cover, _account);
+                //await _uploadedFileAzure.DeleteFile(_cover, _account);
+                _uploadedFile.DeleteConfirmed(_cover);
             }
             
             if (_squareCover != null)
             {
-                //_uploadedFile.DeleteConfirmed(_squareCover);
-                await _uploadedFileAzure.DeleteFile(_squareCover, _account);
+                //await _uploadedFileAzure.DeleteFile(_squareCover, _account);
+                _uploadedFile.DeleteConfirmed(_squareCover);
             }
 
             _context.Remove(new Place
