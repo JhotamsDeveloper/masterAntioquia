@@ -17,6 +17,7 @@ namespace Model
         public string Email { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
+        public bool urban { get; set; }
         public string Description { get; set; }
         public string CoverPage { get; set; }
         public string SquareCover { get; set; }
@@ -33,6 +34,7 @@ namespace Model
 
         public List<Product> Products { get; set; }
         public List<Event> Events { get; set; }
+        public List<Review> Reviews { get; set; }
 
     }
 }

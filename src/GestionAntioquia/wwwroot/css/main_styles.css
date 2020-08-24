@@ -1570,7 +1570,7 @@ section
 	border-radius: 5px;
 }
 
-	.blog_post_date a {
+	.blog_post_date a, .blog_post_date span {
 		display: block;
 		height: 100%;
 		text-align: center;

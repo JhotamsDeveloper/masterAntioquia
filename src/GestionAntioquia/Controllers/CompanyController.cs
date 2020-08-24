@@ -33,10 +33,12 @@ namespace GestionAntioquia.Controllers
                                 {
                                     PlaceId = a.PlaceId,
                                     Name = a.Name,
+                                    City = a.City,
+                                    urban = a.urban,
                                     UrlName = a.NameUrl,
                                     Contract = a.Contract,
                                     SquareCover = a.SquareCover,
-                                    Description = a.Description.Substring(0, 20),
+                                    Description = a.Description.Substring(0, 100),
                                     DataCreate = DateTime.Parse(a.CreationDate).AddMonths(1),
                                     New = "nuevo",
                                     NameCategory = a.Category.Name
@@ -55,6 +57,14 @@ namespace GestionAntioquia.Controllers
             }
 
             var _detalleHotel = await _companyService.Details(urlName);
+
+            string _urbano;
+
+            if (_detalleHotel.urban){_urbano = "Urbana";}else{
+                _urbano = "rural";};
+
+            ViewData["Urbano"] = _urbano;
+
 
             if (_detalleHotel == null)
             {

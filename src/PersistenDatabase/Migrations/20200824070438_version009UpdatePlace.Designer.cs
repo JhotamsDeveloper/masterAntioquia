@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persisten.Database;
 
 namespace Persisten.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200824070438_version009UpdatePlace")]
+    partial class version009UpdatePlace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,16 +324,11 @@ namespace Persisten.Database.Migrations
                     b.Property<int?>("ProducId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReviewsId")
-                        .HasColumnType("int");
-
                     b.HasKey("GalleryId");
 
                     b.HasIndex("EventId");
 
                     b.HasIndex("ProducId");
-
-                    b.HasIndex("ReviewsId");
 
                     b.ToTable("Galleries");
                 });
@@ -535,38 +532,6 @@ namespace Persisten.Database.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Model.Review", b =>
-                {
-                    b.Property<int>("ReviewID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Assessment")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PlaceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TitleReview")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("imgUser")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ReviewID");
-
-                    b.HasIndex("PlaceId");
-
-                    b.ToTable("Reviews");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -638,10 +603,6 @@ namespace Persisten.Database.Migrations
                     b.HasOne("Model.Product", "Products")
                         .WithMany("Galleries")
                         .HasForeignKey("ProducId");
-
-                    b.HasOne("Model.Review", "Reviews")
-                        .WithMany("Galleries")
-                        .HasForeignKey("ReviewsId");
                 });
 
             modelBuilder.Entity("Model.Order", b =>
@@ -682,13 +643,6 @@ namespace Persisten.Database.Migrations
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Model.Review", b =>
-                {
-                    b.HasOne("Model.Place", "Place")
-                        .WithMany("Reviews")
-                        .HasForeignKey("PlaceId");
                 });
 #pragma warning restore 612, 618
         }

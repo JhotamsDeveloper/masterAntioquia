@@ -1,20 +1,21 @@
 ﻿@model Model.DTOs.PlaceEditDto
 
 @{
-    ViewData["Title"] = $"Editando {Model.Name}";
+    ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content($"~/images/images/{ViewBag.CoverPage}");
 }
 
 <!-- Home -->
 <div class="home">
-    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@Url.Content($"~/images/Places/{@ViewBag.CoverPage}")" data-speed="0.8"></div>
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
     <div class="home_container">
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="home_content">
                         <div class="home_title">
-                            <img src="~/images/Places/@ViewBag.Logo" class="rounded-circle" height="200" width="200" asp-append-version="true" />
+                            <img src="~/images/images/@ViewBag.Logo" class="rounded-circle" height="200" width="200" asp-append-version="true" />
                         </div>
                     </div>
                 </div>
@@ -23,17 +24,17 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container mt-5">
 
     <section class="section">
 
         <!--Section heading-->
-        <h2 class="section-heading text-center h1 pt-4">Actualizando @Model.Name</h2>
+        @*<h2 class="section-heading text-center h1 pt-4">Creando un nuevo lugar</h2>*@
         <!--Section description-->
         @*<p class="section-description">
-            Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
-            matter of hours to help you.
-        </p>*@
+                Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
+                matter of hours to help you.
+            </p>*@
 
         <div class="row">
 
@@ -42,7 +43,6 @@
                 <form enctype="multipart/form-data" asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="PlaceId" />
-
                     <!--Grid row-->
                     <div class="row">
 
@@ -59,11 +59,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" readonly />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger">@ViewData["DuplicaName"]</span>
                             </div>
                         </div>
 
+                    </div>
+
+                    <div class="row">
                         <!--Grid column-->
                         <div class="col-md-6">
                             <div class="md-form">
@@ -81,9 +84,11 @@
                                 <span asp-validation-for="Admin" class="text-danger"></span>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="row">
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="City" class="control-label"></label>
                                 <input asp-for="City" class="form-control" />
@@ -93,16 +98,27 @@
 
                         <!--Grid column-->
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form">
                                 <label asp-for="Address" class="control-label"></label>
                                 <input asp-for="Address" class="form-control" />
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
                         </div>
-                        <!--Grid column-->
 
+                        <!--Grid column-->
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <div class="md-form form-check">
+                                    <label class="form-check-label mt-4">
+                                        <input class="form-check-input" asp-for="urban" /> @Html.DisplayNameFor(model => model.urban)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!--Grid column-->
                     <!--Grid row-->
                     <div class="row">
                         <div class="col-md-12">
@@ -228,110 +244,118 @@
 
     </section>
     <!--Section: Contact v.2-->
-
     @*<div class="row">
-        <div class="col-md-4">
-            <form enctype="multipart/form-data" asp-action="Edit">
-                
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="PlaceId" />
+            <div class="col-md-4">
+                <form enctype="multipart/form-data" asp-action="Edit">
 
-                <div class="form-group">
-                    <label asp-for="Nit" class="control-label"></label>
-                    <input asp-for="Nit" class="form-control" />
-                    <span asp-validation-for="Nit" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" readonly />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Phone" class="control-label"></label>
-                    <input asp-for="Phone" class="form-control" />
-                    <span asp-validation-for="Phone" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Admin" class="control-label"></label>
-                    <input asp-for="Admin" class="form-control" />
-                    <span asp-validation-for="Admin" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Address" class="control-label"></label>
-                    <input asp-for="Address" class="form-control" />
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="City" class="control-label"></label>
-                    <input asp-for="City" class="form-control" />
-                    <span asp-validation-for="City" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="PlaceId" />
 
-                <div class="form-group">
-                    <img src="~/images/Places/@ViewBag.CoverPage" class="rounded-circle" height="40" width="40" asp-append-version="true" />
-                </div>
-
-
-                <div class="form-group">
-                    <label asp-for="CoverPage" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="CoverPage" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    <div class="form-group">
+                        <label asp-for="Nit" class="control-label"></label>
+                        <input asp-for="Nit" class="form-control" />
+                        <span asp-validation-for="Nit" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="CoverPage" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <img src="~/images/Places/@ViewBag.Logo" class="rounded-circle" height="40" width="40" asp-append-version="true" />
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Logo" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="Logo" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" readonly />
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="Logo" class="text-danger"></span>
-                </div>
+                    <div class="form-group">
+                        <label asp-for="Phone" class="control-label"></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Admin" class="control-label"></label>
+                        <input asp-for="Admin" class="form-control" />
+                        <span asp-validation-for="Admin" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="City" class="control-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="Contract" class="control-label"></label>
-                    <input asp-for="Contract" class="form-control" />
-                    <span asp-validation-for="Contract" class="text-danger"></span>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="State" /> @Html.DisplayNameFor(model => model.State)
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CategoryId" class="control-label"></label>
-                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>*@
+                    <div class="form-group">
+                        <img src="~/images/Places/@ViewBag.CoverPage" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+                    </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+                    <div class="form-group">
+                        <label asp-for="CoverPage" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="CoverPage" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                        <span asp-validation-for="CoverPage" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <img src="~/images/Places/@ViewBag.Logo" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Logo" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="Logo" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                        <span asp-validation-for="Logo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Contract" class="control-label"></label>
+                        <input asp-for="Contract" class="form-control" />
+                        <span asp-validation-for="Contract" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="State" /> @Html.DisplayNameFor(model => model.State)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="control-label"></label>
+                        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>*@
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>
 
 
 @section Scripts {
+
+    <script type="text/javascript">
+        // Agregue el siguiente código si desea que aparezca el nombre del archivo en select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

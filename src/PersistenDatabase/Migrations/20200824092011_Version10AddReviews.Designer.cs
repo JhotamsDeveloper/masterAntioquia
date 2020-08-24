@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persisten.Database;
 
 namespace Persisten.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200824092011_Version10AddReviews")]
+    partial class Version10AddReviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -454,6 +456,9 @@ namespace Persisten.Database.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ReviewsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SquareCover")
                         .HasColumnType("nvarchar(max)");
 
@@ -469,6 +474,8 @@ namespace Persisten.Database.Migrations
                     b.HasKey("PlaceId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ReviewsId");
 
                     b.ToTable("Places");
                 });
@@ -551,9 +558,6 @@ namespace Persisten.Database.Migrations
                     b.Property<string>("NameUser")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PlaceId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TitleReview")
                         .HasColumnType("nvarchar(max)");
 
@@ -561,8 +565,6 @@ namespace Persisten.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ReviewID");
-
-                    b.HasIndex("PlaceId");
 
                     b.ToTable("Reviews");
                 });
@@ -673,6 +675,10 @@ namespace Persisten.Database.Migrations
                     b.HasOne("Model.Category", "Category")
                         .WithMany("Places")
                         .HasForeignKey("CategoryId");
+
+                    b.HasOne("Model.Review", "Reviews")
+                        .WithMany("Places")
+                        .HasForeignKey("ReviewsId");
                 });
 
             modelBuilder.Entity("Model.Product", b =>
@@ -682,13 +688,6 @@ namespace Persisten.Database.Migrations
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Model.Review", b =>
-                {
-                    b.HasOne("Model.Place", "Place")
-                        .WithMany("Reviews")
-                        .HasForeignKey("PlaceId");
                 });
 #pragma warning restore 612, 618
         }

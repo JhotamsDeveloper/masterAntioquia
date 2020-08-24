@@ -55,11 +55,11 @@
 
                                                 @if (_allies.DataCreate <= DateTime.Now)
                                                 {
-                                                    <div class="blog_post_date"><a href="#">Acreditado</a></div>
+                                                    <div class="blog_post_date"><span>Acreditado</span></div>
                                                 }
                                                 else
                                                 {
-                                                    <div class="blog_post_date"><a href="#">Nuevo</a></div>
+                                                    <div class="blog_post_date"><span>Nuevo</span></div>
                                                 }
                                                 <div class="blog_post_title">
                                                     <h3>
@@ -68,13 +68,20 @@
                                                 </div>
                                                 <div class="blog_post_tags">
                                                     <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                        <li><a href="#">@_allies.Contract</a></li>
-                                                        <li><a href="#">Santa Fe de Antioquia</a></li>
+                                                        <li><span>@_allies.City</span></li>
+                                                        @if (_allies.urban)
+                                                        {
+                                                            <li><span>Urbana</span></li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li><span>Rural</span></li>
+                                                        }
+
                                                     </ul>
                                                 </div>
                                                 <div class="blog_post_text">
                                                     <p>@_allies.Description ...</p>
-                                                    <p>@_allies.NameCategory</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,11 +157,11 @@ else
 
                                             @if (_allies.DataCreate <= DateTime.Now)
                                             {
-                                                <div class="blog_post_date"><a href="#">Acreditado</a></div>
+                                                <div class="blog_post_date"><span>Nuevo</span></div>
                                             }
                                             else
                                             {
-                                                <div class="blog_post_date"><a href="#">Nuevo</a></div>
+                                                <div class="blog_post_date"><span>Nuevo</span></div>
                                             }
                                             <div class="blog_post_title">
                                                 <h3>
@@ -164,7 +171,7 @@ else
                                             <div class="blog_post_tags">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">
                                                     <li><a href="#">@_allies.Contract</a></li>
-                                                    <li><a href="#">Santa Fe de Antioquia</a></li>
+                                                    <li><a href="#">@_allies.City</a></li>
                                                 </ul>
                                             </div>
                                             <div class="blog_post_text">

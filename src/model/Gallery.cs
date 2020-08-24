@@ -12,5 +12,8 @@ namespace Model
         public int? ProducId { get; set; }
         public Product Products { get; set; }
 
+        public int? ReviewsId { get; set; }
+        public Review Reviews { get; set; }
+
     }
 }

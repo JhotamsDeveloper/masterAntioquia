@@ -57,7 +57,6 @@ namespace Service.Config
                 .WithMany(x => x.Places)
                 .HasForeignKey(x => x.CategoryId);
 
-
         }
     }
 }

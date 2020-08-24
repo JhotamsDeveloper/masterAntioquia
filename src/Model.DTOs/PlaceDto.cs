@@ -40,8 +40,11 @@ namespace Model.DTOs
         public string Address { get; set; }
 
         [DisplayName("Municipio")]
-        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(20)]
+        [Required(ErrorMessage = "El Municipio es requerido."), MaxLength(30)]
         public string City { get; set; }
+
+        [DisplayName("Es Urbana?")]
+        public bool urban { get; set; }
 
         [AllowHtml]
         [DisplayName("Descripción")]
@@ -63,6 +66,7 @@ namespace Model.DTOs
         public string LatitudeCoordinates { get; set; }
         public string LengthCoordinates { get; set; }
         public string UpdateDate { get; set; }
+        [DisplayName("Categoria")]
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
         public List<Product> Products { get; set; }
@@ -100,8 +104,11 @@ namespace Model.DTOs
         public string Address { get; set; }
 
         [DisplayName("Municipio")]
-        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(20)]
+        [Required(ErrorMessage = "El Municipio es requerido."), MaxLength(30)]
         public string City { get; set; }
+
+        [DisplayName("Es Urbana?")]
+        public bool urban { get; set; }
 
         [AllowHtml]
         [DisplayName("Descripción")]
@@ -134,6 +141,8 @@ namespace Model.DTOs
         [DisplayName("Activar")]
         public Boolean State { get; set; }
         public string CreationDate { get; set; }
+
+        [DisplayName("Categoria")]
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
         public List<Product> Products { get; set; }
@@ -171,9 +180,10 @@ namespace Model.DTOs
         public string Address { get; set; }
 
         [DisplayName("Municipio")]
-        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(20)]
+        [Required(ErrorMessage = "El Municipio es requerido."), MaxLength(30)]
         public string City { get; set; }
-
+        [DisplayName("Es Urbana?")]
+        public bool urban { get; set; }
         [AllowHtml]
         [DisplayName("Descripción")]
         public string Description { get; set; }
@@ -205,6 +215,8 @@ namespace Model.DTOs
         public string Name { get; set; }
         public string UrlName { get; set; }
         public string SquareCover { get; set; }
+        public string City { get; set; }
+        public bool urban { get; set; }
         public string Contract { get; set; }
         public string Description { get; set; }
         public DateTime DataCreate { get; set; }

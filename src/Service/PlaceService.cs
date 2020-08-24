@@ -98,6 +98,7 @@ namespace Service
                 Admin = model.Admin,
                 Email = model.Email,
                 City = model.City,
+                urban = model.urban,
                 Address = model.Address,
                 Description = model.Description,
                 CoverPage = _coverPage,
@@ -166,6 +167,7 @@ namespace Service
             _place.Address = model.Address;
             _place.Email = model.Email;
             _place.City = model.City;
+            _place.urban = model.urban;
             _place.Description = model.Description;
             _place.CoverPage = _coverPage;
             _place.SquareCover = _squareCover;

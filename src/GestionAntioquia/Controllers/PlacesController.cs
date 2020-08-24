@@ -116,6 +116,7 @@ namespace GestionAntioquia.Controllers
                 Phone = place.Phone,
                 Admin = place.Admin,
                 City = place.City,
+                urban = place.urban,
                 Email = place.Email,
                 Address = place.Address,
                 Description = place.Description,

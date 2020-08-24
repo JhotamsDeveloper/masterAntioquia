@@ -24,6 +24,7 @@ namespace Persisten.Database
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Gallery> Galleries { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -38,6 +39,7 @@ namespace Persisten.Database
             new EventConfig(builder.Entity<Event>());
             new ProductConfig(builder.Entity<Product>());
             new GalleryConfig(builder.Entity<Gallery>());
+            new ReviewConfig(builder.Entity<Review>());
 
         }
     }

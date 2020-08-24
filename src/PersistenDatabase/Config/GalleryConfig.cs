@@ -15,6 +15,11 @@ namespace Persisten.Database.Config
             entityBuilder.HasOne(x => x.Products)
                 .WithMany(x => x.Galleries)
                 .HasForeignKey(x => x.ProducId);
+
+            entityBuilder.HasOne(x => x.Reviews)
+            .WithMany(x => x.Galleries)
+            .HasForeignKey(x => x.ReviewsId);
+
         }
     }
 }
