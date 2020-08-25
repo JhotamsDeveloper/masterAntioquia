@@ -1,10 +1,19 @@
 ﻿@model Model.DTOs.PlaceDto
 
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 @{
     ViewData["Title"] = Model.Name + ", ";
     ViewData["Places"] = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["imagen"] = Url.Content($"~/images/images/{Model.CoverPage}");
+
+    if (SignInManager.IsSignedIn(User))
+    {
+        ViewData["NameUser"] = User.Identity.Name;
+    }
 
 }
 
@@ -129,7 +138,44 @@
                     </div>
 
                     <!-- Reviews -->
-                    <partial name="_ReviewsPartial" view-data="ViewData"/>
+                    <partial name="_ReviewsPartial" view-data="ViewData" />
+
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <div class="contact_form_container mt-3">
+                            <div class="section_title text-center"><h4>Dejanos una reseña</h4></div>
+                            <form enctype="multipart/form-data" asp-controller="Company" asp-action="Reviews" class="contact_form" id="contact_form">
+                                <div class="row">
+                                    <div class="col-lg-8 contact_form_col">
+                                        <input asp-for="TittleReview" class="form-control contact_input" placeholder="Titulo Corto" />
+                                        <span asp-validation-for="TittleReview" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-lg-4 contact_form_col">
+                                        <input asp-for="AssessmentReview" class="form-control contact_input" placeholder="puntaje" />
+                                        <span asp-validation-for="AssessmentReview" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input asp-for="DescriptionReview" class="form-control contact_input contact_textarea" placeholder="Descripcion" />
+                                    <span asp-validation-for="DescriptionReview" class="text-danger"></span>
+
+                                </div>
+                                <div>
+                                    <div class="md-form">
+                                        <div class="custom-file">
+                                            <input asp-for="GalleryReview" multiple class="custom-file-input" id="customFile1">
+                                            <label class="custom-file-label" for="customFile1">Estuviste en este lugar?</label>
+                                        </div>
+                                        <span asp-validation-for="GalleryReview" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <input type="hidden" asp-for="UserIdReview" value="@ViewBag.NameUser" />
+                                <button class="contact_button trans_200">Comentar</button>
+                            </form>
+                        </div>
+
+                        <partial name="_MessajeContact" />
+                    }
                 </div>
             </div>
 
@@ -211,5 +257,14 @@
 
 @section Scripts {
 
+    <script type="text/javascript">
+        // Agregue el siguiente código si desea que aparezca el nombre del archivo en select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ScriptPlacesDetails");}
 }

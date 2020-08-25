@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,9 @@ namespace GestionAntioquia.Controllers
     {
 
         private readonly ICompanyService _companyService;
+
+        [TempData]
+        public string _StatusMessaje { get; set; }
 
         public CompanyController(ICompanyService companyService)
         {
@@ -65,6 +69,10 @@ namespace GestionAntioquia.Controllers
 
             ViewData["Urbano"] = _urbano;
 
+            if (_StatusMessaje != "")
+            {
+                ViewData["successful"] = _StatusMessaje;
+            }
 
             if (_detalleHotel == null)
             {
@@ -93,73 +101,19 @@ namespace GestionAntioquia.Controllers
             return View(_detalleHotel);
         }
 
-        // GET: hotel/Create
-        public ActionResult Create()
+        [Authorize(Roles = "UserApp, Admin")]
+        public async Task<ActionResult> Reviews(ReviewsCreateDto model)
         {
-            return View();
-        }
 
-        // POST: hotel/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                await _companyService.CreateReviews(model);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            _StatusMessaje = "show";
+            return View("Details");
+
         }
 
-        // GET: hotel/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: hotel/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: hotel/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: hotel/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Service
 {
@@ -30,8 +31,6 @@ namespace Service
 
         Boolean DuplicaName(string name);
         Task<IEnumerable<LogosDto>> Logos();
-        
-
     }
     public class PlaceService : IPlaceService
     {
@@ -41,8 +40,8 @@ namespace Service
         private readonly IUploadedFile _uploadedFile;
 
         //Variables de Azure
-        private readonly IUploadedFileAzure _uploadedFileAzure;
-        private readonly string _account = "places";
+        //private readonly IUploadedFileAzure _uploadedFileAzure;
+        //private readonly string _account = "places";
 
         public PlaceService(ApplicationDbContext context,
             IUploadedFile uploadedFile,
@@ -53,7 +52,7 @@ namespace Service
             _mapper = mapper;
 
             _uploadedFile = uploadedFile;
-            _uploadedFileAzure = uploadedFileAzure;
+            //_uploadedFileAzure = uploadedFileAzure;
 
         }
 

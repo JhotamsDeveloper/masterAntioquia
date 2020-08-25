@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Model.DTOs
 {
-    public class PlaceDto
+    public class PlaceDto : ReviewsCreateDto
     {
         public int PlaceId { get; set; }
 
