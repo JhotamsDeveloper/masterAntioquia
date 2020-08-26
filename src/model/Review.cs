@@ -10,8 +10,8 @@ namespace Model
         public string TittleReview { get; set; }
         public string Description { get; set; }
         public int Assessment { get; set; }
-        public string UserId { get; set; }
-
+        public string UserName { get; set; }
+        public DateTime ReviewCreateDate { get; set; }
         public int? PlaceId { get; set; }
         public Place Place { get; set; }
         

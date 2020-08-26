@@ -70,6 +70,7 @@ namespace Model.DTOs
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
         public List<Product> Products { get; set; }
+        public List<Review> Reviews { get; set; }
 
     }
 

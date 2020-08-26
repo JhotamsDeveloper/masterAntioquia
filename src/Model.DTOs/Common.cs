@@ -15,7 +15,6 @@ namespace Model.DTOs
         public string Description { get; set; }
         public int Assessment { get; set; }
         public string UserId { get; set; }
-
         public int? PlaceId { get; set; }
         public Place Place { get; set; }
 
@@ -38,19 +37,11 @@ namespace Model.DTOs
         [Required(ErrorMessage = "El tipo rango es requerido.")]
         [Range(1, 5, ErrorMessage = "Rango entre {1} y {2}")]
         public int AssessmentReview { get; set; }
-        public string UserIdReview { get; set; }
+        public string UserNameReview { get; set; }
+        public string NamePlaceReview { get; set; }
+        public int? PlaceIdReview { get; set; }
+        public DateTime ReviewCreateDate { get; set; }
         public IEnumerable<IFormFile> GalleryReview { get; set; }
     }
 
-    public class ReviewsGetDto
-    {
-        public int TotalReviews { get; set; }
-        public int TotalReviewsUser { get; set; }
-        public string TittleReview { get; set; }
-        public string TitleReview { get; set; }
-        public string Description { get; set; }
-        public int Assessment { get; set; }
-        public string UserId { get; set; }
-        public List<Gallery> Galleries { get; set; }
-    }
 }

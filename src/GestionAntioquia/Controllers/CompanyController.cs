@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using GestionAntioquia.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -54,32 +55,79 @@ namespace GestionAntioquia.Controllers
         // GET: hotel/Details/5
         public async Task<ActionResult> Details(string urlName)
         {
-
-            if (urlName == null)
+            try
             {
-                return NotFound();
+
+                //Variables
+                string _urbano ="";
+
+                if (urlName == null)
+                {
+                    return NotFound();
+                }
+
+                var _detaislPlace = await _companyService.Details(urlName);
+
+                var _products = await _companyService.DetailProducts(_detaislPlace.PlaceId);
+                var _review = await _companyService.ReviewsPlaces(_detaislPlace.PlaceId);
+                var _totalReviews = _companyService.TotalReviews(_detaislPlace.PlaceId);
+
+                var _reviews = from r in _review
+                               select new ReviewsGetView
+                               {
+                                   TittleReview = r.TittleReview,
+                                   Description = r.Description,
+                                   Assessment = r.Assessment,
+                                   NameUser = r.UserName,
+                                   Galleries = r.Galleries.ToList(),
+                               };
+
+                if (_detaislPlace.urban) { _urbano = "Urbana"; }
+                else
+                {
+                    _urbano = "rural";
+                };
+
+                var _placesDetailsView = new PlacesDetailsView
+                {
+                    PlaceId = _detaislPlace.PlaceId,
+                    Nit = _detaislPlace.Nit,
+                    Name = _detaislPlace.Name,
+                    Phone = _detaislPlace.Phone,
+                    Admin = _detaislPlace.Address,
+                    Email = _detaislPlace.Email,
+                    Address = _detaislPlace.Address,
+                    City = _detaislPlace.City,
+                    urban = _urbano,
+                    Description = _detaislPlace.Description,
+                    NameUrl = _detaislPlace.NameUrl,
+                    CoverPage = _detaislPlace.CoverPage,
+                    Logo = _detaislPlace.Logo,
+                    Contract = _detaislPlace.Contract,
+                    CreationDate = _detaislPlace.CreationDate,
+                    stateMessageCreate = _StatusMessaje,
+                    TotalReviews = Convert.ToInt16(_totalReviews),
+                    LatitudeCoordinates = null,
+                    LengthCoordinates = null,
+                    Products = _products.ToList(),
+                    Reviews = _reviews.ToList(),
+                };
+
+
+                if (_placesDetailsView == null)
+                {
+                    return NotFound();
+                }
+
+                return View(_placesDetailsView);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
 
-            var _detalleHotel = await _companyService.Details(urlName);
 
-            string _urbano;
-
-            if (_detalleHotel.urban){_urbano = "Urbana";}else{
-                _urbano = "rural";};
-
-            ViewData["Urbano"] = _urbano;
-
-            if (_StatusMessaje != "")
-            {
-                ViewData["successful"] = _StatusMessaje;
-            }
-
-            if (_detalleHotel == null)
-            {
-                return NotFound();
-            }
-
-            return View(_detalleHotel);
         }
 
         // GET: hotel/Details/5
@@ -102,16 +150,20 @@ namespace GestionAntioquia.Controllers
         }
 
         [Authorize(Roles = "UserApp, Admin")]
-        public async Task<ActionResult> Reviews(ReviewsCreateDto model)
+        public async Task<ActionResult> Reviews(ReviewsCreateDto model, string urlPlaceReview)
         {
 
-            if (ModelState.IsValid)
+            try
             {
-                await _companyService.CreateReviews(model);
-                return RedirectToAction(nameof(Index));
+                var _url = await _companyService.CreateReviews(model);
+                _StatusMessaje = "show";
+                return Redirect(url:"/hotel/" + urlPlaceReview);
             }
-            _StatusMessaje = "show";
-            return View("Details");
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
 
