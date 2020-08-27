@@ -123,27 +123,36 @@ namespace GestionAntioquia
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                
+
+                //Places - Company
                 endpoints.MapControllerRoute(
-                name: "company",
-                pattern: "hotel/{urlName}",
+                name: "DetailsSouvenir",
+                pattern: "souvenir/{urlName}",
                 defaults: new { Controller = "Company", action = "Details" });
 
                 endpoints.MapControllerRoute(
-                name: "blog",
-                pattern: "blog/{name}",
-                defaults: new { Controller = "blogs", action = "blog" });
+                name: "souvenir",
+                pattern: "souvenir",
+                defaults: new { Controller = "company", action = "Allies" });
+
+                //Products
+                endpoints.MapControllerRoute(
+                name: "WhereToSleep",
+                pattern: "donde-dormir",
+                defaults: new { Controller = "products", action = "WhereToSleep" });
 
                 endpoints.MapControllerRoute(
                 name: "toursDetail",
                 pattern: "tour/{urlName}",
                 defaults: new { Controller = "TouristExcursions", action = "TourDetail" });
 
+                //Tours
                 endpoints.MapControllerRoute(
-                name: "empresas",
-                pattern: "empresas",
-                defaults: new { Controller = "company", action = "Allies" });
-
+                name: "blog",
+                pattern: "blog/{name}",
+                defaults: new { Controller = "blogs", action = "blog" });
+                
+                //Default
                 endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

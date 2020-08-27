@@ -101,7 +101,7 @@ namespace Model.DTOs
         public string Email { get; set; }
 
         [DisplayName("Dirección")]
-        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
+        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(30)]
         public string Address { get; set; }
 
         [DisplayName("Municipio")]

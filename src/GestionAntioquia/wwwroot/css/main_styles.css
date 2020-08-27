@@ -1778,7 +1778,7 @@ section
 	margin-top: 13px;
 }
 
-	.review_user_name a {
+	.review_user_name span {
 		font-size: 14px;
 		font-weight: 500;
 		color: #000000;
@@ -1788,7 +1788,7 @@ section
 	margin-top: -1px;
 }
 
-	.review_count a {
+	.review_count span {
 		font-size: 12px;
 		font-weight: 500;
 		color: #ffb400;

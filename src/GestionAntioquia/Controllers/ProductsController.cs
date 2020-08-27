@@ -232,6 +232,7 @@ namespace GestionAntioquia.Controllers
         }
 
         //GET: WhereToSleep
+        [Route("donde-dormir")]
         public async Task<IActionResult> WhereToSleep()
         {
 

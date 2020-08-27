@@ -124,7 +124,8 @@ namespace Service
                 .AsNoTracking()
                 .Include(a=>a.Galleries)
                 .Where(x => x.PlaceId == idPlace)
-                .Take(10);
+                .OrderByDescending(x=>x.ReviewCreateDate)
+                .Take(3);
             return (await _listAliados.ToListAsync());
         }
 

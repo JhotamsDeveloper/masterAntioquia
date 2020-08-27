@@ -173,5 +173,15 @@ $(document).ready(function () {
 					maxHeight: '95%'
 				});
 		}
+
+		if ($('.review_image').length) {
+			$('.colorbox').colorbox(
+				{
+					rel: 'colorbox',
+					photo: true,
+					maxWidth: '95%',
+					maxHeight: '95%'
+				});
+		}
 	}
 });

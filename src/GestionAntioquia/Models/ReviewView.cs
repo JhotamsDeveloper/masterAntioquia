@@ -12,6 +12,7 @@ namespace GestionAntioquia.Models
         public string Description { get; set; }
         public int Assessment { get; set; }
         public string NameUser { get; set; }
+        public string DateCreateReview { get; set; }
         public List<Gallery> Galleries { get; set; }
     }
 }

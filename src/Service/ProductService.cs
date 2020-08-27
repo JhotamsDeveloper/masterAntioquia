@@ -81,10 +81,11 @@ namespace Service
                 try
                 {
 
-                    //var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
-                    var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
-                    var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                    //var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                    //var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
 
+                    var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+                    var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
                     var _fechaActual = DateTime.Now;
                     var _url = _formatString.FormatUrl(model.Name);
 
@@ -114,16 +115,14 @@ namespace Service
 
                     _mapper.Map<ProductDto>(_product);
 
-                    //List<string> _uploadGalleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery);
 
                     if (model.Gallery.Any())
                     {
-                        string[] _uploadGalleries = new string[model.Gallery.Count()];
+                        List<string> _uploadGalleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery);
                         int _accountant = 0;
 
                         foreach (var item in model.Gallery)
                         {
-                            _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
 
                             var _gallery = new Gallery
                             {
@@ -139,6 +138,32 @@ namespace Service
                         }
 
                     }
+
+                    //MÉTODO PARA AZURE
+
+                    //if (model.Gallery.Any())
+                    //{
+                    //    string[] _uploadGalleries = new string[model.Gallery.Count()];
+                    //    int _accountant = 0;
+
+                    //    foreach (var item in model.Gallery)
+                    //    {
+                    //        _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
+
+                    //        var _gallery = new Gallery
+                    //        {
+                    //            ProducId = _product.ProductId,
+                    //            NameImage = _uploadGalleries[_accountant]
+                    //        };
+
+                    //        await _context.AddAsync(_gallery);
+                    //        await _context.SaveChangesAsync();
+                    //        _mapper.Map<GalleryDto>(_gallery);
+
+                    //        _accountant++;
+                    //    }
+
+                    //}
 
 
                     transaction.Commit();

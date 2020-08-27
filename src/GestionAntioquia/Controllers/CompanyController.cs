@@ -28,7 +28,7 @@ namespace GestionAntioquia.Controllers
         }
         // GET: hotel
 
-        [Route("empresas")]
+        [Route("souvenir")]
         public async Task<IActionResult> Allies()
         {
             var _aliados = await _companyService.GetAll();
@@ -79,6 +79,7 @@ namespace GestionAntioquia.Controllers
                                    Description = r.Description,
                                    Assessment = r.Assessment,
                                    NameUser = r.UserName,
+                                   DateCreateReview = r.ReviewCreateDate.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("es-CO")),
                                    Galleries = r.Galleries.ToList(),
                                };
 
@@ -113,6 +114,10 @@ namespace GestionAntioquia.Controllers
                     Reviews = _reviews.ToList(),
                 };
 
+                if (_StatusMessaje != null)
+                {
+                    ViewData["successful"] = _StatusMessaje;
+                }
 
                 if (_placesDetailsView == null)
                 {
@@ -157,7 +162,7 @@ namespace GestionAntioquia.Controllers
             {
                 var _url = await _companyService.CreateReviews(model);
                 _StatusMessaje = "show";
-                return Redirect(url:"/hotel/" + urlPlaceReview);
+                return Redirect(url: "/souvenir/" + urlPlaceReview);
             }
             catch (Exception)
             {
