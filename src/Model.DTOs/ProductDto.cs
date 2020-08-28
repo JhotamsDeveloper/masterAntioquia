@@ -19,7 +19,7 @@ namespace Model.DTOs
         public string CoverPage { get; set; }
         public string SquareCover { get; set; }
         public string Description { get; set; }
-        public string Price { get; set; }
+        public float Price { get; set; }
         public string City { get; set; }
         public float Increments { get; set; }
         public int Discounts { get; set; }
@@ -103,8 +103,11 @@ namespace Model.DTOs
         public IFormFile CoverPage { get; set; }
         public IFormFile SquareCover { get; set; }
         public string Description { get; set; }
-        public string Price { get; set; }
+        public float Price { get; set; }
         public int Discounts { get; set; }
+        [DisplayName("Incremento")]
+        public float Increments { get; set; }
+
         public int AmountSupported { get; set; }
         public int PersonNumber { get; set; }
         public IEnumerable<IFormFile> Gallery { get; set; }
@@ -116,25 +119,6 @@ namespace Model.DTOs
         //public Place Place { get; set; }
 
         public ICollection<Gallery> Galleries { get; set; }
-    }
-
-    public class ProductViewDto
-    {
-        public int ProductId { get; set; }
-
-        public string Name { get; set; }
-        public string ProductUrl { get; set; }
-        public string CoverPage { get; set; }
-        public string SquareCover { get; set; }
-        public string Description { get; set; }
-        public string Price { get; set; }
-        public int Discounts { get; set; }
-        public bool Statud { get; set; }
-        public int PersonNumber { get; set; }
-
-        //Claves foreanas
-        public Place Place { get; set; }
-
     }
 
     public class StoreProductsDto

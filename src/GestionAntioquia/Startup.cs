@@ -142,6 +142,11 @@ namespace GestionAntioquia
                 defaults: new { Controller = "products", action = "WhereToSleep" });
 
                 endpoints.MapControllerRoute(
+                name: "WhereToSleep",
+                pattern: "donde-dormir/{productUrl}",
+                defaults: new { Controller = "products", action = "WhereToSleep" });
+
+                endpoints.MapControllerRoute(
                 name: "toursDetail",
                 pattern: "tour/{urlName}",
                 defaults: new { Controller = "TouristExcursions", action = "TourDetail" });

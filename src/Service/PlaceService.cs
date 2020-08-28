@@ -90,20 +90,20 @@ namespace Service
             var _url = FormatString(model.Name);
             var _place = new Place
             {
-                Nit = model.Nit,
-                Name = model.Name,
+                Nit = model.Nit.Trim(),
+                Name = model.Name.Trim(),
                 NameUrl = _url.ToLower(),
-                Phone = model.Phone,
-                Admin = model.Admin,
-                Email = model.Email,
-                City = model.City,
+                Phone = model.Phone.Trim(),
+                Admin = model.Admin.Trim(),
+                Email = model.Email.Trim(),
+                City = model.City.Trim(),
                 urban = model.urban,
-                Address = model.Address,
-                Description = model.Description,
+                Address = model.Address.Trim(),
+                Description = model.Description.Trim(),
                 CoverPage = _coverPage,
                 SquareCover = _squareCover,
                 Logo = _logo,
-                Contract = model.Contract,
+                Contract = model.Contract.Trim(),
                 State = model.State,
                 CreationDate = _fechaActual.ToString(),
                 CategoryId = model.CategoryId
@@ -160,18 +160,18 @@ namespace Service
                 _logo = _place.Logo;
             }
 
-            _place.Nit = model.Nit;
-            _place.Phone = model.Phone;
-            _place.Admin = model.Admin;
-            _place.Address = model.Address;
-            _place.Email = model.Email;
-            _place.City = model.City;
+            _place.Nit = model.Nit.Trim();
+            _place.Phone = model.Phone.Trim();
+            _place.Admin = model.Admin.Trim();
+            _place.Address = model.Address.Trim();
+            _place.Email = model.Email.Trim();
+            _place.City = model.City.Trim();
             _place.urban = model.urban;
-            _place.Description = model.Description;
+            _place.Description = model.Description.Trim();
             _place.CoverPage = _coverPage;
             _place.SquareCover = _squareCover;
             _place.Logo = _logo;
-            _place.Contract = model.Contract;
+            _place.Contract = model.Contract.Trim();
             _place.State = model.State;
             _place.UpdateDate = _fechaUpdate.ToString();
             _place.CategoryId = model.CategoryId;

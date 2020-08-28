@@ -48,6 +48,7 @@ namespace Service
             NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
             nfi = (NumberFormatInfo)nfi.Clone();
             nfi.CurrencySymbol = "$";
+            //Price = string.Format(nfi, "{0:C0}", b.Price),
 
             var _modelo = from b in _newList
                           select new ProductDto
@@ -56,7 +57,7 @@ namespace Service
                               Name = b.Name,
                               ProductUrl = b.ProductUrl,
                               Description = b.Description,
-                              Price = string.Format(nfi, "{0:C0}", b.Price),
+                              Price = b.Price,
                               City = b.Place.Name,
                               CoverPage = b.CoverPage,
                               SquareCover = b.SquareCover,

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Model.DTOs.ProductViewDto>
+﻿@model IEnumerable<ProductsView>
 
 @{
     ViewData["Title"] = "Donde Dormir, ";
@@ -40,9 +40,13 @@
                                 <div class="blog_post">
                                     <div class="blog_post_container">
 
-                                        <div class="location_icon">
-                                            <span> <strong> @whereToSleep.Price Col</strong></span>
-                                        </div>
+                                        @if (whereToSleep.Discounts > 0)
+                                        {
+                                            <div class="location_icon">
+                                                <span> <strong> Desc del @whereToSleep.Discounts%</strong></span>
+                                            </div>
+                                        }
+
 
                                         @if (whereToSleep.CoverPage == null)
                                         {
@@ -50,24 +54,33 @@
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="@whereToSleep.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="~/images/images/@whereToSleep.SquareCover" asp-append-version="true"></a></div>
                                         }
 
-                                        <div class="blog_post_content">
+                                    <div class="blog_post_content">
 
-                                            <div class="blog_post_date"><a href="#">@whereToSleep.Place.City</a></div>
+                                        <div class="blog_post_date text-center"><a href="#">@whereToSleep.Place.City</a></div>
 
-                                            <div class="blog_post_title">
-                                                <h3>@whereToSleep.Name</h3>
-                                            </div>
-                                            <div class="blog_post_tags">
-                                                <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                    <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@whereToSleep.Place.NameUrl">@whereToSleep.Place.Name, </a></li>
-                                                    <li><a href="#">Urbano</a></li>
-                                                </ul>
-                                            </div>
-                                            <p class="text-center"><span>Plan para @whereToSleep.PersonNumber personas</span></p>
+                                        <div class="blog_post_title text-center">
+                                            <h3>@whereToSleep.Name</h3>
                                         </div>
+                                        <div class="blog_post_tags">
+                                            <ul class="d-flex flex-row align-items-start justify-content-start">
+                                                <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@whereToSleep.Place.NameUrl">@whereToSleep.Place.Name, </a></li>
+                                                <li><a href="#">Urbano</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="blog_post_title text-center">
+
+                                            @if (whereToSleep.Discounts > 0)
+                                            {
+                                                <p class="text-center"> <del><span>Sin descuento @whereToSleep.Price col</span></del></p>
+                                            }
+
+                                            <h2>@whereToSleep.ProductWithDiscounts Col</h2>
+                                        </div>
+                                        <p class="text-center"><span>Plan para @whereToSleep.PersonNumber personas</span></p>
+                                    </div>
                                     </div>
                                 </div>
                             }

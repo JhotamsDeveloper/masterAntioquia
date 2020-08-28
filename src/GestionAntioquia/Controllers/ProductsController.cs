@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using GestionAntioquia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -105,6 +106,7 @@ namespace GestionAntioquia.Controllers
             NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
             nfi = (NumberFormatInfo)nfi.Clone();
             nfi.CurrencySymbol = "$";
+            //Price = string.Format(nfi, "{0:C0}", _product.Price),
 
             var _galleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
             var _productEditDto = new ProductEditDto
@@ -112,7 +114,7 @@ namespace GestionAntioquia.Controllers
                 ProductId = _product.ProductId,
                 Name = _product.Name,
                 Description = _product.Description,
-                Price = string.Format(nfi, "{0:C0}", _product.Price),
+                Price = _product.Price,
                 Discounts = _product.Discounts,
                 PersonNumber = _product.PersonNumber,
                 Statud = _product.Statud,
@@ -213,6 +215,7 @@ namespace GestionAntioquia.Controllers
         #region "FrontEnd"
 
         // GET: Products
+        [Route("donde-dormir/{productUrl}")]
         public async Task<IActionResult> Product(string productUrl)
         {
             if (productUrl == null)
@@ -220,14 +223,32 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
-            var _detalleHotel = await _productService.ProductUrl(productUrl);
+            var _product = await _productService.ProductUrl(productUrl);
 
-            if (_detalleHotel == null)
+            var _model = new ProductDetailView
+            {
+                Name = _product.Name,
+                CoverPage = _product.CoverPage,
+                SquareCover = _product.SquareCover,
+                Description = _product.Description,
+                Price = null,
+                Discounts = "",
+                Statud = false,
+                PersonNumber = 0,
+                Whatsapp = "",
+                City = "",
+                Address = "",
+                Urban = "",
+                Email = "",
+                Galleries = null
+            };
+
+            if (_model == null)
             {
                 return NotFound();
             }
 
-            return View(_detalleHotel);
+            return View(_model);
 
         }
 
@@ -242,8 +263,10 @@ namespace GestionAntioquia.Controllers
             nfi = (NumberFormatInfo)nfi.Clone();
             nfi.CurrencySymbol = "$";
 
+
             var _whereToSleepView = (from a in _whereToSleep
-                                     select new ProductViewDto {
+                                     select new ProductsView
+                                     {
 
                                          ProductId = a.ProductId,
                                          Name = a.Name,
@@ -253,6 +276,7 @@ namespace GestionAntioquia.Controllers
                                          Description = a.Description,
                                          Price = string.Format(nfi, "{0:C0}", a.Price),
                                          Discounts = a.Discounts,
+                                         ProductWithDiscounts = string.Format(nfi, "{0:C0}", (a.Price - 14000)),
                                          Statud = a.Statud,
                                          PersonNumber = a.PersonNumber,
                                          Place = a.Place

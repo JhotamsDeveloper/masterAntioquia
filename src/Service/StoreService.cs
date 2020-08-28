@@ -96,7 +96,7 @@ namespace Service
                     NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
                     nfi = (NumberFormatInfo)nfi.Clone();
                     nfi.CurrencySymbol = "$";
-
+                    //Price = string.Format(nfi, "{0:C0}", model.Price),
                     var _product = new Product
                     {
                         Name = model.Name,
@@ -105,7 +105,7 @@ namespace Service
                         SquareCover = _squareCover,
                         Description = model.Description,
                         Mineral = model.Mineral,
-                        Price = string.Format(nfi, "{0:C0}", model.Price),
+                        Price = model.Price,
                         Increments = model.Increments,
                         Discounts = model.Discounts,
                         AmountSupported = model.AmountSupported,
@@ -201,7 +201,7 @@ namespace Service
                     NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
                     nfi = (NumberFormatInfo)nfi.Clone();
                     nfi.CurrencySymbol = "$";
-
+                    //_producStoreEditDto.Price = string.Format(nfi, "{0:C0}", model.Price);
                     if (model.CoverPage != null)
                     {
                         if (_producStoreEditDto.CoverPage != null)
@@ -235,7 +235,7 @@ namespace Service
                     _producStoreEditDto.SquareCover = _squareCover;
                     _producStoreEditDto.Description = model.Description;
                     _producStoreEditDto.Mineral = model.Mineral;
-                    _producStoreEditDto.Price = string.Format(nfi, "{0:C0}", model.Price);
+                    _producStoreEditDto.Price = model.Price;
                     _producStoreEditDto.ShippingValue = model.ShippingValue;
                     _producStoreEditDto.Discounts = model.Discounts;
                     _producStoreEditDto.Increments = model.Increments;

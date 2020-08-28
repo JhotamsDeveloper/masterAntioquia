@@ -114,6 +114,7 @@ namespace GestionAntioquia.Controllers
             NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
             nfi = (NumberFormatInfo)nfi.Clone();
             nfi.CurrencySymbol = "$";
+            //Price = string.Format(nfi, "{0:C0}", _storeProdStore.Price),
 
             var _producStoreEditDto = new StoreEditDto
             {
@@ -121,7 +122,7 @@ namespace GestionAntioquia.Controllers
                 Name = _storeProdStore.Name,
                 Description = _storeProdStore.Description,
                 Mineral = _storeProdStore.Mineral,
-                Price = string.Format(nfi, "{0:C0}", _storeProdStore.Price),
+                Price = _storeProdStore.Price,
                 ShippingValue = _storeProdStore.ShippingValue,
                 Discounts = _storeProdStore.Discounts,
                 Increments = _storeProdStore.Increments,

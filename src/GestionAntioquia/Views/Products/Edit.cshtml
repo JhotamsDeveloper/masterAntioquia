@@ -104,6 +104,15 @@
                         <!--Grid column-->
                         <div class="col-md-6">
                             <div class="md-form">
+                                <label asp-for="Increments" class="control-label"></label>
+                                <input asp-for="Increments" class="form-control" />
+                                <span asp-validation-for="Increments" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form">
                                 <label asp-for="Discounts" class="control-label"></label>
                                 <input asp-for="Discounts" class="form-control" />
                                 <span asp-validation-for="Discounts" class="text-danger"></span>

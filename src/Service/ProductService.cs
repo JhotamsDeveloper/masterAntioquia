@@ -92,15 +92,18 @@ namespace Service
                     NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
                     nfi = (NumberFormatInfo)nfi.Clone();
                     nfi.CurrencySymbol = "$";
+                    
+                    //Price = string.Format(nfi, "{0:C0}", model.Price),
 
                     var _product = new Product
                     {
-                        Name = model.Name,
-                        ProductUrl = _url,
+                        Name = model.Name.Trim(),
+                        ProductUrl = _url.ToLower(),
                         CoverPage = _coverPage,
                         SquareCover = _squareCover,
                         Description = model.Description,
-                        Price = string.Format(nfi, "{0:C0}", model.Price),
+                        Price = model.Price,
+                        Increments = model.Increments,
                         Discounts = model.Discounts,
                         AmountSupported = model.AmountSupported,
                         PersonNumber = model.PersonNumber,
@@ -238,8 +241,9 @@ namespace Service
                     _product.CoverPage = _coverPage;
                     _product.SquareCover = _squareCover;
                     _product.Description = model.Description;
-                    _product.Price = string.Format(nfi, "{0:C0}", model.Price);
+                    _product.Price = model.Price;
                     _product.Discounts = model.Discounts;
+                    _product.Increments = model.Increments;
                     _product.PersonNumber = model.PersonNumber;
                     _product.Statud = model.Statud;
                     _product.AmountSupported = model.AmountSupported;
@@ -369,17 +373,16 @@ namespace Service
             return _context.Products.Any(e => e.ProductId == id);
         }
 
+        //Este método es llamado desde la vista Details de BLOG
         public async Task<IEnumerable<Product>> WhereToSleep()
         {
             var _getAll = _context.Products
                 .Include(p => p.Place)
                 .ThenInclude(c => c.Category)
-                .Where(x => x.Statud == true && x.Place.Category.Name == "Hotel");
+                .Where(x => x.Statud == true && x.Place.Category.Name == "souvenir");
 
             return (await _getAll.ToListAsync());
         }
-
-        //Este método es llamado desde la vista Details de BLOG
 
     }
 }

@@ -20,7 +20,7 @@ namespace Model.DTOs
         public string SquareCover { get; set; }
         public string Description { get; set; }
         public string Mineral { get; set; }
-        public string Price { get; set; }
+        public float Price { get; set; }
         public float Increments { get; set; }
         public float ShippingValue { get; set; }
         public int Discounts { get; set; }
@@ -76,7 +76,7 @@ namespace Model.DTOs
         public IFormFile SquareCover { get; set; }
         public string Description { get; set; }
         public string Mineral { get; set; }
-        public string Price { get; set; }
+        public float Price { get; set; }
         public float Increments { get; set; }
         public float ShippingValue { get; set; }
         public IEnumerable<IFormFile> Gallery { get; set; }
