@@ -32,15 +32,12 @@ namespace GestionAntioquia.Models
         public string SquareCover { get; set; }
         public string Description { get; set; }
         public string Price { get; set; }
+        public string ProductWithDiscounts { get; set; }
         public string Discounts { get; set; }
         public bool Statud { get; set; }
         public int PersonNumber { get; set; }
 
-        public string Whatsapp { get; set; }
-        public string City { get; set; }
-        public string Address { get; set; }
-        public string Urban { get; set; }
-        public string Email { get; set; }
+        public Place Place { get; set; }
         public List<Gallery> Galleries { get; set; }
     }
 }

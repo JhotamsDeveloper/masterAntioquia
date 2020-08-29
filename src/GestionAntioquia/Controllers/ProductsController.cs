@@ -225,22 +225,25 @@ namespace GestionAntioquia.Controllers
 
             var _product = await _productService.ProductUrl(productUrl);
 
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
+            var _productWithDiscounts = _product.Price - (_product.Price * _product.Discounts / 100);
+
             var _model = new ProductDetailView
             {
                 Name = _product.Name,
                 CoverPage = _product.CoverPage,
                 SquareCover = _product.SquareCover,
                 Description = _product.Description,
-                Price = null,
-                Discounts = "",
-                Statud = false,
-                PersonNumber = 0,
-                Whatsapp = "",
-                City = "",
-                Address = "",
-                Urban = "",
-                Email = "",
-                Galleries = null
+                Price = string.Format(nfi, "{0:C0}", _product.Price),
+                ProductWithDiscounts = string.Format(nfi, "{0:C0}", _productWithDiscounts),
+                Discounts = _product.Discounts.ToString(),
+                Statud = _product.Statud,
+                PersonNumber = _product.PersonNumber,
+                Place = _product.Place,
+                Galleries = _product.Galleries
             };
 
             if (_model == null)
@@ -267,7 +270,6 @@ namespace GestionAntioquia.Controllers
             var _whereToSleepView = (from a in _whereToSleep
                                      select new ProductsView
                                      {
-
                                          ProductId = a.ProductId,
                                          Name = a.Name,
                                          ProductUrl = a.ProductUrl,
@@ -276,11 +278,11 @@ namespace GestionAntioquia.Controllers
                                          Description = a.Description,
                                          Price = string.Format(nfi, "{0:C0}", a.Price),
                                          Discounts = a.Discounts,
-                                         ProductWithDiscounts = string.Format(nfi, "{0:C0}", (a.Price - 14000)),
+                                         ProductWithDiscounts = string.Format(nfi, "{0:C0}",a.Price - (a.Price * a.Discounts / 100)),
                                          Statud = a.Statud,
                                          PersonNumber = a.PersonNumber,
                                          Place = a.Place
-
+                                         
                                      });
 
             return View(_whereToSleepView);

@@ -33,7 +33,7 @@ namespace Model.DTOs
         public int PlaceId { get; set; }
         public Place Place { get; set; }
 
-        public ICollection<Gallery> Galleries { get; set; }
+        public List<Gallery> Galleries { get; set; }
     }
 
     public class ProductCreateDto

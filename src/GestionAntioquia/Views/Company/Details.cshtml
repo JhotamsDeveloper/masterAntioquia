@@ -1,6 +1,8 @@
-﻿@model PlacesDetailsView
-
+﻿@using System.Globalization;
 @using Microsoft.AspNetCore.Identity
+
+@model PlacesDetailsView
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -108,7 +110,15 @@
                                                         Precio
                                                     </dt>
                                                     <dd class="col-sm-9">
-                                                        @product.Price Col
+
+                                                        @{
+                                                            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+                                                            nfi = (NumberFormatInfo)nfi.Clone();
+                                                            nfi.CurrencySymbol = "$";
+
+                                                            var _productWithDiscounts = product.Price - (product.Price * product.Discounts / 100);
+                                                            @string.Format(nfi, "{0:C0}", _productWithDiscounts)
+                                                        } Col
                                                     </dd>
                                                     <dt class="col-sm-3">
                                                         Disponibilidad

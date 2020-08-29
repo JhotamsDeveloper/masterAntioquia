@@ -1557,16 +1557,16 @@ section
 }
 
 .blog_post_content {
-	padding-left: 40px;
-	padding-top: 33px;
-	padding-bottom: 40px;
+	padding-left: 25px;
+	padding-top: 13px;
+	padding-bottom: 21px;
 	padding-right: 15px;
 }
 
 .blog_post_date {
-	width: 90px;
+	width: 170px;
 	height: 27px;
-	background: #ffb400;
+	background: #49237d;
 	border-radius: 5px;
 }
 
@@ -1941,7 +1941,7 @@ section
 	left: 27px;
 	width: 120px;
 	height: 35px;
-	background: #49237d;
+	background: #ffb400;
 	border-radius: 5px;
 	z-index: 1;
 	text-align: center;

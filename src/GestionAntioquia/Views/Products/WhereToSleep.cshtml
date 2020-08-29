@@ -42,8 +42,8 @@
 
                                         @if (whereToSleep.Discounts > 0)
                                         {
-                                            <div class="location_icon">
-                                                <span> <strong> Desc del @whereToSleep.Discounts%</strong></span>
+                                            <div class="location_icon text-center">
+                                                <span style="color:aliceblue"> Desc del <strong> @whereToSleep.Discounts%</strong></span>
                                             </div>
                                         }
 
@@ -61,13 +61,21 @@
 
                                         <div class="blog_post_date text-center"><a href="#">@whereToSleep.Place.City</a></div>
 
-                                        <div class="blog_post_title text-center">
-                                            <h3>@whereToSleep.Name</h3>
+                                        <div class="blog_post_title">
+                                            <h3><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl">@whereToSleep.Name</a></h3>
                                         </div>
-                                        <div class="blog_post_tags">
+                                        <div class="blog_post_tags text-lg-center">
                                             <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@whereToSleep.Place.NameUrl">@whereToSleep.Place.Name, </a></li>
-                                                <li><a href="#">Urbano</a></li>
+                                                <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@whereToSleep.Place.NameUrl">@whereToSleep.Place.Name</a></li>
+                                                @if (whereToSleep.Place.urban)
+                                                {
+                                                    <li>Urbano</li>
+                                                }
+                                                else
+                                                {
+                                                    <li>Rural</li>
+                                                }
+
                                             </ul>
                                         </div>
                                         <div class="blog_post_title text-center">

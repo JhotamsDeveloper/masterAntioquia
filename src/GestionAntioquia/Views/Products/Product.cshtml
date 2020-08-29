@@ -1,4 +1,4 @@
-﻿@model Model.DTOs.ProductDto
+﻿@model ProductDetailView
 
 @{
     ViewData["Title"] = Model.Name.Substring(0, 10) + "...";
@@ -30,14 +30,20 @@
                 <!-- Single Room Details Area -->
                 <div class="single-room-details-area mb-50">
 
-                    <h4>Descripción del Plan</h4>
+                    <div class="section_title text-center">
+                        <h1>Descripción del Plan</h1>
+                    </div>
                     <p class="text-justify">@Model.Description</p>
+
 
                     <!-- Room Features -->
                     <div class="room-features-area d-flex flex-wrap mb-50">
                         <h6>Lugar: <span>@Model.Place.Name</span></h6>
 
-                        <h6>Valor: <span>@Model.Price COL</span></h6>
+                        <h6>
+                            Valor:<span style="color:darkgrey"><del>@Model.ProductWithDiscounts COL</del></span>
+                            <span>@Model.ProductWithDiscounts COL</span>
+                        </h6>
                         <h6>
                             Capacidad: <span>
                                 @{string person = ""; if (Model.PersonNumber <= 1) { person += " persona"; } else { person += " personas"; }}
@@ -47,33 +53,54 @@
                         <h6>Cuidad: <span>@Model.Place.City</span></h6>
                     </div>
 
-                    <h4>Descripción del @Model.Place.Name</h4>
+                    <div class="section_title text-center">
+                        <h4>Descripción del @Model.Place.Name</h4>
+                    </div>
+
                     <p class="text-justify">@Model.Place.Description</p>
 
                     @*<ul>
-                        <li><i class="fa fa-check"></i> Mauris molestie lectus in irdiet auctor.</li>
-                        <li><i class="fa fa-check"></i> Dictum purus at blandit molestie.</li>
-                        <li><i class="fa fa-check"></i> Neque non fermentum suscipit.</li>
-                        <li><i class="fa fa-check"></i> Donec id dui ac massa malesuada.</li>
-                        <li><i class="fa fa-check"></i> In sit amet sapien quis orci maximus.</li>
-                        <li><i class="fa fa-check"></i> Vestibulum rutrum diam vel eros tristique.</li>
-                    </ul>*@
+            <li><i class="fa fa-check"></i> Mauris molestie lectus in irdiet auctor.</li>
+            <li><i class="fa fa-check"></i> Dictum purus at blandit molestie.</li>
+            <li><i class="fa fa-check"></i> Neque non fermentum suscipit.</li>
+            <li><i class="fa fa-check"></i> Donec id dui ac massa malesuada.</li>
+            <li><i class="fa fa-check"></i> In sit amet sapien quis orci maximus.</li>
+            <li><i class="fa fa-check"></i> Vestibulum rutrum diam vel eros tristique.</li>
+        </ul>*@
 
                 </div>
 
-                 @*Room Service 
-                <div class="room-service mb-50">
-                    <h4>Room Services</h4>
+                <!-- Galleries -->
+                <div class="container mt-40">
+                    <div class="section_title">
+                        <h4 class="text-center">Galleria</h4>
+                    </div>
+                    <div class="row justify-content-center">
+                        @foreach (var item in Model.Galleries)
+                        {
+                            <div class="review_image m-2">
+                                <a class="galleriesTour"
+                                   href="~/images/images/@item.NameImage">
+                                    <img src="~/images/images/@item.NameImage" alt="" />
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
 
-                    <ul>
-                        <li><img src="~/images/icon1.png" alt=""> Air Conditioning</li>
-                        <li><img src="~/images/icon2.png" alt=""> Free drinks</li>
-                        <li><img src="~/images/icon3.png" alt=""> Restaurant quality</li>
-                        <li><img src="~/images/icon4.png" alt=""> Cable TV</li>
-                        <li><img src="~/images/icon5.png" alt=""> Unlimited Wifi</li>
-                        <li><img src="~/images/icon6.png" alt=""> Service 24/24</li>
-                    </ul>
-                </div>*@
+                @*Room Service
+        <div class="room-service mb-50">
+            <h4>Room Services</h4>
+
+            <ul>
+                <li><img src="~/images/icon1.png" alt=""> Air Conditioning</li>
+                <li><img src="~/images/icon2.png" alt=""> Free drinks</li>
+                <li><img src="~/images/icon3.png" alt=""> Restaurant quality</li>
+                <li><img src="~/images/icon4.png" alt=""> Cable TV</li>
+                <li><img src="~/images/icon5.png" alt=""> Unlimited Wifi</li>
+                <li><img src="~/images/icon6.png" alt=""> Service 24/24</li>
+            </ul>
+        </div>*@
 
             </div>
 
