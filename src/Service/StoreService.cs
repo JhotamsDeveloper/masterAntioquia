@@ -87,16 +87,15 @@ namespace Service
                 try
                 {
 
-                    var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
-                    var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                    //var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                    //var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+
+                    var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+                    var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
 
                     var _fechaActual = DateTime.Now;
                     var _url = _formatString.FormatUrl(model.Name);
 
-                    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
-                    nfi = (NumberFormatInfo)nfi.Clone();
-                    nfi.CurrencySymbol = "$";
-                    //Price = string.Format(nfi, "{0:C0}", model.Price),
                     var _product = new Product
                     {
                         Name = model.Name,
@@ -123,44 +122,23 @@ namespace Service
 
                     if (model.Gallery.Any())
                     {
-                        string[] _uploadGalleries = new string[model.Gallery.Count()];
-                        int _accountant = 0;
+                        List<string> _uploadGalleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery);
 
-                        foreach (var item in model.Gallery)
+                        for (int i = 0; i < _uploadGalleries.Count; i++)
                         {
-                            _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
-
                             var _gallery = new Gallery
                             {
                                 ProducId = _product.ProductId,
-                                NameImage = _uploadGalleries[_accountant]
+                                NameImage = _uploadGalleries[i]
                             };
 
                             await _context.AddAsync(_gallery);
                             await _context.SaveChangesAsync();
                             _mapper.Map<GalleryDto>(_gallery);
 
-                            _accountant++;
                         }
 
                     }
-
-                    //Método para guardar en wwwroot
-                    //List<string> _uploadGalleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery);
-
-                    //for (int i = 0; i < _uploadGalleries.Count; i++)
-                    //{
-                    //    var _gallery = new Gallery
-                    //    {
-                    //        ProducId = _product.ProductId,
-                    //        NameImage = _uploadGalleries[i]
-                    //    };
-
-                    //    await _context.AddAsync(_gallery);
-                    //    await _context.SaveChangesAsync();
-                    //    _mapper.Map<GalleryDto>(_gallery);
-
-                    //}
 
                     transaction.Commit();
                 }
@@ -195,21 +173,21 @@ namespace Service
                 {
                     DateTime _dateUpdate = DateTime.Now;
                     var _producStoreEditDto = await _context.Products.SingleAsync(x => x.ProductId == id);
+
                     var _coverPage = "";
                     var _squareCover = "";
 
-                    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
-                    nfi = (NumberFormatInfo)nfi.Clone();
-                    nfi.CurrencySymbol = "$";
-                    //_producStoreEditDto.Price = string.Format(nfi, "{0:C0}", model.Price);
+
                     if (model.CoverPage != null)
                     {
                         if (_producStoreEditDto.CoverPage != null)
                         {
-                            await _uploadedFileAzure.DeleteFile(_producStoreEditDto.CoverPage, _account);
+                            //await _uploadedFileAzure.DeleteFile(_producStoreEditDto.CoverPage, _account);
+                            _uploadedFile.DeleteConfirmed(_producStoreEditDto.CoverPage);
                         }
 
-                        _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                        //_coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                        _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
                     }
                     else
                     {
@@ -220,10 +198,12 @@ namespace Service
                     {
                         if (_producStoreEditDto.SquareCover != null)
                         {
-                            await _uploadedFileAzure.DeleteFile(_producStoreEditDto.SquareCover, _account);
+                            //await _uploadedFileAzure.DeleteFile(_producStoreEditDto.SquareCover, _account);
+                            _uploadedFile.DeleteConfirmed(_producStoreEditDto.SquareCover);
                         }
 
-                        _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                        //_squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                        _uploadedFile.UploadedFileImage(model.SquareCover);
                     }
                     else
                     {
@@ -255,7 +235,8 @@ namespace Service
                         {
                             foreach (var item in _getGalleries)
                             {
-                                await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                                //await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                                _uploadedFile.DeleteConfirmed(item.NameImage);
 
                                 _context.Remove(new Gallery
                                 {
@@ -266,24 +247,24 @@ namespace Service
                             }
                         }
 
-                        string[] _uploadGalleries = new string[model.Gallery.Count()];
-                        int _accountant = 0;
-
-                        foreach (var item in model.Gallery)
+                        if (model.Gallery.Any())
                         {
-                            _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
+                            List<string> _uploadGalleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery);
 
-                            var _gallery = new Gallery
+                            for (int i = 0; i < _uploadGalleries.Count; i++)
                             {
-                                ProducId = _producStoreEditDto.ProductId,
-                                NameImage = _uploadGalleries[_accountant]
-                            };
+                                var _gallery = new Gallery
+                                {
+                                    ProducId = id,
+                                    NameImage = _uploadGalleries[i]
+                                };
 
-                            await _context.AddAsync(_gallery);
-                            await _context.SaveChangesAsync();
-                            _mapper.Map<GalleryDto>(_gallery);
+                                await _context.AddAsync(_gallery);
+                                await _context.SaveChangesAsync();
+                                _mapper.Map<GalleryDto>(_gallery);
 
-                            _accountant++;
+                            }
+
                         }
 
                     }

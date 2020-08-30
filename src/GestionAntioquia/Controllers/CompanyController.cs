@@ -34,6 +34,7 @@ namespace GestionAntioquia.Controllers
             var _aliados = await _companyService.GetAll();
 
             var _viewAliados = from a in _aliados
+                               where a.Category.Name == "souvenir" || a.Category.Name == "Tienda"
                                 select new PlacesAlliesDto
                                 {
                                     PlaceId = a.PlaceId,

@@ -133,23 +133,29 @@ namespace GestionAntioquia
                 endpoints.MapControllerRoute(
                 name: "souvenir",
                 pattern: "souvenir",
-                defaults: new { Controller = "company", action = "Allies" });
+                defaults: new { Controller = "Company", action = "Allies" });
 
                 //Products
                 endpoints.MapControllerRoute(
                 name: "WhereToSleep",
                 pattern: "donde-dormir",
-                defaults: new { Controller = "products", action = "WhereToSleep" });
+                defaults: new { Controller = "Products", action = "WhereToSleep" });
 
                 endpoints.MapControllerRoute(
                 name: "WhereToSleep",
                 pattern: "donde-dormir/{productUrl}",
-                defaults: new { Controller = "products", action = "WhereToSleep" });
+                defaults: new { Controller = "Products", action = "WhereToSleep" });
 
                 endpoints.MapControllerRoute(
                 name: "toursDetail",
                 pattern: "tour/{urlName}",
                 defaults: new { Controller = "TouristExcursions", action = "TourDetail" });
+
+                //Tienda Virtual
+                endpoints.MapControllerRoute(
+                name: "TiendaVirtual",
+                pattern: "tienda-virtual",
+                defaults: new { Controller = "Store", action = "StoreProducts" });
 
                 //Tours
                 endpoints.MapControllerRoute(

@@ -36,58 +36,54 @@
                             @foreach (var _allies in Model)
                             {
 
-                                if (_allies.NameCategory == "souvenir")
-                                {
-                                    <!-- Blog Post -->
-                                    <div class="blog_post">
-                                        <div class="blog_post_container">
+                                <!-- Blog Post -->
+                                <div class="blog_post">
+                                    <div class="blog_post_container">
 
-                                            @if (_allies.SquareCover == null)
+                                        @if (_allies.SquareCover == null)
+                                        {
+                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@_allies.Name"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="blog_post_image"><a href="souvenir/@_allies.UrlName"><img src="~/images/images/@_allies.SquareCover" asp-append-version="true"></a></div>
+                                        }
+
+                                        <div class="blog_post_content">
+
+                                            @if (_allies.DataCreate <= DateTime.Now)
                                             {
-                                                <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@_allies.Name"></div>
+                                                <div class="blog_post_date"><span>Acreditado</span></div>
                                             }
                                             else
                                             {
-                                                <div class="blog_post_image"><a href="souvenir/@_allies.UrlName"><img src="~/images/images/@_allies.SquareCover" asp-append-version="true"></a></div>
+                                                <div class="blog_post_date"><span>Nuevo</span></div>
                                             }
+                                            <div class="blog_post_title">
+                                                <h3>
+                                                    @Html.ActionLink(_allies.Name, _allies.UrlName, "souvenir")
+                                                </h3>
+                                            </div>
+                                            <div class="blog_post_tags">
+                                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                                    <li><span>@_allies.City</span></li>
+                                                    @if (_allies.urban)
+                                                    {
+                                                        <li><span>Urbana</span></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li><span>Rural</span></li>
+                                                    }
 
-                                            <div class="blog_post_content">
-
-                                                @if (_allies.DataCreate <= DateTime.Now)
-                                                {
-                                                    <div class="blog_post_date"><span>Acreditado</span></div>
-                                                }
-                                                else
-                                                {
-                                                    <div class="blog_post_date"><span>Nuevo</span></div>
-                                                }
-                                                <div class="blog_post_title">
-                                                    <h3>
-                                                        @Html.ActionLink(_allies.Name, _allies.UrlName, "souvenir")
-                                                    </h3>
-                                                </div>
-                                                <div class="blog_post_tags">
-                                                    <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                        <li><span>@_allies.City</span></li>
-                                                        @if (_allies.urban)
-                                                        {
-                                                            <li><span>Urbana</span></li>
-                                                        }
-                                                        else
-                                                        {
-                                                            <li><span>Rural</span></li>
-                                                        }
-
-                                                    </ul>
-                                                </div>
-                                                <div class="blog_post_text">
-                                                    <p>@_allies.Description ...</p>
-                                                </div>
+                                                </ul>
+                                            </div>
+                                            <div class="blog_post_text">
+                                                <p>@_allies.Description ...</p>
                                             </div>
                                         </div>
                                     </div>
-
-                                }
+                                </div>
 
                             }
 

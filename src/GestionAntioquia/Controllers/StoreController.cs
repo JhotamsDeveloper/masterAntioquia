@@ -227,6 +227,7 @@ namespace GestionAntioquia.Controllers
         #endregion
 
         //GET: Store Products
+        [Route("tienda-virtual")]
         public async Task<IActionResult> StoreProducts()
         {
 
