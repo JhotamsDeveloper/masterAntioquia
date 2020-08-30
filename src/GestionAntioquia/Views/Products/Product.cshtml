@@ -1,7 +1,7 @@
 ﻿@model ProductDetailView
 
 @{
-    ViewData["Title"] = Model.Name.Substring(0, 10) + "...";
+    ViewData["Title"] = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["imagen"] = Url.Content($"~/images/images/{Model.CoverPage}");
 }
@@ -38,20 +38,31 @@
 
                     <!-- Room Features -->
                     <div class="room-features-area d-flex flex-wrap mb-50">
-                        <h6>Lugar: <span>@Model.Place.Name</span></h6>
 
-                        <h6>
-                            Valor:<span style="color:darkgrey"><del>@Model.ProductWithDiscounts COL</del></span>
-                            <span>@Model.ProductWithDiscounts COL</span>
-                        </h6>
+                        <h6>Cuidad: <span>@Model.Place.City</span></h6>
+                        <h6>Lugar: <span>@Model.Place.Name</span></h6>
                         <h6>
                             Capacidad: <span>
                                 @{string person = ""; if (Model.PersonNumber <= 1) { person += " persona"; } else { person += " personas"; }}
                                 @Model.PersonNumber @person
                             </span>
                         </h6>
-                        <h6>Cuidad: <span>@Model.Place.City</span></h6>
+
+                        @if (Model.Discounts != "")
+                        {
+                            <h6>
+                                Descuento del: <span>@Model.Discounts%</span>
+                            </h6>
+                        }
+
                     </div>
+
+                    <hr />
+                    <div class="text-center price">
+                        <h6>Antes @Model.PriceWhitIncrement COL</h6>
+                        <h1>Valor @Model.ProductWithDiscounts COL</h1>
+                    </div>
+                    <hr />
 
                     <div class="section_title text-center">
                         <h4>Descripción del @Model.Place.Name</h4>
@@ -142,7 +153,7 @@
                                     <img src="~/images/info_1.png" alt="" />
                                 </div>
                                 <div class="sidebar_info_content">
-                                    <span>Zona: </span>@Model.Place.urban
+                                    <span>Zona: </span>@Model.Urban
                                 </div>
                             </li>
                             <li class="d-flex flex-row align-items-start justify-content-start">

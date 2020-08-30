@@ -15,7 +15,7 @@ namespace GestionAntioquia.Models
         public string CoverPage { get; set; }
         public string SquareCover { get; set; }
         public string Description { get; set; }
-        public string Price { get; set; }
+        public string PriceWhitIncrement { get; set; }
         public string ProductWithDiscounts { get; set; }
         public int Discounts { get; set; }
         public bool Statud { get; set; }
@@ -31,13 +31,27 @@ namespace GestionAntioquia.Models
         public string CoverPage { get; set; }
         public string SquareCover { get; set; }
         public string Description { get; set; }
-        public string Price { get; set; }
+        public string PriceWhitIncrement { get; set; }
         public string ProductWithDiscounts { get; set; }
         public string Discounts { get; set; }
         public bool Statud { get; set; }
         public int PersonNumber { get; set; }
 
         public Place Place { get; set; }
+        public string Urban { get; set; }
         public List<Gallery> Galleries { get; set; }
+    }
+
+    public class ProductPlacesView
+    {
+        public string ProductUrl { get; set; }
+        public string CoverPage { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int NumberOfPeople { get; set; }
+        public string PriceWhitIncrement { get; set; }
+        public int Discounts { get; set; }
+        public string ProductWithDiscounts { get; set; }
+
     }
 }

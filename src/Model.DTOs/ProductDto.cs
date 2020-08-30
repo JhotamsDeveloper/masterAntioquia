@@ -64,7 +64,7 @@ namespace Model.DTOs
         [Required(ErrorMessage = "El precio enbruto es requerido.")]
         public float Price { get; set; }
 
-        [DisplayName("Incremento")]
+        [DisplayName("Incremento - valor en pesos")]
         public float Increments { get; set; }
 
         [DisplayName("Descuento")]
@@ -105,7 +105,7 @@ namespace Model.DTOs
         public string Description { get; set; }
         public float Price { get; set; }
         public int Discounts { get; set; }
-        [DisplayName("Incremento")]
+        [DisplayName("Incremento - valor en pesos")]
         public float Increments { get; set; }
 
         public int AmountSupported { get; set; }

@@ -343,6 +343,9 @@ section
 {
 	font-size: 30px;
 }
+.price h6 {
+	color: #CAC5DA
+}
 .section_title h1 span
 {
 	color: #ffb400;
@@ -363,6 +366,8 @@ section
 	background: #ffb400;
 	content: '';
 }
+
+
 .container_custom .container
 {
 	max-width: 1600px;

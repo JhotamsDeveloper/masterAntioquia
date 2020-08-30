@@ -26,7 +26,7 @@ namespace GestionAntioquia.Models
         public string LengthCoordinates { get; set; }
         public string stateMessageCreate { get; set; }
         public int TotalReviews { get; set; }
-        public List<Product> Products { get; set; }
+        public List<ProductPlacesView> Products { get; set; }
         public List<ReviewsGetView> Reviews { get; set; }
     }
 }

@@ -72,6 +72,23 @@ namespace GestionAntioquia.Controllers
                 var _review = await _companyService.ReviewsPlaces(_detaislPlace.PlaceId);
                 var _totalReviews = _companyService.TotalReviews(_detaislPlace.PlaceId);
 
+                NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+                nfi = (NumberFormatInfo)nfi.Clone();
+                nfi.CurrencySymbol = "$";
+
+                var _productView = from p in _products
+                                   select new ProductPlacesView
+                                   {
+                                       ProductUrl = p.ProductUrl,
+                                       CoverPage = p.CoverPage,
+                                       Name = p.Name,
+                                       Description = p.Description,
+                                       NumberOfPeople = p.PersonNumber,
+                                       PriceWhitIncrement = string.Format(nfi, "{0:C0}", (p.Price + p.Increments)),
+                                       Discounts = p.Discounts,
+                                       ProductWithDiscounts = string.Format(nfi, "{0:C0}", (p.Price + p.Increments) - ((p.Price + p.Increments) * p.Discounts / 100)),
+                                   };
+
                 var _reviews = from r in _review
                                select new ReviewsGetView
                                {
@@ -110,7 +127,7 @@ namespace GestionAntioquia.Controllers
                     TotalReviews = Convert.ToInt16(_totalReviews),
                     LatitudeCoordinates = null,
                     LengthCoordinates = null,
-                    Products = _products.ToList(),
+                    Products = _productView.ToList(),
                     Reviews = _reviews.ToList(),
                 };
 

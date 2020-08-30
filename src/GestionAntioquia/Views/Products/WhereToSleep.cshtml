@@ -80,9 +80,9 @@
                                         </div>
                                         <div class="blog_post_title text-center">
 
-                                            @if (whereToSleep.Discounts > 0)
+                                            @if (whereToSleep.Discounts >= 0)
                                             {
-                                                <p class="text-center"> <del><span>Sin descuento @whereToSleep.Price col</span></del></p>
+                                                <p class="text-center"> <del><span>Sin descuento @whereToSleep.PriceWhitIncrement COL</span></del></p>
                                             }
 
                                             <h2>@whereToSleep.ProductWithDiscounts Col</h2>

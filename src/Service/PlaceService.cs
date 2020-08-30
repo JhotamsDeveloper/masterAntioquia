@@ -197,36 +197,115 @@ namespace Service
             //    .FirstOrDefaultAsync(x => x.PlaceId == id);
         }
 
-        public async Task DeleteConfirmed(int _id, string _cover, string _logo, string _squareCover)
+        public async Task DeleteConfirmed(int _id, 
+            string _cover, 
+            string _logo, 
+            string _squareCover)
         {
-
-            if (_logo != null)
+            using var transaction = _context.Database.BeginTransaction();
+            try
             {
-                //await _uploadedFileAzure.DeleteFile(_logo, _account);
-                _uploadedFile.DeleteConfirmed(_logo);
+                if (_logo != null)
+                {
+                    //await _uploadedFileAzure.DeleteFile(_logo, _account);
+                    _uploadedFile.DeleteConfirmed(_logo);
 
+                }
+
+                if (_cover != null)
+                {
+                    //await _uploadedFileAzure.DeleteFile(_cover, _account);
+                    _uploadedFile.DeleteConfirmed(_cover);
+                }
+
+                if (_squareCover != null)
+                {
+                    //await _uploadedFileAzure.DeleteFile(_squareCover, _account);
+                    _uploadedFile.DeleteConfirmed(_squareCover);
+                }
+
+                var _productPlaces = _context.Products
+                    .AsNoTracking()
+                    .Include(g => g.Galleries)
+                    .Where(x => x.PlaceId == _id)
+                    .ToList();
+
+                if (_productPlaces != null)
+                {
+                    foreach (var revi in _productPlaces)
+                    {
+                        if (revi.Galleries != null)
+                        {
+                            foreach (var galle in revi.Galleries)
+                            {
+                                _uploadedFile.DeleteConfirmed(galle.NameImage);
+
+                                _context.Remove(new Gallery
+                                {
+                                    GalleryId = galle.GalleryId
+                                });
+                                await _context.SaveChangesAsync();
+                            }
+                        }
+
+                        _context.Remove(new Product
+                        {
+                            ProductId = revi.ProductId
+                        });
+                        await _context.SaveChangesAsync();
+                    }
+
+                }
+
+                var _reviewsPlaces = _context.Reviews
+                    .AsNoTracking()
+                    .Include(g=>g.Galleries)
+                    .Where(x=>x.PlaceId == _id)
+                    .ToList();
+
+                if (_reviewsPlaces != null)
+                {
+                    foreach (var revi in _reviewsPlaces)
+                    {
+                        if (revi.Galleries != null)
+                        {
+                            foreach (var galle in revi.Galleries)
+                            {
+                                _uploadedFile.DeleteConfirmed(galle.NameImage);
+
+                                _context.Remove(new Gallery
+                                {
+                                    GalleryId = galle.GalleryId
+                                });
+                                await _context.SaveChangesAsync();
+                            }
+                        }
+
+                        _context.Remove(new Review
+                        {
+                            ReviewID = revi.ReviewID
+                        });
+                        await _context.SaveChangesAsync();
+                    }
+
+                }
+
+                _context.Remove(new Place
+                {
+                    PlaceId = _id
+                });
+
+                await _context.SaveChangesAsync();
+
+                transaction.Commit();
             }
-            
-            if (_cover != null)
+            catch (Exception ex)
             {
-                //await _uploadedFileAzure.DeleteFile(_cover, _account);
-                _uploadedFile.DeleteConfirmed(_cover);
+                transaction.Rollback();
             }
-            
-            if (_squareCover != null)
-            {
-                //await _uploadedFileAzure.DeleteFile(_squareCover, _account);
-                _uploadedFile.DeleteConfirmed(_squareCover);
-            }
-
-            _context.Remove(new Place
-            {
-                PlaceId = _id
-            });
-
-            await _context.SaveChangesAsync();
 
         }
+
         public bool CategoryExists(int id)
         {
             return _context.Places.Any(e => e.PlaceId == id);

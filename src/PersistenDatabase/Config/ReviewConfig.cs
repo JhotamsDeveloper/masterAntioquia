@@ -14,7 +14,8 @@ namespace Persisten.Database.Config
 
             entityBuilder.HasOne(x => x.Place)
             .WithMany(x => x.Reviews)
-            .HasForeignKey(x => x.PlaceId);
+            .HasForeignKey(x => x.PlaceId)
+            .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
         }
     }
 }

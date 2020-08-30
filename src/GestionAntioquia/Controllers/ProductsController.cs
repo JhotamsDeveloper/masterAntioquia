@@ -63,7 +63,9 @@ namespace GestionAntioquia.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["Name"] = new SelectList(_context.Places, "PlaceId", "Name");
+            ViewData["Places"] = new SelectList(_context.Places
+                                                .Include(x=>x.Category)
+                                                .Where(x=>x.State == true && x.Category.Name == "souvenir"), "PlaceId", "Name");
             return View();
         }
 
@@ -77,13 +79,27 @@ namespace GestionAntioquia.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                var _urlProduct = _productService.DuplicaName(model.Name);
+
+                if (_urlProduct)
+                {
+                    ViewData["DuplicaName"] = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
+                    ViewData["Places"] = new SelectList(_context.Places
+                                                        .Include(x => x.Category)
+                                                        .Where(x => x.State == true && x.Category.Name == "souvenir"), "PlaceId", "Name", model.PlaceId);
+                    return View(model);
+
+                }
                 await _productService.Create(model);
 
                 //_context.Add(product);
                 //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", model.PlaceId);
+            ViewData["Places"] = new SelectList(_context.Places
+                                                .Include(x => x.Category)
+                                                .Where(x => x.State == true && x.Category.Name == "souvenir"), "PlaceId", "Name", model.PlaceId);
             return View(model);
         }
 
@@ -115,6 +131,7 @@ namespace GestionAntioquia.Controllers
                 Name = _product.Name,
                 Description = _product.Description,
                 Price = _product.Price,
+                Increments = _product.Increments,
                 Discounts = _product.Discounts,
                 PersonNumber = _product.PersonNumber,
                 Statud = _product.Statud,
@@ -122,7 +139,9 @@ namespace GestionAntioquia.Controllers
                 PlaceId = _product.PlaceId
             };
 
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", _product.PlaceId);
+            ViewData["Places"] = new SelectList(_context.Places
+                                                .Include(x => x.Category)
+                                                .Where(x => x.State == true && x.Category.Name == "souvenir"), "PlaceId", "Name", _product.PlaceId);
             ViewData["CoverPage"] = _product.CoverPage;
             return View(_productEditDto);
         }
@@ -160,7 +179,9 @@ namespace GestionAntioquia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", model.PlaceId);
+            ViewData["Places"] = new SelectList(_context.Places
+                                                .Include(x => x.Category)
+                                                .Where(x => x.State == true && x.Category.Name == "souvenir"), "PlaceId", "Name", model.PlaceId);
             return View(model);
         }
 
@@ -229,7 +250,12 @@ namespace GestionAntioquia.Controllers
             nfi = (NumberFormatInfo)nfi.Clone();
             nfi.CurrencySymbol = "$";
 
-            var _productWithDiscounts = _product.Price - (_product.Price * _product.Discounts / 100);
+            var _priceWhitIncrement = _product.Increments + _product.Price;
+            var _productWithDiscounts = _priceWhitIncrement - (_priceWhitIncrement * _product.Discounts / 100);
+
+            string _urban = "";
+
+            if (_product.Place.urban){_urban = "Urbano";}else{_urban = "Rural";}
 
             var _model = new ProductDetailView
             {
@@ -237,12 +263,13 @@ namespace GestionAntioquia.Controllers
                 CoverPage = _product.CoverPage,
                 SquareCover = _product.SquareCover,
                 Description = _product.Description,
-                Price = string.Format(nfi, "{0:C0}", _product.Price),
+                PriceWhitIncrement = string.Format(nfi, "{0:C0}", _priceWhitIncrement),
                 ProductWithDiscounts = string.Format(nfi, "{0:C0}", _productWithDiscounts),
                 Discounts = _product.Discounts.ToString(),
                 Statud = _product.Statud,
                 PersonNumber = _product.PersonNumber,
                 Place = _product.Place,
+                Urban = _urban,
                 Galleries = _product.Galleries
             };
 
@@ -276,9 +303,9 @@ namespace GestionAntioquia.Controllers
                                          CoverPage = a.CoverPage,
                                          SquareCover = a.SquareCover,
                                          Description = a.Description,
-                                         Price = string.Format(nfi, "{0:C0}", a.Price),
+                                         PriceWhitIncrement = string.Format(nfi, "{0:C0}", a.Price + a.Increments),
                                          Discounts = a.Discounts,
-                                         ProductWithDiscounts = string.Format(nfi, "{0:C0}",a.Price - (a.Price * a.Discounts / 100)),
+                                         ProductWithDiscounts = string.Format(nfi, "{0:C0}",(a.Price + a.Increments) - ((a.Price + a.Increments) * a.Discounts / 100)),
                                          Statud = a.Statud,
                                          PersonNumber = a.PersonNumber,
                                          Place = a.Place

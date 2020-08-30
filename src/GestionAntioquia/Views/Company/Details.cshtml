@@ -97,35 +97,40 @@
                                                         Personas
                                                     </dt>
                                                     <dd class="col-sm-9">
-                                                        @if (@product.PersonNumber <= 1)
+                                                        @if (@product.NumberOfPeople <= 1)
                                                         {
-                                                            @product.PersonNumber <span>persona</span>
+                                                            @product.NumberOfPeople <span>persona</span>
                                                         }
                                                         else
                                                         {
-                                                            @product.PersonNumber <span>personas</span>
+                                                            @product.NumberOfPeople <span>personas</span>
                                                         }
                                                     </dd>
+
                                                     <dt class="col-sm-3">
-                                                        Precio
+                                                        Precio Normal
                                                     </dt>
                                                     <dd class="col-sm-9">
-
-                                                        @{
-                                                            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
-                                                            nfi = (NumberFormatInfo)nfi.Clone();
-                                                            nfi.CurrencySymbol = "$";
-
-                                                            var _productWithDiscounts = product.Price - (product.Price * product.Discounts / 100);
-                                                            @string.Format(nfi, "{0:C0}", _productWithDiscounts)
-                                                        } Col
+                                                        @product.PriceWhitIncrement COL
                                                     </dd>
+
+                                                    @if (product.Discounts >= 0)
+                                                    {
+                                                        <dt class="col-sm-3">
+                                                            Descuento
+                                                        </dt>
+                                                        <dd class="col-sm-9">
+                                                            @product.Discounts%
+                                                        </dd>
+                                                    }
+
                                                     <dt class="col-sm-3">
-                                                        Disponibilidad
+                                                        Precio actual
                                                     </dt>
                                                     <dd class="col-sm-9">
-                                                        Ver disponibilidad
+                                                        @product.ProductWithDiscounts COL
                                                     </dd>
+
                                                 </dl>
                                                 @*<a href="#" class="btn button_3 d-block" role="button" aria-pressed="true">reservar</a>*@
                                             </div>
@@ -325,15 +330,5 @@
 </div>
 
 @section Scripts {
-
-    <script type="text/javascript">
-        // Agregue el siguiente código si desea que aparezca el nombre del archivo en select
-        $(".custom-file-input").on("change", function () {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
-    </script>
-
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ScriptPlacesDetails");}
 }

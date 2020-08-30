@@ -34,6 +34,9 @@
 	.similar_place {
 		width: 100%;
 	}
+	.price h1{
+		font-size: 48px;
+	}
 }
 
 /************
@@ -54,6 +57,10 @@
 	.similar_place {
 		width: 100%;
 	}
+
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -64,7 +71,10 @@
 {
 	.similar_place {
 		width: 100%;
-	}	
+	}
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -88,6 +98,10 @@
 
 	.similar_place {
 		width: 100%;
+	}
+
+	.price h1 {
+		font-size: 48px;
 	}
 }
 
@@ -141,6 +155,9 @@
 	.similar_place {
 		width: 100%;
 	}
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -152,6 +169,10 @@
 	.similar_place {
 		width: 100%;
 	}
+
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -162,6 +183,9 @@
 {
 	.similar_place {
 		width: 100%;
+	}
+	.price h1 {
+		font-size: 48px;
 	}
 }
 
@@ -296,6 +320,10 @@
 	.similar_place {
 		width: 100%;
 	}
+
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -306,6 +334,9 @@
 {
 	.similar_place {
 		width: 100%;
+	}
+	.price h1 {
+		font-size: 48px;
 	}
 }
 
@@ -318,6 +349,9 @@
 	.similar_place {
 		width: 100%;
 	}
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -328,6 +362,9 @@
 {
 	.similar_place {
 		width: 100%;
+	}
+	.price h1 {
+		font-size: 48px;
 	}
 }
 
@@ -446,6 +483,9 @@
 		width: 100%;
 	}
 
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -517,6 +557,9 @@
 	.similar_place {
 		width: 100%;
 	}
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -528,6 +571,9 @@
 	.similar_place {
 		width: 100%;
 	}
+	.price h1 {
+		font-size: 48px;
+	}
 }
 
 /************
@@ -538,6 +584,9 @@
 {
 	.similar_place {
 		width: 100%;
+	}
+	.price h1 {
+		font-size: 40px;
 	}
 }
 
@@ -555,6 +604,9 @@
 	.similar_place {
 		width: 100%;
 	}
+	.price h1 {
+		font-size: 40px;
+	}
 }
 
 /************
@@ -563,5 +615,7 @@
 
 @media only screen and (max-width: 400px)
 {
-	
+	.price h1 {
+		font-size: 30px;
+	}
 }

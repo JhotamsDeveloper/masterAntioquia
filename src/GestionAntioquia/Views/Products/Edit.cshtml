@@ -15,7 +15,7 @@
                 <div class="col">
                     <div class="home_content">
                         <div class="home_title">
-                            <h2 class="section-heading text-center h1 pt-4">Creando un nuevo producto</h2>
+                            <h2 class="section-heading text-center h1 pt-4">Editando producto</h2>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                     <div class="row mt-2">
 
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form">
                                 <label asp-for="Increments" class="control-label"></label>
                                 <input asp-for="Increments" class="form-control" />
@@ -111,7 +111,7 @@
                         </div>
 
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form">
                                 <label asp-for="Discounts" class="control-label"></label>
                                 <input asp-for="Discounts" class="form-control" />
@@ -120,7 +120,7 @@
                         </div>
 
                         <!--Grid column-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="md-form form-check">
                                 <label class="form-check-label mt-4">
                                     <input class="form-check-input" asp-for="Statud" /> @Html.DisplayNameFor(model => model.Statud)
@@ -154,7 +154,7 @@
                         <div class="col-md-4">
                             <div class="md-form">
                                 <label asp-for="PlaceId" class="control-label"></label>
-                                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.PlaceId"></select>
+                                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.Places"></select>
                             </div>
                         </div>
 

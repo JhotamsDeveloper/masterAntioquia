@@ -59,7 +59,7 @@ namespace GestionAntioquia.Controllers
         // GET: Places/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono");
+            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Name");
             return View();
         }
 
@@ -81,13 +81,13 @@ namespace GestionAntioquia.Controllers
                 if (_urlName)
                 {
                     ViewData["DuplicaName"] = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
-                    ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", model.CategoryId);
+                    ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Name", model.CategoryId);
                     return View(model);
                 }
                 await _placeService.Create(model);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", model.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Name", model.CategoryId);
             return View(model);
         }
 
@@ -125,7 +125,7 @@ namespace GestionAntioquia.Controllers
                 CategoryId = place.CategoryId
             };
 
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", place.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Name", place.CategoryId);
             ViewData["Logo"] = place.Logo.ToString();
             ViewData["CoverPage"] = place.CoverPage.ToString();
             return View(_placeEditDto);
@@ -163,7 +163,7 @@ namespace GestionAntioquia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Icono", model.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Name", model.CategoryId);
             return View(model);
         }
 
@@ -207,6 +207,7 @@ namespace GestionAntioquia.Controllers
             var _cover = _place.CoverPage;
             var _logo = _place.Logo;
             var _squareCover = _place.SquareCover;
+
 
             if (_place == null)
             {

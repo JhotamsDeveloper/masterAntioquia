@@ -24,6 +24,7 @@ namespace Service
         Task<ProductDto> ProductUrl(string productUrl);
         Task<IEnumerable<Product>> WhereToSleep();
         bool ProductExists(int id);
+        bool DuplicaName(string name);
     }
 
     public class ProductService : IProductService
@@ -34,6 +35,8 @@ namespace Service
         private readonly IGalleryService _galleryService;
         private readonly IFormatString _formatString;
         private readonly IUploadedFile _uploadedFile;
+
+        //Variables para Azure
         private readonly IUploadedFileAzure _uploadedFileAzure;
         private readonly string _account = "products";
 
@@ -88,12 +91,6 @@ namespace Service
                     var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
                     var _fechaActual = DateTime.Now;
                     var _url = _formatString.FormatUrl(model.Name);
-
-                    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
-                    nfi = (NumberFormatInfo)nfi.Clone();
-                    nfi.CurrencySymbol = "$";
-                    
-                    //Price = string.Format(nfi, "{0:C0}", model.Price),
 
                     var _product = new Product
                     {
@@ -195,89 +192,91 @@ namespace Service
 
         public async Task Edit(int id, ProductEditDto model)
         {
-            using (var transaction = _context.Database.BeginTransaction())
-
+            using var transaction = _context.Database.BeginTransaction();
+            try
             {
-                try
+                DateTime _dateUpdate = DateTime.Now;
+                var _product = await _context.Products.SingleAsync(x => x.ProductId == id);
+                var _coverPage = "";
+                var _squareCover = "";
+
+                if (model.CoverPage != null)
                 {
-                    DateTime _dateUpdate = DateTime.Now;
-                    var _product = await _context.Products.SingleAsync(x => x.ProductId == id);
-                    var _coverPage = "";
-                    var _squareCover = "";
-
-                    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
-                    nfi = (NumberFormatInfo)nfi.Clone();
-                    nfi.CurrencySymbol = "$";
-
-                    if (model.CoverPage != null)
+                    if (_product.CoverPage != null)
                     {
-                        if (_product.CoverPage != null)
+                        //await _uploadedFileAzure.DeleteFile(_product.CoverPage, _account);
+                        _uploadedFile.DeleteConfirmed(_product.CoverPage);
+                    }
+
+                    //_coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                    _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+                }
+                else
+                {
+                    _coverPage = _product.CoverPage;
+                }
+
+                if (model.SquareCover != null)
+                {
+                    if (_product.SquareCover != null)
+                    {
+                        _uploadedFile.DeleteConfirmed(_product.SquareCover);
+                        //await _uploadedFileAzure.DeleteFile(_product.SquareCover, _account);
+                    }
+
+                    //_squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                    _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
+                }
+                else
+                {
+                    _squareCover = _product.SquareCover;
+                }
+
+                _product.Name = model.Name;
+                _product.CoverPage = _coverPage;
+                _product.SquareCover = _squareCover;
+                _product.Description = model.Description;
+                _product.Price = model.Price;
+                _product.Discounts = model.Discounts;
+                _product.Increments = model.Increments;
+                _product.PersonNumber = model.PersonNumber;
+                _product.AmountSupported = model.AmountSupported;
+                _product.Statud = model.Statud;
+                _product.AmountSupported = model.AmountSupported;
+                _product.PlaceId = model.PlaceId;
+                _product.UpdateDate = DateTime.Now;
+
+                await _context.SaveChangesAsync();
+
+                if (model.Gallery != null)
+                {
+
+                    var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
+
+                    if (_getGalleries.Count > 0)
+                    {
+                        foreach (var item in _getGalleries)
                         {
-                            await _uploadedFileAzure.DeleteFile(_product.CoverPage, _account);
-                        }
+                            //await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
 
-                        _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
-                    }
-                    else
-                    {
-                        _coverPage = _product.CoverPage;
-                    }
+                            _uploadedFile.DeleteConfirmed(item.NameImage);
 
-                    if (model.SquareCover != null)
-                    {
-                        if (_product.SquareCover != null)
-                        {
-                            await _uploadedFileAzure.DeleteFile(_product.SquareCover, _account);
-                        }
-
-                        _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
-                    }
-                    else
-                    {
-                        _squareCover = _product.SquareCover;
-                    }
-
-                    _product.Name = model.Name;
-                    _product.CoverPage = _coverPage;
-                    _product.SquareCover = _squareCover;
-                    _product.Description = model.Description;
-                    _product.Price = model.Price;
-                    _product.Discounts = model.Discounts;
-                    _product.Increments = model.Increments;
-                    _product.PersonNumber = model.PersonNumber;
-                    _product.Statud = model.Statud;
-                    _product.AmountSupported = model.AmountSupported;
-                    _product.PlaceId = model.PlaceId;
-                    _product.UpdateDate = DateTime.Now;
-
-                    await _context.SaveChangesAsync();
-
-                    if (model.Gallery != null)
-                    {
-
-                        var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
-
-                        if (_getGalleries.Count >0)
-                        {
-                            foreach (var item in _getGalleries)
+                            _context.Remove(new Gallery
                             {
-                                await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                                GalleryId = item.GalleryId
+                            });
+                            await _context.SaveChangesAsync();
 
-                                _context.Remove(new Gallery
-                                {
-                                    GalleryId = item.GalleryId
-                                });
-                                await _context.SaveChangesAsync();
-
-                            }
                         }
+                    }
 
-                        string[] _uploadGalleries = new string[model.Gallery.Count()];
+                    if (model.Gallery.Any())
+                    {
+                        List<string> _uploadGalleries = _uploadedFile.UploadedMultipleFileImage(model.Gallery);
                         int _accountant = 0;
 
                         foreach (var item in model.Gallery)
                         {
-                            _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
 
                             var _gallery = new Gallery
                             {
@@ -294,12 +293,57 @@ namespace Service
 
                     }
 
-                    transaction.Commit();
                 }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                }
+
+                //Método para AZURE
+
+                //if (model.Gallery != null)
+                //{
+
+                //    var _getGalleries = _galleryService.GetAll().Where(x => x.ProducId == id).ToList();
+
+                //    if (_getGalleries.Count > 0)
+                //    {
+                //        foreach (var item in _getGalleries)
+                //        {
+                //            await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+
+                //            _context.Remove(new Gallery
+                //            {
+                //                GalleryId = item.GalleryId
+                //            });
+                //            await _context.SaveChangesAsync();
+
+                //        }
+                //    }
+
+                //    string[] _uploadGalleries = new string[model.Gallery.Count()];
+                //    int _accountant = 0;
+
+                //    foreach (var item in model.Gallery)
+                //    {
+                //        _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
+
+                //        var _gallery = new Gallery
+                //        {
+                //            ProducId = _product.ProductId,
+                //            NameImage = _uploadGalleries[_accountant]
+                //        };
+
+                //        await _context.AddAsync(_gallery);
+                //        await _context.SaveChangesAsync();
+                //        _mapper.Map<GalleryDto>(_gallery);
+
+                //        _accountant++;
+                //    }
+
+                //}
+
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
             }
         }
 
@@ -316,7 +360,8 @@ namespace Service
                     {
                         foreach (var item in _getGalleries)
                         {
-                            await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                            //await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                            _uploadedFile.DeleteConfirmed(item.NameImage);
 
                             _context.Remove(new Gallery
                             {
@@ -329,12 +374,14 @@ namespace Service
 
                     if (_cover != null)
                     {
-                        await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        //await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        _uploadedFile.DeleteConfirmed(_cover);
                     }
 
                     if (_squareCover != null)
                     {
-                        await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        //await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        _uploadedFile.DeleteConfirmed(_squareCover);
                     }
 
                     _context.Remove(new Product
@@ -382,6 +429,15 @@ namespace Service
                 .Where(x => x.Statud == true && x.Place.Category.Name == "souvenir");
 
             return (await _getAll.ToListAsync());
+        }
+
+        public bool DuplicaName(string name)
+        {
+
+            var urlName = _context.Products
+                .Where(x => x.Name == name);
+
+            return urlName.Any();
         }
 
     }
