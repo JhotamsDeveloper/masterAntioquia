@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using GestionAntioquia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -63,7 +64,7 @@ namespace GestionAntioquia.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["Name"] = new SelectList(  _context
+            ViewData["Places"] = new SelectList(  _context
                                                 .Places
                                                 .Where(x=>x.State == true
                                                 && x.Category.Name == "Tienda"), "PlaceId", "Name");
@@ -80,16 +81,24 @@ namespace GestionAntioquia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _storeService.Create(model);
+                var _duplicaName = _storeService.DuplicaName(model.Name);
 
-                //_context.Add(product);
-                //await _context.SaveChangesAsync();
+                if (_duplicaName)
+                {
+                    ViewData["DuplicaName"] = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
+                    ViewData["Places"] = new SelectList(_context.Places
+                                                        .Include(x => x.Category)
+                                                        .Where(x => x.State == true && x.Category.Name == "Tienda"), "PlaceId", "Name", model.PlaceId);
+                    return View(model);
+
+                }
+
+                await _storeService.Create(model);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(
-                                                _context.Places
-                                                .Where(x=>x.State == true
-                                                && x.Category.Name == "Tienda"), "PlaceId", "Name", model.PlaceId);
+            ViewData["Places"] = new SelectList(_context.Places
+                                                .Include(x => x.Category)
+                                                .Where(x => x.State == true && x.Category.Name == "Tienda"), "PlaceId", "Name", model.PlaceId);
             return View(model);
         }
 
@@ -127,11 +136,12 @@ namespace GestionAntioquia.Controllers
                 Discounts = _storeProdStore.Discounts,
                 Increments = _storeProdStore.Increments,
                 Statud = _storeProdStore.Statud,
+                AmountSupported = _storeProdStore.AmountSupported,
                 Galleries = _galleries,
                 PlaceId = _storeProdStore.PlaceId
             };
 
-            ViewData["PlaceId"] = new SelectList(_context
+            ViewData["Places"] = new SelectList(_context
                                     .Places
                                     .Where(x => x.State == true
                                     && x.Category.Name == "Tienda"), "PlaceId", "Name");
@@ -173,7 +183,11 @@ namespace GestionAntioquia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaceId"] = new SelectList(_context.Places, "PlaceId", "Name", model.PlaceId);
+
+            ViewData["Places"] = new SelectList(_context
+                                    .Places
+                                    .Where(x => x.State == true
+                                    && x.Category.Name == "Tienda"), "PlaceId", "Name");
             return View(model);
         }
 
@@ -238,20 +252,20 @@ namespace GestionAntioquia.Controllers
             nfi.CurrencySymbol = "$";
 
             var _filigreeView = (from a in _products
-                                 select new StoreProductsDto
+                                 select new StoreView
                                  {
-
                                      ProductId = a.ProductId,
                                      Name = a.Name,
                                      ProductUrl = a.ProductUrl,
-                                     CoverPage = a.CoverPage,
                                      SquareCover = a.SquareCover,
                                      Description = a.Description,
-                                     Price = string.Format(nfi, "{0:C0}", a.Price),
+                                     Mineral = a.Mineral,
+                                     PriceWhitIncrement = string.Format(nfi, "{0:C0}", a.Price + a.Increments),
+                                     ProductWithDiscounts = string.Format(nfi, "{0:C0}", (a.Price + a.Increments) - ((a.Price + a.Increments) * a.Discounts / 100)),
+                                     ShippingValue = string.Format(nfi, "{0:C0}", a.ShippingValue),
                                      Discounts = a.Discounts,
                                      Statud = a.Statud,
                                      Place = a.Place
-
                                  });
 
             return View(_filigreeView);
@@ -259,21 +273,47 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> ShopProducts(string productUrl)
+        [Route("tienda-virtual/{urlProductStore}")]
+        public async Task<IActionResult> ShopProducts(string urlProductStore)
         {
-            if (productUrl == null)
+            if (urlProductStore == null)
             {
                 return NotFound();
             }
 
-            var _detailProduct = await _storeService.ProductUrl(productUrl);
+            var _product = await _storeService.ProductUrl(urlProductStore);
 
-            if (_detailProduct == null)
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
+            var _priceWhitIncrement = _product.Increments + _product.Price;
+            var _productWithDiscounts = _priceWhitIncrement - (_priceWhitIncrement * _product.Discounts / 100);
+
+            string _urban = "";
+
+            if (_product.Place.urban) { _urban = "Urbano"; } else { _urban = "Rural"; }
+
+            var _model = new StoreDetailView
+            {
+                Name = _product.Name,
+                CoverPage = _product.CoverPage,
+                Description = _product.Description,
+                Mineral = _product.Mineral,
+                PriceWhitIncrement = string.Format(nfi, "{0:C0}", _priceWhitIncrement),
+                ProductWithDiscounts = string.Format(nfi, "{0:C0}", _productWithDiscounts),
+                Discounts = _product.Discounts.ToString(),
+                Place = _product.Place,
+                Urban = _urban,
+                Galleries = _product.Galleries
+            };
+
+            if (_model == null)
             {
                 return NotFound();
             }
 
-            return View(_detailProduct);
+            return View(_model);
 
         }
     }

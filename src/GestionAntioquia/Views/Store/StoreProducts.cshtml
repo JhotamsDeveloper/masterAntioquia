@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Model.DTOs.StoreProductsDto>
+﻿@model IEnumerable<StoreView>
 
 @{
     ViewData["Title"] = "Tienda Virtual, ";
@@ -22,12 +22,9 @@
     </div>
 </div>
 
-@*<div style="width:100%; height:150px; background-color:forestgreen"></div>*@
-
 @if (Model.Any())
 {
     <!-- Blog -->
-
     <div class="blog">
         <div class="container">
             <div class="row">
@@ -35,40 +32,53 @@
                     <div class="blog_posts_container">
                         <div class="blog_posts">
 
-                            @foreach (var product in Model)
+                            @foreach (var _store in Model)
                             {
 
                                 <!-- Blog Post -->
                                 <div class="blog_post">
                                     <div class="blog_post_container">
 
-                                        <div class="location_icon">
-                                            <span> <strong> @product.Price Col</strong></span>
-                                        </div>
-
-                                        @if (product.CoverPage == null)
+                                        @if (_store.Discounts > 0)
                                         {
-                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@product.Name"></div>
+                                            <div class="location_icon text-center">
+                                                <span style="color:aliceblue"> Desc del <strong> @_store.Discounts%</strong></span>
+                                            </div>
+                                        }
+
+
+                                        @if (_store.SquareCover == null)
+                                        {
+                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@_store.Name"></div>
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a asp-controller="Store" asp-action="ShopProducts" asp-route-productUrl="@product.ProductUrl"><img src="@product.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a asp-controller ="store" asp-action="ShopProducts" asp-route-urlProductStore="@_store.ProductUrl"><img src="~/images/images/@_store.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">
 
-                                            <div class="blog_post_date"><a href="#">@product.Place.City</a></div>
+                                            <div class="blog_post_date text-center"><a href="#">@_store.Place.City</a></div>
 
                                             <div class="blog_post_title">
-                                                <h3>@product.Name</h3>
+                                                <h3><a asp-controller="store" asp-action="ShopProducts" asp-route-urlProductStore="@_store.ProductUrl">@_store.Name</a></h3>
                                             </div>
-                                            <div class="blog_post_tags">
+                                            <div class="blog_post_tags text-lg-center">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                    <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@product.Place.NameUrl">@product.Place.Name, </a></li>
-                                                    <li><a href="#">Urbano</a></li>
+                                                    <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@_store.Place.NameUrl">@_store.Place.Name</a></li>
+                                                    <li>@_store.Mineral</li>
                                                 </ul>
                                             </div>
-                                            <p class="text-center"><span>Valor de envio $10.000 col</span></p>
+                                            <div class="blog_post_title text-center">
+
+                                                @if (_store.Discounts >= 0)
+                                                {
+                                                    <p class="text-center"> <del><span>Sin descuento @_store.PriceWhitIncrement COL</span></del></p>
+                                                }
+
+                                                <h2>@_store.ProductWithDiscounts Col</h2>
+                                            </div>
+                                            <p class="text-center"><span>Valor del envio @_store.ShippingValue</span></p>
                                         </div>
                                     </div>
                                 </div>

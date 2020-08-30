@@ -46,7 +46,7 @@
                             <div class="md-form">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <span asp-validation-for="Name" class="text-danger">@ViewBag.DuplicaName</span>
                             </div>
                         </div>
 
@@ -180,7 +180,7 @@
                         <div class="col-md-6">
                             <div class="md-form">
                                 <label asp-for="PlaceId" class="control-label"></label>
-                                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.Name"></select>
+                                <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.Places"></select>
                             </div>
                         </div>
 

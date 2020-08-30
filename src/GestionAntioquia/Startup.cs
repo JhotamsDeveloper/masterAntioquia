@@ -157,6 +157,11 @@ namespace GestionAntioquia
                 pattern: "tienda-virtual",
                 defaults: new { Controller = "Store", action = "StoreProducts" });
 
+                endpoints.MapControllerRoute(
+                name: "TiendaVirtualDetails",
+                pattern: "tienda-virtual/{urlProductStore}",
+                defaults: new { Controller = "Store", action = "ShopProducts" });
+
                 //Tours
                 endpoints.MapControllerRoute(
                 name: "blog",

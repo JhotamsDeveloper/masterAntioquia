@@ -59,7 +59,9 @@ namespace Service
 
         public async Task<IEnumerable<Product>> GetAll()
         {
-            var _getAll = _context.Products.Include(p => p.Place);
+            var _getAll = _context.Products
+                .Include(p => p.Place)
+                .Where(x=>x.Place.Category.Name == "souvenir");
             return (await _getAll.ToListAsync());
         }
 

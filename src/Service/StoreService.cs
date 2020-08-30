@@ -25,6 +25,7 @@ namespace Service
         Task DeleteConfirmed(int _id, string _cover, string _squareCover);
         Task<IEnumerable<Product>> StoreProducts();
         Task<StoreDto> ProductUrl(string productUrl);
+        bool DuplicaName(string name);
     }
 
     public class StoreService : IStoreService
@@ -98,8 +99,8 @@ namespace Service
 
                     var _product = new Product
                     {
-                        Name = model.Name,
-                        ProductUrl = _url,
+                        Name = model.Name.Trim(),
+                        ProductUrl = _url.ToLower(),
                         CoverPage = _coverPage,
                         SquareCover = _squareCover,
                         Description = model.Description,
@@ -296,7 +297,8 @@ namespace Service
                     {
                         foreach (var item in _getGalleries)
                         {
-                            await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                            //await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                            _uploadedFile.DeleteConfirmed(item.NameImage);
 
                             _context.Remove(new Gallery
                             {
@@ -309,12 +311,14 @@ namespace Service
 
                     if (_cover != null)
                     {
-                        await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        //await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        _uploadedFile.DeleteConfirmed(_cover);
                     }
 
                     if (_squareCover != null)
                     {
-                        await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        //await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        _uploadedFile.DeleteConfirmed(_squareCover);
                     }
 
                     _context.Remove(new Product
@@ -364,6 +368,15 @@ namespace Service
                 );
 
             return _mapper.Map<StoreDto>(_productUrl);
+        }
+
+        public bool DuplicaName(string name)
+        {
+
+            var urlName = _context.Products
+                .Where(x => x.Name == name);
+
+            return urlName.Any();
         }
 
         #endregion

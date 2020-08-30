@@ -80,9 +80,9 @@ namespace GestionAntioquia.Controllers
             if (ModelState.IsValid)
             {
 
-                var _urlProduct = _productService.DuplicaName(model.Name);
+                var _duplicaName = _productService.DuplicaName(model.Name);
 
-                if (_urlProduct)
+                if (_duplicaName)
                 {
                     ViewData["DuplicaName"] = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
                     ViewData["Places"] = new SelectList(_context.Places

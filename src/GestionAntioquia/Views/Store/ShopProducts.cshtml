@@ -1,9 +1,9 @@
-﻿@model Model.DTOs.StoreDto
+﻿@model StoreDetailView
 
 @{
-    ViewData["Title"] = Model.Name.Substring(0, 10) + "...";
+    ViewData["Title"] = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["imagen"] = Url.Content($"{Model.CoverPage}");
+    ViewData["imagen"] = Url.Content($"~/images/images/{Model.CoverPage}");
 }
 
 <!-- Home -->
@@ -29,67 +29,41 @@
             <div class="col-12 col-lg-8">
                 <!-- Single Room Details Area -->
                 <div class="single-room-details-area mb-50">
-                    <!-- Room Thumbnail Slides -->
-                    <div class="room-thumbnail-slides mb-50">
-                        <div id="room-thumbnail--slide" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner">
 
-                                @{
-
-                                    @foreach (var galleries in Model.Galleries)
-                                    {
-                                        string active = "";
-
-                                        if (galleries == Model.Galleries.First())
-                                        {
-                                            active += "active";
-                                        }
-
-                                        <div class="carousel-item @active">
-                                            <img src="@galleries.NameImage" class="d-block w-100" alt="">
-                                        </div>
-                                    }
-                                }
-
-
-                            </div>
-
-                            <ol class="carousel-indicators">
-
-                                @{
-                                    int count = 0;
-
-                                    foreach (var gallery in Model.Galleries)
-                                    {
-                                        string active = "";
-                                        count = count + 1;
-
-                                        if (gallery == Model.Galleries.First())
-                                        {
-                                            active += "active";
-                                        }
-                                        <li data-target="#room-thumbnail--slide" data-slide-to="@count-1" class="@active">
-                                            <img src="@gallery.NameImage" class="d-block w-100" alt="">
-                                        </li>
-                                    }
-                                }
-                            </ol>
-                        </div>
+                    <div class="section_title text-center">
+                        <h1>Descripción del Artículo </h1>
                     </div>
+                    <p class="text-justify">@Model.Description</p>
+
 
                     <!-- Room Features -->
                     <div class="room-features-area d-flex flex-wrap mb-50">
-                        <h6>Tienda: <span>@Model.Place.Name</span></h6>
 
-                        <h6>Valor: <span>@Model.Price COL</span></h6>
-                        <h6>
-                            Mineral: <span>Plata</span>
-                        </h6>
-                        <h6>Peso aprox: <span>250 grm</span></h6>
+                        <h6>Cuidad: <span>@Model.Place.City</span></h6>
+                        <h6>Lugar: <span>@Model.Place.Name</span></h6>
+                        <h6>Material: <span>@Model.Mineral</span></h6>
+
+                        @if (Model.Discounts != "")
+                        {
+                            <h6>
+                                Descuento del: <span>@Model.Discounts%</span>
+                            </h6>
+                        }
+
                     </div>
 
-                    <h4>Descripción del Plan</h4>
-                    <p class="text-justify">@Model.Description</p>
+                    <hr />
+                    <div class="text-center price">
+                        <h6>Antes @Model.PriceWhitIncrement COL</h6>
+                        <h1>Valor @Model.ProductWithDiscounts COL</h1>
+                    </div>
+                    <hr />
+
+                    <div class="section_title text-center">
+                        <h4>Descripción del @Model.Place.Name</h4>
+                    </div>
+
+                    <p class="text-justify">@Model.Place.Description</p>
 
                     @*<ul>
                             <li><i class="fa fa-check"></i> Mauris molestie lectus in irdiet auctor.</li>
@@ -100,12 +74,28 @@
                             <li><i class="fa fa-check"></i> Vestibulum rutrum diam vel eros tristique.</li>
                         </ul>*@
 
-                    <h4>Descripción del @Model.Place.Name</h4>
-                    <p class="text-justify">@Model.Place.Description</p>
                 </div>
 
-                <!-- Room Service -->
-                @*<div class="room-service mb-50">
+                <!-- Galleries -->
+                <div class="container mt-40">
+                    <div class="section_title">
+                        <h4 class="text-center">Galleria</h4>
+                    </div>
+                    <div class="row justify-content-center">
+                        @foreach (var item in Model.Galleries)
+                        {
+                            <div class="review_image m-2">
+                                <a class="galleriesTour"
+                                   href="~/images/images/@item.NameImage">
+                                    <img src="~/images/images/@item.NameImage" alt="" />
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                @*Room Service
+                    <div class="room-service mb-50">
                         <h4>Room Services</h4>
 
                         <ul>
@@ -121,14 +111,109 @@
             </div>
 
             <div class="col-12 col-lg-4">
-                <div>
-                    <p class="text-justify">
-                        Es posible que este producto no se encuentre disponible en nuestras tiendas escribamos antes de hacer la compra, nuestros artesanos y orfebres estarán dispuestos ayudarte.
-                    </p>
-                    <div class="blog_posts_more">
-                        <div class="button load_more_button" style="width:100%"><a href="#">Ver disponibilidad</a></div>
+                <!-- Hotel Reservation Area -->
+
+                <div class="sidebar">
+                    <!-- Work Hours -->
+                    <div class="work_hours d-flex flex-row align-items-center justify-content-start">
+                        <div class="sidebar_info_icon">
+                            <img src="~/images/ws.svg" alt="" />
+                        </div>
+                        <div class="sidebar_info_content">
+                            <span>Escribanos: </span> <a href="https://api.whatsapp.com/send?phone=57 @Model.Place.Phone" target="_blank">3104304545</a>
+                        </div>
                     </div>
+
+                    <!-- Info -->
+                    <div class="sidebar_info">
+                        <ul>
+                            <li class="d-flex flex-row align-items-start justify-content-start">
+                                <div class="sidebar_info_icon">
+                                    <img src="~/images/info_1.png" alt="" />
+                                </div>
+                                <div class="sidebar_info_content">
+                                    <span>Municipio: </span>@Model.Place.City
+                                </div>
+                            </li>
+                            <li class="d-flex flex-row align-items-start justify-content-start">
+                                <div class="sidebar_info_icon">
+                                    <img src="~/images/info_1.png" alt="" />
+                                </div>
+                                <div class="sidebar_info_content">
+                                    <span>Dirección: </span>@Model.Place.Address
+                                </div>
+                            </li>
+                            <li class="d-flex flex-row align-items-start justify-content-start">
+                                <div class="sidebar_info_icon">
+                                    <img src="~/images/info_1.png" alt="" />
+                                </div>
+                                <div class="sidebar_info_content">
+                                    <span>Zona: </span>@Model.Urban
+                                </div>
+                            </li>
+                            <li class="d-flex flex-row align-items-start justify-content-start">
+                                <div class="sidebar_info_icon">
+                                    <img src="~/images/info_3.png" alt="" />
+                                </div>
+                                <div class="sidebar_info_content">
+                                    <span>E-mail: </span>@Model.Place.Email
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+
                 </div>
+
+                @*<div class="hotel-reservation--area mb-100">
+                        <form action="#" method="post">
+                            <div class="form-group mb-30">
+                                <label for="checkInDate">Date</label>
+                                <div class="input-daterange" id="datepicker">
+                                    <div class="row no-gutters">
+                                        <div class="col-6">
+                                            <input type="text" class="input-small form-control appointment_date-check-in" placeholder="Entrada">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="text" class="input-small form-control appointment_date-check-out" placeholder="Salida">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-30">
+                                <label for="guests">Guests</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <select name="adults" id="guests" class="form-control">
+                                            <option value="adults">Adults</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <select name="children" id="children" class="form-control">
+                                            <option value="children">Children</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn roberto-btn w-100">Check Available</button>
+                            </div>
+                        </form>
+
+
+                    </div>*@
             </div>
         </div>
     </div>
