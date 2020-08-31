@@ -204,11 +204,6 @@ section
 	float: right;
 }
 
-.marginTop 
-{
-	margin-top: -90px;
-}
-
 .trans_200 {
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;

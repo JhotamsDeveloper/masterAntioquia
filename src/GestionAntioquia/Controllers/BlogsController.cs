@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using GestionAntioquia.Models;
@@ -17,13 +18,16 @@ namespace GestionAntioquia.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IBlogService _blogService;
+        private readonly IGenericServicio _genericServicio;
 
         public BlogsController(
             ApplicationDbContext context,
+            IGenericServicio genericServicio,
             IBlogService blogService)
         {
             _context = context;
             _blogService = blogService;
+            _genericServicio = genericServicio;
         }
 
     #region "BackEnd"
@@ -96,13 +100,26 @@ namespace GestionAntioquia.Controllers
 
             var _event = await _blogService.Details(id);
 
-            if (_event == null)
+            var _modelo = new BlogView
+            {
+                EventId = _event.EventId,
+                Name = _event.Name,
+                BlogUrl = _event.BlogUrl,
+                Description = _event.Description,
+                Author = _event.Author,
+                CoverPage = _event.CoverPage,
+                SquareCover = _event.SquareCover,
+                UpdateDate = _event.UpdateDate.ToString(),
+                State = _event.State
+            };
+
+            if (_modelo == null)
             {
                 return NotFound();
             }
 
             ViewData["CoverPage"] = _event.CoverPage;
-            return View(_event);
+            return View(_modelo);
         }
 
         // GET: Blogs/Create
@@ -146,7 +163,7 @@ namespace GestionAntioquia.Controllers
                 Name = _event.Name,
                 Description = _event.Description,
                 Author = _event.Author,
-                UpdateDate = _event.UpdateDate,
+                UpdateDate = Convert.ToDateTime(_event.UpdateDate),
                 State = _event.State
             };
 
@@ -270,15 +287,55 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
             
-            var _event = await _blogService.Details(name);
+            var _detail = await _blogService.Details(name);
 
-            if (_event == null)
+            var _producGuid = await _genericServicio.NewsList(5);
+
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
+
+            var _listProduct = (from a in _producGuid
+                                     select new ProductsView
+                                     {
+                                         ProductId = a.ProductId,
+                                         Name = a.Name,
+                                         ProductUrl = a.ProductUrl,
+                                         CoverPage = a.CoverPage,
+                                         SquareCover = a.SquareCover,
+                                         Description = a.Description,
+                                         PriceWhitIncrement = string.Format(nfi, "{0:C0}", a.Price + a.Increments),
+                                         Discounts = a.Discounts,
+                                         ProductWithDiscounts = string.Format(nfi, "{0:C0}", (a.Price + a.Increments) - ((a.Price + a.Increments) * a.Discounts / 100)),
+                                         Statud = a.Statud,
+                                         PersonNumber = a.PersonNumber,
+                                         Place = a.Place
+
+                                     });
+
+
+            var _modelo = new BlogView
+            {
+                EventId = _detail.EventId,
+                Name = _detail.Name,
+                BlogUrl = _detail.BlogUrl,
+                Description = _detail.Description,
+                Author = _detail.Author,
+                CoverPage = _detail.CoverPage,
+                SquareCover = _detail.SquareCover,
+                UpdateDate = _detail.UpdateDate.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("es-CO")),
+                State = _detail.State,
+                Products = _listProduct.ToList()
+            };
+
+
+            if (_modelo == null)
             {
                 return NotFound();
             }
 
-            ViewData["CoverPage"] = _event.CoverPage;
-            return View(_event);
+            return View(_modelo);
         }
 
         #endregion

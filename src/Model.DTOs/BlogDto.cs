@@ -20,7 +20,6 @@ namespace Model.DTOs
 
         public DateTime CreationDate { get; set; }
 
-        [DataType(DataType.Date)]
         public DateTime UpdateDate { get; set; }
 
         public Boolean State { get; set; }

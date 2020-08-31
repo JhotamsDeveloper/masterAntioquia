@@ -162,7 +162,7 @@ namespace GestionAntioquia
                 pattern: "tienda-virtual/{urlProductStore}",
                 defaults: new { Controller = "Store", action = "ShopProducts" });
 
-                //Tours
+                //Blog
                 endpoints.MapControllerRoute(
                 name: "blog",
                 pattern: "blog/{name}",

@@ -1,9 +1,11 @@
-﻿@*@model IEnumerable<Model.DTOs.BlogDto>*@
+﻿@using System.Globalization;
 @model PaginatedList<Model.Event>
 
 @{
     ViewData["Title"] = "Blog, ";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
     ViewData["imagen"] = Url.Content("~/images/blog.jpg");
 }
 
@@ -43,17 +45,17 @@
                                 <div class="blog_post">
                                     <div class="blog_post_container">
 
-                                        <div class="location_icon">
-                                            <span> <strong> @item.UpdateDate.ToString("dd-MM-yyyy") </strong></span>
+                                        <div class="location_icon text-center">
+                                            <span style="color:aliceblue"> @item.CreationDate.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("es-CO"))</span>
                                         </div>
 
-                                        @if (item.CoverPage == null)
+                                        @if (item.SquareCover == null)
                                         {
                                             <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@item.Name"></div>
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a href="@Url.Content("blog/" + item.EventUrl)"><img src="@item.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a href="@Url.Content("blog/" + item.EventUrl)"><img src="~/images/images/@item.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">

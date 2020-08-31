@@ -7,6 +7,7 @@ using Persisten.Database;
 using Service.Commons;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,6 @@ namespace Service
         private readonly IGalleryService _galleryService;
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-        private readonly IGenericServicio _genericServicio;
         private readonly IUploadedFile _uploadedFile;
         private readonly IFormatString _formatString;
 
@@ -48,7 +48,6 @@ namespace Service
             IGalleryService galleryService,
             IProductService productService,
             ICategoryService categoryService,
-            IGenericServicio genericServicio,
             IUploadedFile uploadedFile,
             IUploadedFileAzure uploadedFileAzure,
             IFormatString formatString)
@@ -58,7 +57,6 @@ namespace Service
             _galleryService = galleryService;
             _productService = productService;
             _categoryService = categoryService;
-            _genericServicio = genericServicio;
             _uploadedFile = uploadedFile;
             _uploadedFileAzure = uploadedFileAzure;
             _formatString = formatString;
@@ -80,30 +78,11 @@ namespace Service
 
         public async Task<BlogDto> Details(string name)
         {
-
-
-            var _producGuid = await _genericServicio.NewsList(5);
-
             var _blog = await _context.Events
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Name == name && m.State == true);
+                .FirstOrDefaultAsync(m => m.EventUrl == name && m.State == true);
 
-            var _modelo = new BlogDto
-                {
-                    EventId = _blog.EventId,
-                    Name = _blog.Name,
-                    BlogUrl = _blog.EventUrl,
-                    Description = _blog.Description,
-                    Author = _blog.Author,
-                    CoverPage = _blog.CoverPage,
-                    SquareCover = _blog.SquareCover,
-                    UpdateDate = _blog.UpdateDate,
-                    State = _blog.State,
-                    Products = _producGuid.ToList()
-            };
-
-
-            return _mapper.Map<BlogDto>(_modelo);
+            return _mapper.Map<BlogDto>(_blog);
         }
         public async Task<BlogDto> Create(BlogCreateDto model)
         {
@@ -119,8 +98,8 @@ namespace Service
 
             var _blog = new Event
             {
-                Name = model.Name,
-                EventUrl = _url,
+                Name = model.Name.Trim(),
+                EventUrl = _url.ToLower(),
                 CoverPage = _coverPage,
                 SquareCover = _squareCover,
                 Description = model.Description,
@@ -230,13 +209,13 @@ namespace Service
         {
             return _context.Events.Any(e => e.EventId == id);
         }
-        
+
         #endregion
 
         #region "FrontEnd"
+
         public async Task<IEnumerable<BlogDto>> Blog()
         {
-
             var _getAll = _context
                 .Events.Include(c=>c.Category)
                 .Where(x=>x.Category.Name == "Blog" && x.State == true);
@@ -258,6 +237,8 @@ namespace Service
             return (await _modelo.ToListAsync());
         }
 
+
+        //Este método es llamado en el Index del HomeController
         public async Task<IEnumerable<BlogDto>> Blog(int quantity)
         {
 

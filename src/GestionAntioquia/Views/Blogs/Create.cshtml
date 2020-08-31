@@ -128,12 +128,12 @@
             <!--Grid column-->
             <div class="col-md-4 col-xl-3">
                 <p>
-                    Señor usuario antes de hacer un CREATE o EDIT es importante que tenga en cuenta lo siguiente. 
-                    A) El campo nombre es también el responsable de crear la URL del micrositio así que se le 
-                    impera agregar caracteres especiales y no podrá ser modificado posteriormente. B) En caso 
-                    de que te pida logo a la hora de crear el tamaño es de 200px x 200px C) El tamaño de la 
-                    portada es de 1920px x 633px y deberá de pesar menos de 2mb D) El tamaño de la portada 
-                    cuadrada será de 1080px x 1080px y deberá de pesar menos de 2mb E) Es muy importante activar 
+                    Señor usuario antes de hacer un CREATE o EDIT es importante que tenga en cuenta lo siguiente.
+                    A) El campo nombre es también el responsable de crear la URL del micrositio así que se le
+                    impera agregar caracteres especiales y no podrá ser modificado posteriormente. B) En caso
+                    de que te pida logo a la hora de crear el tamaño es de 200px x 200px C) El tamaño de la
+                    portada es de 1920px x 633px y deberá de pesar menos de 2mb D) El tamaño de la portada
+                    cuadrada será de 1080px x 1080px y deberá de pesar menos de 2mb E) Es muy importante activar
                     el estado cuando se encuentre seguro de estar bien todo.
                 </p>
             </div>
@@ -146,6 +146,14 @@
 
 
 @section Scripts {
+
+    <script type="text/javascript">
+        // Agregue el siguiente código si desea que aparezca el nombre del archivo en select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

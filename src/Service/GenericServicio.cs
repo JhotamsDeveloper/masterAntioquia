@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Model;
 using Model.DTOs;
 using Persisten.Database;
 using Service.Commons;
@@ -14,7 +15,7 @@ namespace Service
 {
     public interface IGenericServicio 
     {
-        Task<IEnumerable<ProductDto>> NewsList(int quantity);
+        Task<IEnumerable<Product>> NewsList(int quantity);
         Task Execute(string subject, string message, string email);
     }
     public class GenericServicio : IGenericServicio
@@ -33,39 +34,19 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProductDto>> NewsList(int quantity)
+        public async Task<IEnumerable<Product>> NewsList(int quantity)
         {
             var _newList = _context.Products
                 .AsNoTracking()
                 .Include(a => a.Place)
                 .ThenInclude(b => b.Category)
                 .Where(c => c.Statud == true
-                            && c.Place.Category.Name == "Hotel"
+                            && c.Place.Category.Name == "souvenir"
                             && c.Place.State == true)
                 .OrderBy(d => Guid.NewGuid())
                 .Take(quantity);
-            
-            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
-            nfi = (NumberFormatInfo)nfi.Clone();
-            nfi.CurrencySymbol = "$";
-            //Price = string.Format(nfi, "{0:C0}", b.Price),
 
-            var _modelo = from b in _newList
-                          select new ProductDto
-                          {
-                              ProductId = b.ProductId,
-                              Name = b.Name,
-                              ProductUrl = b.ProductUrl,
-                              Description = b.Description,
-                              Price = b.Price,
-                              City = b.Place.Name,
-                              CoverPage = b.CoverPage,
-                              SquareCover = b.SquareCover,
-                              UpdateDate = b.UpdateDate,
-                              Statud = b.Statud
-                          };
-
-            return (await _modelo.ToListAsync());
+            return (await _newList.ToListAsync());
         }
 
         public Task Execute(string subject, string message, string email)

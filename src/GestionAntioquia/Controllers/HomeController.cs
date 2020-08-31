@@ -8,6 +8,7 @@ using Persisten.Database;
 using Service;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,7 +43,7 @@ namespace GestionAntioquia.Controllers
 
             return View(await _blogService.Blog(6));
         }
-        
+
         public IActionResult Privacy()
         {
             return View();
