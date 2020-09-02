@@ -1,8 +1,11 @@
-﻿@model IEnumerable<Model.DTOs.BlogDto>
+﻿@using System.Globalization;
+@model IEnumerable<Model.DTOs.BlogDto>
 
 
 @{
     ViewData["Title"] = "Pueblos Travel,";
+    NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+    ViewData["imagen"] = Url.Content("~/images/blog.jpg");
 }
 
 <!-- Home -->
@@ -76,7 +79,7 @@
 
                     <!-- Eventos -->
                     <div class="category text-center">
-                        <a asp-controller="events" asp-action="Index">
+                        <a asp-controller="events" asp-action="event">
                             <div class="d-flex flex-md-column flex-row align-items-md-center align-items-md-start align-items-center justify-content-start">
                                 <div class="cat_icon"><img src="~/images/event.png" class="svg"></div>
                                 <div class="cat_title">Eventos</div>
@@ -130,7 +133,7 @@
                                     <div class="blog_post_container">
 
                                         <div class="location_icon">
-                                            <span> <strong> @item.UpdateDate.ToString("dd-MM-yyyy") </strong></span>
+                                            <span style="color:aliceblue"> @item.UpdateDate.ToString("MMM dd, yyyy", CultureInfo.CreateSpecificCulture("es-CO"))</span>
                                         </div>
 
                                         @if (item.CoverPage == null)
@@ -149,8 +152,7 @@
                                             </div>
                                             <div class="blog_post_tags">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                    <li><a asp-action="Details" asp-route-name="@item.BlogUrl">@item.Name </a></li>
-                                                    <li><a href="#">Urbano</a></li>
+                                                    <li><span>Autor: @item.Author</span></li>
                                                 </ul>
                                             </div>
                                         </div>

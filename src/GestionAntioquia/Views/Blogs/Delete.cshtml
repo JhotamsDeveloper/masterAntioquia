@@ -7,7 +7,7 @@
 
 <!-- Home -->
 <div class="home">
-    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@Url.Content($"~/images/Places/{@ViewBag.CoverPage}")" data-speed="0.8"></div>
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@Url.Content($"~/images/images/{@ViewBag.CoverPage}")" data-speed="0.8"></div>
     <div class="home_container">
         <div class="container">
             <div class="row">
@@ -25,6 +25,7 @@
 
 <div class="container">
     <div>
+        <br />
         <h3>Realmente quieres eliminar esta noticia?</h3>
         <hr />
         <dl class="row">
@@ -62,9 +63,23 @@
         </dl>
 
     </div>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="EventId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <div>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="EventId" />
+            <input type="submit" class="btn btn-outline-danger" value="Delete" />
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
+    <div class="m-2">
+
+        <div class="col-xl-12">
+            <div class="alert alert-warning alert-dismissible fade show m-3" role="alert">
+                <strong>Advertencia!</strong>  Si deseas eliminar ten en cuenta que se perdera toda la información
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
 </div>

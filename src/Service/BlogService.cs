@@ -24,6 +24,7 @@ namespace Service
         Task DeleteConfirmed(int _id, string _squareCover, string _cover);
         Task<BlogDto> BlogUrl(string _blogUrl);
         bool BlogExists(int? id);
+        Boolean DuplicaName(string name);
         Task<IEnumerable<BlogDto>> Blog();
         Task<IEnumerable<BlogDto>> Blog(int quantity);
     }
@@ -130,7 +131,7 @@ namespace Service
 
         public async Task Edit(int id, BlogEditDto model)
         {
-            DateTime _dateUpdate = DateTime.Now;
+             DateTime _dateUpdate = DateTime.Now;
 
             var _blog = await _context.Events.SingleAsync(x => x.EventId == id);
 
@@ -213,6 +214,14 @@ namespace Service
         #endregion
 
         #region "FrontEnd"
+        public Boolean DuplicaName(string name)
+        {
+
+            var urlName = _context.Events
+                .Where(x => x.Name == name);
+
+            return urlName.Any();
+        }
 
         public async Task<IEnumerable<BlogDto>> Blog()
         {
@@ -245,6 +254,7 @@ namespace Service
             var _getAll = _context
                 .Events.Include(c => c.Category)
                 .Where(x => x.Category.Name == "Blog" && x.State == true)
+                .OrderBy(o=>o.UpdateDate)
                 .Take(quantity);
 
             var _modelo = from b in _getAll

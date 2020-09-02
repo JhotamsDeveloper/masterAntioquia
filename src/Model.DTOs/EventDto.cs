@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -12,17 +13,18 @@ namespace Model.DTOs
         public string Name { get; set; }
         public string EventUrl { get; set; }
         public string Description { get; set; }
+        [DisplayName("Responsable")]
+        public string Author { get; set; }
         public string CoverPage { get; set; }
         public string SquareCover { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EventsDate { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreationDate { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "U", ApplyFormatInEditMode = true)]
         public DateTime UpdateDate { get; set; }
 
         public Boolean State { get; set; }
@@ -41,12 +43,14 @@ namespace Model.DTOs
         public string Name { get; set; }
         public string EventUrl { get; set; }
         public string Description { get; set; }
+        [DisplayName("Responsable")]
+        public string Author { get; set; }
         public IFormFile CoverPage { get; set; }
         public IFormFile SquareCover { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EventsDate { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreationDate { get; set; }
@@ -70,12 +74,14 @@ namespace Model.DTOs
         public string Name { get; set; }
         public string EventUrl { get; set; }
         public string Description { get; set; }
+        [DisplayName("Responsable")]
+        public string Author { get; set; }
         public IFormFile CoverPage { get; set; }
         public IFormFile SquareCover { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EventsDate { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreationDate { get; set; }

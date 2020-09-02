@@ -1,84 +1,142 @@
-﻿@model Model.DTOs.EventDto
+﻿@model EventView
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content($"~/images/images/{Model.CoverPage}");
 }
 
-<h1>Details</h1>
+<!-- Home -->
+<div class="home">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
+    <div class="home_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="home_content">
+                        <div class="home_title">
+                            <h2 class="section-heading text-center h1 pt-4">Blog</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CoverPage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CoverPage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SquareCover)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SquareCover)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventsDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventsDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdateDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdateDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.State)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.Icono)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Place)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Place.PlaceId)
-        </dd>
-    </dl>
+<!-- Listing -->
+
+<div class="listing">
+    <div class="container" style="margin-top:-40px">
+        <div class="row">
+            <!-- Listing Content -->
+            <div class="col-lg-8">
+                <div class="listing_content">
+                    <div class="section_title"><h1>@Model.Name</h1></div>
+                    <div class="blog_post_tags mt-3">
+                        <ul class="d-flex flex-row align-items-start justify-content-start">
+                            <li>
+                                <div class="sidebar_info_content">
+                                    <span>Fecha de publicación: </span> @Model.EventDate
+                                </div>
+                            </li>
+                            <li>
+                                <div class="sidebar_info_content">
+                                    <span>Responsable: </span> @Model.Author
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <br />
+                    <div class="listing_text">
+                        <p class="text-justify">
+                            @Model.Description
+                        </p>
+                    </div>
+
+                    <!-- Esta reservado para crear comentarios o las opciones de compartir -->
+                    <div class="reviews">
+                        @if (ViewBag.Edit)
+                        {
+                            <div>
+                                <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
+                                <a asp-action="Index">Back to List</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listing Sidebar -->
+            <div class="col-lg-4">
+                <div class="section_title text-center"><h4>Descansa ¡te lo mereces!</h4></div>
+
+                @if (Model.Products != null)
+                {
+                    @foreach (var whereToSleep in Model.Products)
+                    {
+
+                        <!-- Blog Post -->
+                        <div class="m-3">
+                            <div class="blog_post_container">
+
+                                @if (whereToSleep.Discounts > 0)
+                                {
+                                    <div class="location_icon text-center">
+                                        <span style="color:aliceblue"> Desc del <strong> @whereToSleep.Discounts%</strong></span>
+                                    </div>
+                                }
+
+
+                                @if (whereToSleep.CoverPage == null)
+                                {
+                                    <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@whereToSleep.Name"></div>
+                                }
+                                else
+                                {
+                                    <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="~/images/images/@whereToSleep.SquareCover" asp-append-version="true"></a></div>
+                                }
+
+                                <div class="blog_post_content">
+
+                                    <div class="blog_post_date text-center"><a href="#">@whereToSleep.Place.City</a></div>
+
+                                    <div class="blog_post_title">
+                                        <h3><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl">@whereToSleep.Name</a></h3>
+                                    </div>
+                                    <div class="blog_post_tags text-lg-center">
+                                        <ul class="d-flex flex-row align-items-start justify-content-start">
+                                            <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@whereToSleep.Place.NameUrl">@whereToSleep.Place.Name</a></li>
+                                            @if (whereToSleep.Place.urban)
+                                            {
+                                                <li>Urbano</li>
+                                            }
+                                            else
+                                            {
+                                                <li>Rural</li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                    <div class="blog_post_title text-center">
+
+                                        @if (whereToSleep.Discounts >= 0)
+                                        {
+                                            <p class="text-center"> <del><span>Sin descuento @whereToSleep.PriceWhitIncrement COL</span></del></p>
+                                        }
+
+                                        <h2>@whereToSleep.ProductWithDiscounts Col</h2>
+                                    </div>
+                                    <p class="text-center"><span>Plan para @whereToSleep.PersonNumber personas</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+

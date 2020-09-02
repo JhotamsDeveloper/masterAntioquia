@@ -44,7 +44,7 @@
                             <div class="md-form">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <span asp-validation-for="Name" class="text-danger">@ViewBag.DuplicaName</span>
                             </div>
                         </div>
 

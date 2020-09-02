@@ -167,7 +167,13 @@ namespace GestionAntioquia
                 name: "blog",
                 pattern: "blog/{name}",
                 defaults: new { Controller = "blogs", action = "blog" });
-                
+
+                //Eventos
+                endpoints.MapControllerRoute(
+                name: "Eventos",
+                pattern: "Eventos",
+                defaults: new { Controller = "events", action = "event" });
+
                 //Default
                 endpoints.MapControllerRoute(
                 name: "default",

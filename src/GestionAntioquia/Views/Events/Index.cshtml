@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Model.Event>
+﻿@using System.Globalization;
+@model IEnumerable<Model.Event>
 
 @{
     ViewData["Title"] = "Index";
@@ -23,9 +24,17 @@
 </div>
 
 <div class="container">
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
+    <div class="row justify-content-md-center">
+
+        <div class="col-md-12">
+            <div class="md-form">
+                <a class="btn button_2 btn-lg btn-block mt-5" asp-action="Create">
+                    <h3 style="color:aliceblue">Crear un nuevo lugar</h3>
+                </a>
+            </div>
+        </div>
+
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -33,19 +42,13 @@
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.EventUrl)
+                    @Html.DisplayNameFor(model => model.Author)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.EventsDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CreationDate)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.State)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category)
                 </th>
                 <th></th>
             </tr>
@@ -58,20 +61,15 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.EventUrl)
+                        @Html.DisplayFor(modelItem => item.Author)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.EventsDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreationDate)
+                        @item.EventsDate.ToString("U", CultureInfo.CreateSpecificCulture("es-CO"))
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.State)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category.Icono)
-                    </td>
+
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |

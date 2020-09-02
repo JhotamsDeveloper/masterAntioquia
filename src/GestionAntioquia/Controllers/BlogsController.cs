@@ -119,6 +119,7 @@ namespace GestionAntioquia.Controllers
             }
 
             ViewData["CoverPage"] = _event.CoverPage;
+            ViewData["Edit"] = true;
             return View(_modelo);
         }
 
@@ -137,6 +138,14 @@ namespace GestionAntioquia.Controllers
         {
             if (ModelState.IsValid)
             {
+                var _urlName = _blogService.DuplicaName(model.Name);
+
+                if (_urlName)
+                {
+                    ViewData["DuplicaName"] = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
+                    return View(model);
+                }
+
                 await _blogService.Create(model);
                 return RedirectToAction(nameof(Index));
             }
@@ -254,7 +263,7 @@ namespace GestionAntioquia.Controllers
             string currentFilter,
             string searchString,
             int? pag)
-    {
+        {
             if (searchString != null)
             {
                 pag = 1;
@@ -335,6 +344,7 @@ namespace GestionAntioquia.Controllers
                 return NotFound();
             }
 
+            ViewData["Edit"] = false;
             return View(_modelo);
         }
 

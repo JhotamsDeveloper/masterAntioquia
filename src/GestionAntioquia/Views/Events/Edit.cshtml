@@ -1,21 +1,19 @@
 ﻿@model Model.DTOs.EventEditDto
 
 @{
-    ViewData["Title"] = $"Editando {Model.Name}";
+    ViewData["Title"] = "Editar";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["imagen"] = Url.Content($"~/images/images/{ViewBag.CoverPage}");
 }
 
 <!-- Home -->
 <div class="home">
-    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@Url.Content(@ViewBag.CoverPage)" data-speed="0.8"></div>
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@ViewData["imagen"]" data-speed="0.8"></div>
     <div class="home_container">
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="home_content">
-                        <div class="home_title">
-                            <h2 class="section-heading text-center h1 pt-4">Edit</h2>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -32,26 +30,25 @@
 
             <!--Grid column-->
             <div class="col-md-8 col-xl-9">
-
                 <form enctype="multipart/form-data" asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="EventId" />
 
+                    <!--Grid row-->
                     <div class="row">
 
                         <!--Grid column-->
                         <div class="col-md-12">
                             <div class="md-form">
                                 <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" readonly />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <input readonly asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger">@ViewBag.DuplicaName</span>
                             </div>
                         </div>
 
                     </div>
 
-                    <div class="row mt-2">
-
+                    <div class="row">
                         <!--Grid column-->
                         <div class="col-md-12">
                             <div class="md-form">
@@ -62,19 +59,7 @@
                         </div>
                     </div>
 
-                    <div class="row mt-2">
-
-                        <!--Grid column-->
-                        <div class="col-md-12">
-                            <div class="md-form form-check">
-                                <label class="form-check-label mt-4">
-                                    <input class="form-check-input" asp-for="State" /> @Html.DisplayNameFor(model => model.State)
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
+                    <div class="row">
 
                         <!--Grid column-->
                         <div class="col-md-6">
@@ -82,7 +67,7 @@
                                 <label asp-for="CoverPage" class="control-label"></label>
                                 <div class="custom-file">
                                     <input asp-for="CoverPage" class="custom-file-input" id="customFile">
-                                    <label class="custom-file-label" for="customFile">Selecione la portada</label>
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                                 <span asp-validation-for="CoverPage" class="text-danger"></span>
                             </div>
@@ -94,9 +79,44 @@
                                 <label asp-for="SquareCover" class="control-label"></label>
                                 <div class="custom-file">
                                     <input asp-for="SquareCover" class="custom-file-input" id="customFile">
-                                    <label class="custom-file-label" for="customFile">Selecione la portada</label>
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                                 <span asp-validation-for="SquareCover" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-md-5">
+                            <div class="md-form">
+                                <label asp-for="Author" class="control-label"></label>
+                                <input asp-for="Author" class="form-control" />
+                                <span asp-validation-for="Author" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-5">
+                            <div class="md-form">
+                                <label asp-for="EventsDate" class="control-label"></label>
+                                <input type="date" asp-for="EventsDate" class="form-control" />
+                                <span asp-validation-for="EventsDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-2">
+                            <div class="md-form">
+                                <div class="md-form form-check">
+                                    <label class="form-check-label mt-4">
+                                        <input class="form-check-input" asp-for="State" /> @Html.DisplayNameFor(model => model.State)
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
@@ -109,13 +129,9 @@
                         <input type="submit" value="Guardar" class="btn button button_3 btn-block" />
                     </div>
 
-                    <div>
-                        <a asp-action="Index">Back to List</a>
-                    </div>
                 </form>
 
             </div>
-
             <!--Grid column-->
             <!--Grid column-->
             <div class="col-md-4 col-xl-3">
@@ -132,12 +148,27 @@
             <!--Grid column-->
 
         </div>
+
     </section>
 
+
+
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>
 
-
 @section Scripts {
+
+
+    <script type="text/javascript">
+        // Agregue el siguiente código si desea que aparezca el nombre del archivo en select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

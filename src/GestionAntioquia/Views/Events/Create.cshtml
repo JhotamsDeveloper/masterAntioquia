@@ -15,7 +15,7 @@
                 <div class="col">
                     <div class="home_content">
                         <div class="home_title">
-                            <h2 class="section-heading text-center h1 pt-4">Centro de noticias</h2>
+                            <h2 class="section-heading text-center h1 pt-4">Centro de eventos</h2>
                         </div>
                     </div>
                 </div>
@@ -24,65 +24,153 @@
     </div>
 </div>
 
+
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4">
-            <form enctype="multipart/form-data" asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="md-form">
-                    <label asp-for="CoverPage" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="CoverPage" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Selecione la portada</label>
+
+    <section class="section">
+
+        <div class="row">
+
+            <!--Grid column-->
+            <div class="col-md-8 col-xl-9">
+                <form enctype="multipart/form-data" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!--Grid row-->
+                    <div class="row m-3">
+
+                        <!--Grid column-->
+                        <div class="col-md-12">
+                            <div class="md-form">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger">@ViewBag.DuplicaName</span>
+                            </div>
+                        </div>
+
                     </div>
-                    <span asp-validation-for="CoverPage" class="text-danger"></span>
-                </div>>
-                <div class="md-form">
-                    <label asp-for="SquareCover" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="SquareCover" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Selecione la portada cuadrada</label>
+
+                    <div class="row m-3">
+                        <!--Grid column-->
+                        <div class="col-md-12">
+                            <div class="md-form">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control" rows="5"> </textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                    <span asp-validation-for="SquareCover" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EventsDate" class="control-label"></label>
-                    <input asp-for="EventsDate" class="form-control" />
-                    <span asp-validation-for="EventsDate" class="text-danger"></span>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="State" /> @Html.DisplayNameFor(model => model.State)
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PlaceId" class="control-label"></label>
-                    <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.places"></select>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
+
+                    <div class="row m-3">
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <label asp-for="CoverPage" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="CoverPage" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <span asp-validation-for="CoverPage" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <label asp-for="SquareCover" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="SquareCover" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <span asp-validation-for="SquareCover" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                        <!--Grid row-->
+                    <div class="row m-3">
+
+                        <!--Grid column-->
+                        <div class="col-md-5">
+                            <div class="md-form">
+                                <label asp-for="Author" class="control-label"></label>
+                                <input asp-for="Author" class="form-control" />
+                                <span asp-validation-for="Author" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <!--Grid column-->
+                        <div class="col-md-5">
+                            <div class="md-form">
+                                <label asp-for="EventsDate" class="control-label"></label>
+                                <input type="date" asp-for="EventsDate" class="form-control" />
+                                <span asp-validation-for="EventsDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Grid column-->
+                        <div class="col-md-2">
+                            <div class="md-form">
+                                <div class="md-form form-check">
+                                    <label class="form-check-label mt-4">
+                                        <input class="form-check-input" asp-for="State" /> @Html.DisplayNameFor(model => model.State)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <br />
+
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn button button_3 btn-block" />
+                    </div>
+
+                </form>
+
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-4 col-xl-3">
+                <p>
+                    Señor usuario antes de hacer un CREATE o EDIT es importante que tenga en cuenta lo siguiente.
+                    A) El campo nombre es también el responsable de crear la URL del micrositio así que se le
+                    impera agregar caracteres especiales y no podrá ser modificado posteriormente. B) En caso
+                    de que te pida logo a la hora de crear el tamaño es de 200px x 200px C) El tamaño de la
+                    portada es de 1920px x 633px y deberá de pesar menos de 2mb D) El tamaño de la portada
+                    cuadrada será de 1080px x 1080px y deberá de pesar menos de 2mb E) Es muy importante activar
+                    el estado cuando se encuentre seguro de estar bien todo.
+                </p>
+            </div>
+            <!--Grid column-->
+
         </div>
-    </div>
+
+    </section>
+
+
+
 
     <div>
         <a asp-action="Index">Back to List</a>
     </div>
 </div>
 
-
 @section Scripts {
+
+
+    <script type="text/javascript">
+        // Agregue el siguiente código si desea que aparezca el nombre del archivo en select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

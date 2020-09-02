@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using GestionAntioquia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Model;
 using Model.DTOs;
 using Persisten.Database;
 using Service;
@@ -46,13 +49,28 @@ namespace GestionAntioquia.Controllers
 
             var _event = await _evantService.Details(id);
 
-            if (_event == null)
+            var _modelo = new EventView
+            {
+                EventId = _event.EventId,
+                Name = _event.Name,
+                BlogUrl = _event.EventUrl,
+                Description = _event.Description,
+                Author = _event.Author,
+                CoverPage = _event.CoverPage,
+                SquareCover = _event.SquareCover,
+                EventDate = _event.EventsDate.ToString("MMM dd, yyyy", CultureInfo.CreateSpecificCulture("es-CO")),
+                State = _event.State
+            };
+
+            if (_modelo == null)
             {
                 return NotFound();
             }
 
             ViewData["CoverPage"] = _event.CoverPage;
-            return View(_event);
+            ViewData["Edit"] = true;
+
+            return View(_modelo);
         }
 
         // GET: Event/Create
@@ -61,6 +79,7 @@ namespace GestionAntioquia.Controllers
             ViewData["places"] = new SelectList(
                 _context.Places
                 .Where(x=>x.State == true), "PlaceId", "Name");
+            
             return View();
         }
 
@@ -73,6 +92,14 @@ namespace GestionAntioquia.Controllers
         {
             if (ModelState.IsValid)
             {
+                var _urlName = _evantService.DuplicaName(model.Name);
+
+                if (_urlName)
+                {
+                    ViewData["DuplicaName"] = $"El Nombre {model.Name} ya ha sido utilizado, cambielo";
+                    return View(model);
+                }
+
                 await _evantService.Create(model);
                 return RedirectToAction(nameof(Index));
             }
@@ -98,6 +125,8 @@ namespace GestionAntioquia.Controllers
                 EventId = _event.EventId,
                 Name = _event.Name,
                 Description = _event.Description,
+                EventsDate = _event.EventsDate,
+                Author = _event.Author,
                 UpdateDate = _event.UpdateDate,
                 State = _event.State
             };
@@ -183,6 +212,97 @@ namespace GestionAntioquia.Controllers
         #endregion
 
         #region "FRONTEND"
+
+        [Route("/Eventos/")]
+        public async Task<IActionResult> Event(
+            string currentFilter,
+            string searchString,
+            int? pag)
+        {
+            if (searchString != null)
+            {
+                pag = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var _query = from q in _context.Events
+             .Where(x => x.State == true && x.Category.Name == "Event")
+                         select q;
+
+            int pageSize = 9;
+            return View(await PaginatedList<Event>.CreateAsync(_query.AsNoTracking(), pag ?? 1, pageSize));
+
+            //var _blog = _blogService.Blog();
+
+            //   return View(await _blog);
+        }
+
+        // GET: Blogs/Details/5
+        [Route("/eventos/{name}")]
+        public async Task<IActionResult> Details(string name)
+        {
+            if (name == null)
+            {
+                return NotFound();
+            }
+
+            var _detail = await _evantService.Details(name);
+
+            var _producGuid = await _genericServicio.NewsList(5);
+
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
+
+            var _listProduct = (from a in _producGuid
+                                select new ProductsView
+                                {
+                                    ProductId = a.ProductId,
+                                    Name = a.Name,
+                                    ProductUrl = a.ProductUrl,
+                                    CoverPage = a.CoverPage,
+                                    SquareCover = a.SquareCover,
+                                    Description = a.Description,
+                                    PriceWhitIncrement = string.Format(nfi, "{0:C0}", a.Price + a.Increments),
+                                    Discounts = a.Discounts,
+                                    ProductWithDiscounts = string.Format(nfi, "{0:C0}", (a.Price + a.Increments) - ((a.Price + a.Increments) * a.Discounts / 100)),
+                                    Statud = a.Statud,
+                                    PersonNumber = a.PersonNumber,
+                                    Place = a.Place
+
+                                });
+
+
+            var _modelo = new EventView
+            {
+                EventId = _detail.EventId,
+                Name = _detail.Name,
+                BlogUrl = _detail.EventUrl,
+                Description = _detail.Description,
+                Author = _detail.Author,
+                CoverPage = _detail.CoverPage,
+                SquareCover = _detail.SquareCover,
+                EventDate = _detail.EventsDate.ToString("MMM dd, yyyy", CultureInfo.CreateSpecificCulture("es-CO")),
+                State = _detail.State,
+                Products = _listProduct.ToList()
+            };
+
+
+            if (_modelo == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Edit"] = false;
+            return View(_modelo);
+        }
+
         public IActionResult PageNotFound()
         {
             return RedirectToRoute(new { controller = "TouristExcursions", action = "StatedNotFound" });

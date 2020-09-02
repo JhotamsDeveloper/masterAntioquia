@@ -46,7 +46,7 @@
                                     <div class="blog_post_container">
 
                                         <div class="location_icon text-center">
-                                            <span style="color:aliceblue"> @item.CreationDate.ToString("MMM dd, yyyy", CultureInfo.CreateSpecificCulture("es-CO"))</span>
+                                            <span style="color:aliceblue"> @item.EventsDate.ToString("MMM dd, yyyy", CultureInfo.CreateSpecificCulture("es-CO"))</span>
                                         </div>
 
                                         @if (item.SquareCover == null)
@@ -55,7 +55,7 @@
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a href="@Url.Content("blog/" + item.EventUrl)"><img src="~/images/images/@item.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a href="@Url.Content("eventos/" + item.EventUrl)"><img src="~/images/images/@item.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">
@@ -65,7 +65,7 @@
                                             </div>
                                             <div class="blog_post_tags">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                    <li><span>Autor: @item.Author</span></li>
+                                                    <li><span>responsable: @item.Author</span></li>
                                                 </ul>
                                             </div>
                                         </div>

@@ -16,11 +16,14 @@ namespace Service
     {
         Task<IEnumerable<Event>> GetAll();
         Task<EventDto> Details(int? id);
+        Task<EventDto> Details(string name);
         Task<EventDto> Create(EventCreateDto model);
         Task<EventDto> GetById(int? id);
         Task Edit(int id, EventEditDto model);
         Task DeleteConfirmed(int _id, string _squareCover, string _cover);
         bool EventExists(int? id);
+
+        Boolean DuplicaName(string name);
     }
 
     public class EventService : IEventService
@@ -68,25 +71,36 @@ namespace Service
             return _mapper.Map<EventDto>(_event);
         }
 
+        public async Task<EventDto> Details(string name)
+        {
+            var _blog = await _context.Events
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.EventUrl == name && m.State == true);
+
+            return _mapper.Map<EventDto>(_blog);
+        }
+
         public async Task<EventDto> Create(EventCreateDto model)
         {
 
-            //var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
-            //var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
+            var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+            var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
 
-            var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
-            var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+            //var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+            //var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
 
             var _fechaActual = DateTime.Now;
             var _url = _formatString.FormatUrl(model.Name);
 
             var _event = new Event
             {
-                Name = model.Name,
-                EventUrl = _url,
+                Name = model.Name.Trim(),
+                EventUrl = _url.ToLower(),
                 CoverPage = _coverPage,
                 SquareCover = _squareCover,
                 Description = model.Description,
+                EventsDate = model.EventsDate,
+                Author = model.Author,
                 State = model.State,
                 CategoryId = 6,
                 CreationDate = _fechaActual,
@@ -122,8 +136,8 @@ namespace Service
 
             if (model.CoverPage != null)
             {
-                //_coverPage = _uploadedFile.UploadedFileImage(_blog.CoverPage, model.CoverPage);
-                _coverPage = await _uploadedFileAzure.EditFileAzure(model.CoverPage, _event.CoverPage, _account);
+                _coverPage = _uploadedFile.UploadedFileImage(_event.CoverPage, model.CoverPage);
+                //_coverPage = await _uploadedFileAzure.EditFileAzure(model.CoverPage, _event.CoverPage, _account);
             }
             else
             {
@@ -132,8 +146,8 @@ namespace Service
 
             if (model.SquareCover != null)
             {
-                //_squareCover = _uploadedFile.UploadedFileImage(_blog.SquareCover, model.SquareCover);
-                _squareCover = await _uploadedFileAzure.EditFileAzure(model.SquareCover, _event.SquareCover, _account);
+                _squareCover = _uploadedFile.UploadedFileImage(_event.SquareCover, model.SquareCover);
+                //_squareCover = await _uploadedFileAzure.EditFileAzure(model.SquareCover, _event.SquareCover, _account);
             }
             else
             {
@@ -143,7 +157,9 @@ namespace Service
             _event.Name = model.Name;
             _event.CoverPage = _coverPage;
             _event.SquareCover = _squareCover;
+            _event.Author = model.Author;
             _event.Description = model.Description;
+            _event.EventsDate = model.EventsDate;
             _event.State = model.State;
             _event.UpdateDate = _dateUpdate;
 
@@ -156,14 +172,14 @@ namespace Service
         {
             if (_cover != null)
             {
-                //_uploadedFile.DeleteConfirmed(_cover);
-                await _uploadedFileAzure.DeleteFile(_cover, _account);
+                _uploadedFile.DeleteConfirmed(_cover);
+                //await _uploadedFileAzure.DeleteFile(_cover, _account);
             }
 
             if (_squareCover != null)
             {
-                //_uploadedFile.DeleteConfirmed(_squareCover);
-                await _uploadedFileAzure.DeleteFile(_squareCover, _account);
+                _uploadedFile.DeleteConfirmed(_squareCover);
+                //await _uploadedFileAzure.DeleteFile(_squareCover, _account);
             }
 
             _context.Remove(new Event
@@ -180,6 +196,21 @@ namespace Service
         {
             return _context.Events.Any(e => e.EventId == id);
         }
+
         #endregion
+
+        #region FrontEnd
+
+        public Boolean DuplicaName(string name)
+        {
+
+            var urlName = _context.Events
+                .Where(x => x.Name == name);
+
+            return urlName.Any();
+        }
+
+        #endregion
+
     }
 }
