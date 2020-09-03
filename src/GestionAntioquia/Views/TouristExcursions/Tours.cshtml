@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col">
                     <div class="home_content">
-                        <div class="home_title">Hoteles</div>
+                        <div class="home_title">Tour</div>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                                         }
                                         else
                                         {
-                                            <div class="blog_post_image"><a href="/tour/@_allies.ProductUrl"><img src="@_allies.SquareCover" asp-append-version="true"></a></div>
+                                            <div class="blog_post_image"><a href="/tour/@_allies.ProductUrl"><img src="~/images/images/@_allies.SquareCover" asp-append-version="true"></a></div>
                                         }
 
                                         <div class="blog_post_content">
@@ -59,13 +59,19 @@
                                             </div>
                                             <div class="blog_post_tags">
                                                 <ul class="d-flex flex-row align-items-start justify-content-start">
-                                                    <li><a href="#">@_allies.Reference</a></li>
-                                                    <li><a href="#">@_allies.Business</a></li>
+                                                    @if (_allies.TourIsUrban)
+                                                    {
+                                                        <li><span>Urbano</span></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li><span>Rural</span></li>
+                                                    }
+
                                                 </ul>
                                             </div>
                                             <div class="blog_post_text">
-                                                <p>@_allies.Description ...</p>
-                                                <p>@_allies.Business</p>
+                                                <p>@_allies.Description.Substring(0,100) ...</p>
                                             </div>
                                         </div>
                                     </div>

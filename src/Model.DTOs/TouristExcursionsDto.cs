@@ -24,6 +24,7 @@ namespace Model.DTOs
         public Place Place { get; set; }
         public string City { get; set; }
         public string Business { get; set; }
+        public bool TourIsUrban { get; set; }
         public string Reference { get; set; }
         public bool Statud { get; set; }
         public int? CategoryId { get; set; }
@@ -64,6 +65,7 @@ namespace Model.DTOs
         public Place Place { get; set; }
         public string City { get; set; }
         public string Business { get; set; }
+        public bool TourIsUrban { get; set; }
         public string Reference { get; set; }
         public List<Gallery> Galleries { get; set; }
     }
@@ -94,6 +96,7 @@ namespace Model.DTOs
         public Place Place { get; set; }
         public string City { get; set; }
         public string Business { get; set; }
+        public bool TourIsUrban { get; set; }
         public string Reference { get; set; }
         public List<Gallery> Galleries { get; set; }
     }

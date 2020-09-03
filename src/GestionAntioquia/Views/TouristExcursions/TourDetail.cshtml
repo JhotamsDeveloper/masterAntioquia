@@ -1,9 +1,9 @@
-﻿@model Model.DTOs.TouristExcursionsDto
+﻿@model ToursView
 
 @{
     ViewData["Title"] = Model.Name + ", ";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["imagen"] = Url.Content($"{Model.CoverPage}");
+    ViewData["imagen"] = Url.Content($"~/images/images/{Model.CoverPage}");
 
 }
 
@@ -31,15 +31,19 @@
             <!-- Listing Content -->
             <div class="col-lg-8">
                 <div class="listing_content">
-                    <div class="section_title">
-                        <h1>
-                            @Html.DisplayFor(model => model.Name)
-                        </h1>
+                    <div class="section_title text-center">
+                        <h1>Descripción del Plan</h1>
                     </div>
                     <div class="listing_text">
-                        <text>
-                            @Html.DisplayFor(model => model.Description)
-                        </text>
+                        <p class="text-justify">@Model.Description</p>
+                    </div>
+                    <br />
+                    <div class="section_title text-center">
+                        <h4>Descripción de la empresa @Model.Place.Name</h4>
+                    </div>
+
+                    <div class="listing_text">
+                        <p class="text-justify">@Model.Place.Description</p>
                     </div>
 
                     <!-- Galleries -->
@@ -52,8 +56,8 @@
                             {
                                 <div class="review_image m-2">
                                     <a class="galleriesTour"
-                                       href="@item.NameImage">
-                                        <img src="@item.NameImage" alt="" />
+                                       href="~/images/images/@item.NameImage">
+                                        <img src="~/images/images/@item.NameImage" alt="" />
                                     </a>
                                 </div>
                             }
@@ -63,57 +67,6 @@
 
                     <!-- Reviews -->
                     <div class="reviews">
-                        <div class="section_title"><h1>2 Comentarios</h1></div>
-                        <div class="reviews_container">
-
-                            <!-- Review -->
-                            <div class="review d-flex flex-lg-row flex-column align-items-start justify-content-start">
-                                <div class="review_user_container">
-                                    <div>
-                                        <div class="review_user d-flex flex-lg-column flex-row align-items-center justify-content-start">
-                                            <div class="review_user_image">
-                                                <img src="~/images/user_4.jpg" alt="" />
-                                            </div>
-                                            <div class="text-lg-center">
-                                                <div class="review_user_name">
-                                                    <a href="#">Maria Smith</a>
-                                                </div>
-                                                <div class="review_count">
-                                                    <a href="#">5 reviews</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="review_content">
-                                    <div class="review_title_container d-flex flex-row align-items-start justify-content-start">
-                                        <div class="review_title">"Great place"</div>
-                                        <div class="review_rating ml-auto">4,5</div>
-                                    </div>
-                                    <div class="review_text">
-                                        <p>
-                                            Great place to visit, the food is awesome, I
-                                            really love it. I would recommend it to other
-                                            people.
-                                        </p>
-                                    </div>
-                                    <div class="review_images d-flex flex-row align-items-start justify-content-start flex-wrap">
-                                        <div class="review_image">
-                                            <a class="colorbox"
-                                               href="~/images/review_1_large.jpg">
-                                                <img src="~/images/review_1.jpg" alt="" />
-                                            </a>
-                                        </div>
-                                        <div class="review_image">
-                                            <a class="colorbox"
-                                               href="~/images/review_2_large.jpg">
-                                                <img src="~/images/review_2.jpg" alt="" />
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -161,24 +114,74 @@
                         </ul>
                     </div>
 
+
                     <!-- Similar Places -->
                     <div class="similar_places">
-                        <div class="section_title"><h1>Organizado por</h1></div>
-                        <div class="similar_places_container d-flex flex-lg-column flex-row align-items-start justify-content-between flex-wrap">
-                            <!-- Similar Place -->
-                            <div class="similar_place">
-                                <div class="similar_place_image">
-                                    <div class="location_icon">
-                                        <a href="#"><img src="~/images/loc.png" alt="" />@Model.Place.City</a>
+                        <div class="section_title text-center"><h4>Descansa ¡te lo mereces!</h4></div>
+
+                        @if (Model.Products != null)
+                        {
+                            @foreach (var whereToSleep in Model.Products)
+                            {
+
+                                <!-- Blog Post -->
+                                <div class="m-3">
+                                    <div class="blog_post_container">
+
+                                        @if (whereToSleep.Discounts > 0)
+                                        {
+                                            <div class="location_icon text-center">
+                                                <span style="color:aliceblue"> Desc del <strong> @whereToSleep.Discounts%</strong></span>
+                                            </div>
+                                        }
+
+
+                                        @if (whereToSleep.CoverPage == null)
+                                        {
+                                            <div class="blog_post_image"><img src="~/images/blog.jpg" alt="@whereToSleep.Name"></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="blog_post_image"><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl"><img src="~/images/images/@whereToSleep.SquareCover" asp-append-version="true"></a></div>
+                                        }
+
+                                        <div class="blog_post_content">
+
+                                            <div class="blog_post_date text-center"><a href="#">@whereToSleep.Place.City</a></div>
+
+                                            <div class="blog_post_title">
+                                                <h3><a asp-controller="Products" asp-action="Product" asp-route-productUrl="@whereToSleep.ProductUrl">@whereToSleep.Name</a></h3>
+                                            </div>
+                                            <div class="blog_post_tags text-lg-center">
+                                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                                    <li><a asp-controller="Company" asp-action="Details" asp-route-urlName="@whereToSleep.Place.NameUrl">@whereToSleep.Place.Name</a></li>
+                                                    @if (whereToSleep.Place.urban)
+                                                    {
+                                                        <li>Urbano</li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>Rural</li>
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                            <div class="blog_post_title text-center">
+
+                                                @if (whereToSleep.Discounts >= 0)
+                                                {
+                                                    <p class="text-center"> <del><span>Sin descuento @whereToSleep.PriceWhitIncrement COL</span></del></p>
+                                                }
+
+                                                <h2>@whereToSleep.ProductWithDiscounts Col</h2>
+                                            </div>
+                                            <p class="text-center"><span>Plan para @whereToSleep.PersonNumber personas</span></p>
+                                        </div>
                                     </div>
-                                    <div class="similar_place_rating">4,5</div>
-                                    <img src="@Model.Place.SquareCover" alt="@Model.Place.Name" />
                                 </div>
-                                <div class="similar_place_title">
-                                    <a href="#">@Model.Place.Name</a>
-                                </div>
-                            </div>
-                        </div>
+
+                            }
+                        }
                     </div>
                 </div>
             </div>

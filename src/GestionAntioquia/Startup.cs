@@ -174,6 +174,12 @@ namespace GestionAntioquia
                 pattern: "Eventos",
                 defaults: new { Controller = "events", action = "event" });
 
+                //Eventos
+                endpoints.MapControllerRoute(
+                name: "Tour",
+                pattern: "Tours",
+                defaults: new { Controller = "tour", action = "tours" });
+
                 //Default
                 endpoints.MapControllerRoute(
                 name: "default",

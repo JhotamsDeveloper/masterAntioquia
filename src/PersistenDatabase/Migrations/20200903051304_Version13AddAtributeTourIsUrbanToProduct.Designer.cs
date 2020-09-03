@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persisten.Database;
 
 namespace Persisten.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200903051304_Version13AddAtributeTourIsUrbanToProduct")]
+    partial class Version13AddAtributeTourIsUrbanToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -523,9 +525,6 @@ namespace Persisten.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Statud")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("TourIsUrban")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdateDate")

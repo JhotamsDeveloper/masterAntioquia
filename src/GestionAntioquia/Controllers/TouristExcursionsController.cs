@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using GestionAntioquia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,7 @@ namespace GestionAntioquia.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IGenericServicio _genericServicio;
         private readonly ICategoryService _categoryService;
+        private readonly IProductService _productService;
         private readonly IPlaceService _placeService;
         private readonly ITouristExcursionsService _touristExcursionsService;
 
@@ -25,12 +28,14 @@ namespace GestionAntioquia.Controllers
                 IGenericServicio genericServicio,
                 ITouristExcursionsService touristExcursionsService,
                 ICategoryService categoryService,
+                IProductService productService,
                 IPlaceService placeService)
         {
             _context = context;
             _touristExcursionsService = touristExcursionsService;
             _genericServicio = genericServicio;
             _categoryService = categoryService;
+            _productService = productService;
             _placeService = placeService;
         }
 
@@ -130,6 +135,7 @@ namespace GestionAntioquia.Controllers
                 ProductUrl = _tour.ProductUrl,
                 Description = _tour.Description,
                 Statud = _tour.Statud,
+                TourIsUrban = _tour.TourIsUrban,
                 CategoryId = _tour.CategoryId
             };
 
@@ -232,6 +238,7 @@ namespace GestionAntioquia.Controllers
         #region "FRONTEND"
 
         // GET: Tour
+        [Route("/tours/")]
         public async Task<IActionResult> Tours()
         {
             return View(await _touristExcursionsService.Tours());
@@ -248,13 +255,49 @@ namespace GestionAntioquia.Controllers
             }
 
             var _tour = await _touristExcursionsService.Details(urlName);
-            if (_tour == null)
+            var _whereToSleep = await _productService.WhereToSleep(2);
+
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi = (NumberFormatInfo)nfi.Clone();
+            nfi.CurrencySymbol = "$";
+
+            var _whereToSleepView = (from a in _whereToSleep
+                                     select new ProductsView
+                                     {
+                                         ProductId = a.ProductId,
+                                         Name = a.Name,
+                                         ProductUrl = a.ProductUrl,
+                                         CoverPage = a.CoverPage,
+                                         SquareCover = a.SquareCover,
+                                         Description = a.Description,
+                                         PriceWhitIncrement = string.Format(nfi, "{0:C0}", a.Price + a.Increments),
+                                         Discounts = a.Discounts,
+                                         ProductWithDiscounts = string.Format(nfi, "{0:C0}", (a.Price + a.Increments) - ((a.Price + a.Increments) * a.Discounts / 100)),
+                                         Statud = a.Statud,
+                                         PersonNumber = a.PersonNumber,
+                                         Place = a.Place
+
+                                     });
+
+            var _model = new ToursView
+            {
+                Name = _tour.Name,
+                CoverPage = _tour.CoverPage,
+                Description = _tour.Description,
+                PlaceId = _tour.PlaceId,
+                Place = _tour.Place,
+                TourIsUrban = _tour.TourIsUrban,
+                Galleries = _tour.Galleries,
+                Products = _whereToSleepView.ToList(),
+            };
+
+
+            if (_model == null)
             {
                 return NotFound();
             }
 
-            ViewData["CoverPage"] = _tour.CoverPage.ToString();
-            return View(_tour);
+            return View(_model);
         }
 
         public IActionResult PageNotFound()

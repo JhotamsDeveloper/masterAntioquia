@@ -23,6 +23,7 @@ namespace Service
         Task DeleteConfirmed(int _id, string _cover, string _squareCover);
         Task<ProductDto> ProductUrl(string productUrl);
         Task<IEnumerable<Product>> WhereToSleep();
+        Task<IEnumerable<Product>> WhereToSleep(int quantity);
         bool ProductExists(int id);
         bool DuplicaName(string name);
     }
@@ -429,6 +430,18 @@ namespace Service
                 .Include(p => p.Place)
                 .ThenInclude(c => c.Category)
                 .Where(x => x.Statud == true && x.Place.Category.Name == "souvenir");
+
+            return (await _getAll.ToListAsync());
+        }
+
+        public async Task<IEnumerable<Product>> WhereToSleep(int quantity)
+        {
+            var _getAll = _context.Products
+                .Include(p => p.Place)
+                .ThenInclude(c => c.Category)
+                .Where(x => x.Statud == true && x.Place.Category.Name == "souvenir")
+                .Take(quantity)
+                .OrderBy(x => Guid.NewGuid());
 
             return (await _getAll.ToListAsync());
         }

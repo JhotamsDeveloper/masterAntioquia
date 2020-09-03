@@ -51,13 +51,20 @@ $(document).ready(function () {
 	*/
 
 	function setHeader() {
-		if ($(window).scrollTop() > 91) {
-			header.addClass('scrolled');
-		}
-		else {
-			header.removeClass('scrolled');
-		}
+		header.addClass("scrolled");
 	}
+
+	//El método comentado sirve para quitar el background al menú
+	//Para tener una mejor visualizacion del Coverpage
+
+	//function setHeader() {
+	//	if ($(window).scrollTop() > 91) {
+	//		header.addClass('scrolled');
+	//	}
+	//	else {
+	//		header.removeClass('scrolled');
+	//	}
+	//}
 
 	/* 
 

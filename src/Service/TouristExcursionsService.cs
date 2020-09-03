@@ -35,6 +35,7 @@ namespace Service
         private readonly IFormatString _formatString;
         private readonly IGalleryService _galleryService;
         private readonly IUploadedFileAzure _uploadedFileAzure;
+        private readonly IUploadedFile _uploadedFile;
         private readonly string _account = "tour";
 
         public TouristExcursionsService(
@@ -42,12 +43,14 @@ namespace Service
             IMapper mapper,
             IGalleryService galleryService,
             IUploadedFileAzure uploadedFileAzure,
+            IUploadedFile uploadedFile,
             IFormatString formatString)
         {
             _context = context;
             _mapper = mapper;
             _galleryService = galleryService;
             _uploadedFileAzure = uploadedFileAzure;
+            _uploadedFile = uploadedFile;
             _formatString = formatString;
         }
 
@@ -76,6 +79,7 @@ namespace Service
                              SquareCover = t.SquareCover,
                              Business = t.Place.Name,
                              City = t.Place.City,
+                             TourIsUrban = t.TourIsUrban,
                              Statud = t.Statud
                          };
 
@@ -117,8 +121,11 @@ namespace Service
                 try
                 {
 
-                    var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
-                    var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                    //var _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                    //var _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+
+                    var _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
+                    var _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
 
                     var _fechaActual = DateTime.Now;
                     var _url = _formatString.FormatUrl(model.Name);
@@ -130,6 +137,7 @@ namespace Service
                         CoverPage = _coverPage,
                         SquareCover = _squareCover,
                         Description = model.Description,
+                        TourIsUrban = model.TourIsUrban,
                         Statud = model.Statud,
                         PlaceId = model.PlaceId,
 
@@ -150,7 +158,8 @@ namespace Service
 
                         foreach (var item in model.Gallery)
                         {
-                            _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
+                            //_uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
+                            _uploadGalleries[_accountant] = _uploadedFile.UploadedFileImage(item);
 
                             var _gallery = new Gallery
                             {
@@ -196,10 +205,12 @@ namespace Service
                     {
                         if (_tour.CoverPage != null)
                         {
-                            await _uploadedFileAzure.DeleteFile(_tour.CoverPage, _account);
+                            //await _uploadedFileAzure.DeleteFile(_tour.CoverPage, _account);
+                            _uploadedFile.DeleteConfirmed(_tour.CoverPage);
                         }
 
-                        _coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                        //_coverPage = await _uploadedFileAzure.SaveFileAzure(model.CoverPage, _account);
+                        _coverPage = _uploadedFile.UploadedFileImage(model.CoverPage);
                     }
                     else
                     {
@@ -210,10 +221,12 @@ namespace Service
                     {
                         if (_tour.SquareCover != null)
                         {
-                            await _uploadedFileAzure.DeleteFile(_tour.SquareCover, _account);
+                            //await _uploadedFileAzure.DeleteFile(_tour.SquareCover, _account);
+                            _uploadedFile.DeleteConfirmed(_tour.SquareCover);
                         }
 
-                        _squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                        //_squareCover = await _uploadedFileAzure.SaveFileAzure(model.SquareCover, _account);
+                        _squareCover = _uploadedFile.UploadedFileImage(model.SquareCover);
                     }
                     else
                     {
@@ -225,6 +238,7 @@ namespace Service
                     _tour.CoverPage = _coverPage;
                     _tour.SquareCover = _squareCover;
                     _tour.Description = model.Description;
+                    _tour.TourIsUrban = model.TourIsUrban;
                     _tour.PlaceId = model.PlaceId;
                     _tour.Statud = model.Statud;
                     _tour.UpdateDate = DateTime.Now;
@@ -240,7 +254,8 @@ namespace Service
                         {
                             foreach (var item in _getGalleries)
                             {
-                                await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                                //await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                                _uploadedFile.DeleteConfirmed(item.NameImage);
 
                                 _context.Remove(new Gallery
                                 {
@@ -256,7 +271,9 @@ namespace Service
 
                         foreach (var item in model.Gallery)
                         {
-                            _uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
+                            //_uploadGalleries[_accountant] = await _uploadedFileAzure.SaveFileAzure(item, _account);
+
+                            _uploadGalleries[_accountant] = _uploadedFile.UploadedFileImage(item);
 
                             var _gallery = new Gallery
                             {
@@ -304,7 +321,8 @@ namespace Service
                     {
                         foreach (var item in _getGalleries)
                         {
-                            await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                            //await _uploadedFileAzure.DeleteFile(item.NameImage, _account);
+                            _uploadedFile.DeleteConfirmed(item.NameImage);
 
                             _context.Remove(new Gallery
                             {
@@ -317,12 +335,14 @@ namespace Service
 
                     if (_cover != null)
                     {
-                        await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        //await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        _uploadedFile.DeleteConfirmed(_cover);
                     }
 
                     if (_squareCover != null)
                     {
-                        await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        //await _uploadedFileAzure.DeleteFile(_cover, _account);
+                        _uploadedFile.DeleteConfirmed(_squareCover);
                     }
 
                     _context.Remove(new Product
@@ -363,6 +383,7 @@ namespace Service
 
             //Falta agregar un número de referencia
             //Falta tambien agregar la fecha de partida (La tiene en la base de datos pero hay que hacerle una tabla a parte)
+
             var _model = from t in _getAll
                          select new TouristExcursionsDto
                          {
@@ -370,6 +391,7 @@ namespace Service
                              Reference = t.Place.Nit,
                              Name = t.Name,
                              ProductUrl = t.ProductUrl,
+                             TourIsUrban = t.TourIsUrban,
                              Description = t.Description,
                              CreationDate = t.CreationDate,
                              UpdateDate = t.UpdateDate,
