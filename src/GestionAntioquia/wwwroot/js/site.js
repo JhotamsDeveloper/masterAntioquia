@@ -24,8 +24,7 @@ $(document).ready(function () {
 	*/
 
 	var header = $('.header');
-	var map;
-
+	
 	setHeader();
 
 	$(window).on('resize', function () {
@@ -50,21 +49,17 @@ $(document).ready(function () {
 
 	*/
 
-	function setHeader() {
-		header.addClass("scrolled");
-	}
-
-	//El método comentado sirve para quitar el background al menú
+	//El método sirve para quitar el background al menú
 	//Para tener una mejor visualizacion del Coverpage
 
-	//function setHeader() {
-	//	if ($(window).scrollTop() > 91) {
-	//		header.addClass('scrolled');
-	//	}
-	//	else {
-	//		header.removeClass('scrolled');
-	//	}
-	//}
+	function setHeader() {
+		if ($(window).scrollTop() > 91) {
+			header.addClass('scrolled');
+		}
+		else {
+			header.removeClass('scrolled');
+		}
+	}
 
 	/* 
 

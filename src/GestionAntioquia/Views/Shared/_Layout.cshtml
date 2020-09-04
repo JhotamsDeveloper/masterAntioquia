@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="~/css/bootstrap-4.1.2/bootstrap.min.css">
 
     <link href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="~/lib/OwlCarousel2-2.3.4/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="~/lib/OwlCarousel2-2.3.4/owl.theme.default.css">
@@ -53,15 +54,15 @@
 
         <header class="header">
             @*<div class="header_background">
-                <div class="background_image"
-                     style="background-image: url(../images/header.jpg);"></div>
-            </div>*@
+                    <div class="background_image"
+                         style="background-image: url(../images/header.jpg);"></div>
+                </div>*@
             <div class="header_overlay"></div>
-            <div class="header_content d-flex flex-row align-items-center justify-content-start">
+            <div class="header_content d-flex flex-row align-items-center justify-content-start header_JhotaMS">
                 <!-- Logo -->
                 <div class="logo">
                     @*<a href="#">Pueblos.<span>Travel</span></a>*@
-                    <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.svg" alt="Pueblos Travel" width="120"></a>
+                    <a asp-controller="Home" asp-action="Index"><img src="~/images/logo-pueblo-travel.svg" alt="Pueblos Travel" width="100"></a>
                 </div>
 
                 <!-- Header Nav -->
@@ -93,34 +94,45 @@
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
-            <footer class="border-top footer text-muted">
+            <!--footer starts from here-->
+            <footer class="footer">
+
                 <div class="container">
-                    &copy; 2020 - GestionAntioquia - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+                    <ul class="social_footer_ul">
+                        <li><a href="http://webenlance.com"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="http://webenlance.com"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="http://webenlance.com"><i class="fab fa-linkedin"></i></a></li>
+                        <li><a href="http://webenlance.com"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                    <br />
+                    <p class="text-center">Copyright 2020 - @DateTime.Now.Year | Diseñado con por <a href="https://www.linkedin.com/in/jhotams/" target="_blank"><span>JhotaMS.Developer</span></a></p>
+
                 </div>
+
             </footer>
         </div>
     </div>
-        @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
-        <script src="~/js/jquery-3.3.1.min.js"></script>
-        <script src="~/css/bootstrap-4.1.2/popper.js"></script>
-        <script src="~/css/bootstrap-4.1.2/bootstrap.min.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/css/bootstrap-4.1.2/popper.js"></script>
+    <script src="~/css/bootstrap-4.1.2/bootstrap.min.js"></script>
 
-        <script src="~/lib/greensock/TweenMax.min.js"></script>
-        <script src="~/lib/greensock/TimelineMax.min.js"></script>
+    <script src="~/lib/greensock/TweenMax.min.js"></script>
+    <script src="~/lib/greensock/TimelineMax.min.js"></script>
 
-        <script src="~/lib/scrollmagic/ScrollMagic.min.js"></script>
-        <script src="~/lib/greensock/animation.gsap.min.js"></script>
-        <script src="~/lib/greensock/ScrollToPlugin.min.js"></script>
+    <script src="~/lib/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="~/lib/greensock/animation.gsap.min.js"></script>
+    <script src="~/lib/greensock/ScrollToPlugin.min.js"></script>
 
-        <script src="~/lib/Isotope/isotope.pkgd.min.js"></script>
-        <script src="~/lib/easing/easing.js"></script>
-        <script src="~/lib/progressbar/progressbar.min.js"></script>
-        <script src="~/lib/parallax-js-master/parallax.min.js"></script>
-        <script src="~/lib/colorbox/jquery.colorbox-min.js"></script>
+    <script src="~/lib/Isotope/isotope.pkgd.min.js"></script>
+    <script src="~/lib/easing/easing.js"></script>
+    <script src="~/lib/progressbar/progressbar.min.js"></script>
+    <script src="~/lib/parallax-js-master/parallax.min.js"></script>
+    <script src="~/lib/colorbox/jquery.colorbox-min.js"></script>
 
-        <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
-
-        @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
