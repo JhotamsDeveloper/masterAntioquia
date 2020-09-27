@@ -174,6 +174,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Places/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
@@ -202,6 +203,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // POST: Places/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
