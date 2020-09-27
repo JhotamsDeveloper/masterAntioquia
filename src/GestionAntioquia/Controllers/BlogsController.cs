@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using GestionAntioquia.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -30,8 +31,9 @@ namespace GestionAntioquia.Controllers
             _genericServicio = genericServicio;
         }
 
-    #region "BackEnd"
+        #region "BackEnd"
         // GET: Blogs
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(
             string sortOrder, 
             string searchString,
@@ -91,6 +93,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Blogs/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -124,6 +127,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Blogs/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -132,6 +136,7 @@ namespace GestionAntioquia.Controllers
         // POST: Blogs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BlogCreateDto model)
@@ -153,6 +158,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Blogs/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -183,6 +189,7 @@ namespace GestionAntioquia.Controllers
         // POST: Blogs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, BlogEditDto _model)
@@ -217,6 +224,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Blogs/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -235,6 +243,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // POST: Blogs/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -23,12 +23,11 @@ namespace Model.DTOs
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
-        [Required(ErrorMessage = "El télefono es requerido."), MaxLength(10)]
         [Phone(ErrorMessage = "Formato no válido")]
         public string Phone { get; set; }
 
         [DisplayName("Administrador")]
-        [Required(ErrorMessage = "El administrador es requerido."), MaxLength(20)]
+        [Required(ErrorMessage = "El administrador es requerido."), MaxLength(50)]
         public string Admin { get; set; }
 
         [DisplayName("Correo")]
@@ -36,7 +35,7 @@ namespace Model.DTOs
         public string Email { get; set; }
 
         [DisplayName("Dirección")]
-        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
+        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(50)]
         public string Address { get; set; }
 
         [DisplayName("Municipio")]
@@ -88,12 +87,11 @@ namespace Model.DTOs
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
-        [Required(ErrorMessage = "El télefono es requerido."), MaxLength(10)]
         [Phone(ErrorMessage ="Formato no válido")]
         public string Phone { get; set; }
 
         [DisplayName("Administrador")]
-        [Required(ErrorMessage = "El administrador es requerido."), MaxLength(20)]
+        [Required(ErrorMessage = "El administrador es requerido."), MaxLength(50)]
         public string Admin { get; set; }
 
         [DisplayName("Correo")]
@@ -101,7 +99,7 @@ namespace Model.DTOs
         public string Email { get; set; }
 
         [DisplayName("Dirección")]
-        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(30)]
+        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(50)]
         public string Address { get; set; }
 
         [DisplayName("Municipio")]
@@ -112,6 +110,7 @@ namespace Model.DTOs
         public bool urban { get; set; }
 
         [AllowHtml]
+        [DataType(DataType.MultilineText)]
         [DisplayName("Descripción")]
         public string Description { get; set; }
 
@@ -164,12 +163,11 @@ namespace Model.DTOs
         public string Name { get; set; }
 
         [DisplayName("Télefono")]
-        [Required(ErrorMessage = "El télefono es requerido."), MaxLength(10)]
         [Phone(ErrorMessage = "Formato no válido")]
         public string Phone { get; set; }
 
         [DisplayName("Administrador")]
-        [Required(ErrorMessage = "El administrador es requerido."), MaxLength(20)]
+        [Required(ErrorMessage = "El administrador es requerido."), MaxLength(50)]
         public string Admin { get; set; }
 
         [DisplayName("Correo")]
@@ -177,7 +175,7 @@ namespace Model.DTOs
         public string Email { get; set; }
 
         [DisplayName("Dirección")]
-        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(10)]
+        [Required(ErrorMessage = "La dirección es requerido."), MaxLength(50)]
         public string Address { get; set; }
 
         [DisplayName("Municipio")]

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTOs;
 
 namespace GestionAntioquia.Controllers
 {
+
+    [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

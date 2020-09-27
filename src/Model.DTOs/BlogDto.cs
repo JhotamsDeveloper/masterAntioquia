@@ -31,9 +31,10 @@ namespace Model.DTOs
 
         [DisplayName("Nombre")]
         [Required(ErrorMessage = "El Nombre es requerido."), MaxLength(150)]
-        [RegularExpression(@"^[-a-zA-Z0-9ñÑáéíóúáéíóúÁÉÍÓÚ ]{1,150}$", ErrorMessage = "No se permiten caracteres especiales.")]
+        [RegularExpression(@"^[-a-zA-Z0-9ñÑáéíóúáéíóúÁÉÍÓÚ, ]{1,150}$", ErrorMessage = "No se permiten caracteres especiales.")]
         public string Name { get; set; }
         public string BlogUrl { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public string Author { get; set; }
         public IFormFile CoverPage { get; set; }

@@ -35,7 +35,7 @@
                         <h1>Descripción del Plan</h1>
                     </div>
                     <div class="listing_text">
-                        <p class="text-justify">@Model.Description</p>
+                        <p>@Html.Raw(Model.Description)</p>
                     </div>
                     <br />
                     <div class="section_title text-center">
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="listing_text">
-                        <p class="text-justify">@Model.Place.Description</p>
+                        <p>@Html.Raw(Model.Place.Description)</p>
                     </div>
 
                     <!-- Galleries -->

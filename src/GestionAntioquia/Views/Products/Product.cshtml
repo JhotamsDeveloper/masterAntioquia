@@ -33,7 +33,7 @@
                     <div class="section_title text-center">
                         <h1>Descripción del Plan</h1>
                     </div>
-                    <p class="text-justify">@Model.Description</p>
+                    <p> @Html.Raw(Model.Description)</p>
 
 
                     <!-- Room Features -->
@@ -68,7 +68,7 @@
                         <h4>Descripción del @Model.Place.Name</h4>
                     </div>
 
-                    <p class="text-justify">@Model.Place.Description</p>
+                    <p class="text-justify">@Html.Raw(Model.Place.Description)</p>
 
                     @*<ul>
             <li><i class="fa fa-check"></i> Mauris molestie lectus in irdiet auctor.</li>

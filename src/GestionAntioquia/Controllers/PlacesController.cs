@@ -12,7 +12,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestionAntioquia.Controllers
 {
@@ -34,12 +34,14 @@ namespace GestionAntioquia.Controllers
         #region "BackEnd"
 
         // GET: Places
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _placeService.GetAll());
         }
 
         // GET: Places/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -57,6 +59,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Places/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categorys, "CategoryId", "Name");
@@ -66,6 +69,7 @@ namespace GestionAntioquia.Controllers
         // POST: Places/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PlaceCreateDto model)
@@ -92,6 +96,7 @@ namespace GestionAntioquia.Controllers
         }
 
         // GET: Places/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -134,6 +139,7 @@ namespace GestionAntioquia.Controllers
         // POST: Places/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, PlaceEditDto model)
