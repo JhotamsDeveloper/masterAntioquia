@@ -1,2 +1,3 @@
-Sistema de informacion
-Este es un proyecto ASP.NET CORE 3.1 en el que lentamente trabajare con la metodología en capas hasta convirtiendo en sistema de información de una guía turística.
+PUEBLOS TRAVEL
+
+En este repositorio estoy creando un sistema de infomrción con el lenguaje de programación C#, más especificamente con el entity frameworks asp.net core 3.1.
